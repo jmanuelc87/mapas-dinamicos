@@ -8,6 +8,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    /* Configuracion para convertir el codigo a formato AMD */
+    "module": "amd",
+    /* FIN */
     "typeRoots": [
       "node_modules/@types"
     ],
