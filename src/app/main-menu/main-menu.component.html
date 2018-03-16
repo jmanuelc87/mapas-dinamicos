@@ -1,0 +1,19 @@
+<clr-vertical-nav class="full-height" [clrVerticalNavCollapsible]="true">
+    <clr-vertical-nav-group routerLinkActive="active">
+        Módulo Agrícola
+        <clr-vertical-nav-group-children>
+            <a href="#" clrVerticalNavLink routerLink="/agricultura" routerLinkActive="active">
+                Producción por Cultivo
+            </a>
+            <a href="#" clrVerticalNavLink routerLink="#" routerLinkActive="active">
+                Producción por Estado
+            </a>
+        </clr-vertical-nav-group-children>
+    </clr-vertical-nav-group>
+    <a href="#" clrVerticalNavLink routerLinkActive="active" routerLink="#">
+        Módulo Pecuario
+    </a>
+    <a href="#" clrVerticalNavLink routerLinkActive="active" routerLink="#">
+        Módulo Pesquero
+    </a>
+</clr-vertical-nav>

@@ -22,13 +22,15 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "@clr/angular": "^0.11.9",
+    "@clr/icons": "^0.11.9",
+    "@clr/ui": "^0.11.9",
     "@types/arcgis-js-api": "^4.6.0",
+    "@webcomponents/custom-elements": "^1.0.8",
     "arcgis-js-api": "^4.6.1",
-    "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
-    "jquery": "^3.3.1",
-    "popper.js": "^1.14.1",
     "rxjs": "^5.5.6",
+    "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {

@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
-    "module": "amd",
+    "module": "es2015",
+    "experimentalDecorators": true,
     "types": [
       "arcgis-js-api"
     ]

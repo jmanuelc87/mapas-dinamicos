@@ -1,4 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+
+
 import * as Map from 'esri/Map';
 import * as MapView from 'esri/views/MapView';
 
@@ -13,7 +15,7 @@ export class AppComponent implements OnInit {
     private mapViewEl: ElementRef;
 
     ngOnInit(): void {
-        const map: __esri.Map = new Map({
+        /*const map: __esri.Map = new Map({
             basemap: 'oceans'
         });
 
@@ -22,6 +24,6 @@ export class AppComponent implements OnInit {
             container: this.mapViewEl.nativeElement,
             center: [-112, 38],
             zoom: 6
-        });
+        });*/
     }
 }
