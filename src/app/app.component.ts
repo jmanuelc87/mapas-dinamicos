@@ -5,6 +5,8 @@ import * as MapView from 'esri/views/MapView';
 
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { MenuDirective } from './menu.directive';
+import { DialogComponent } from './dialog/dialog.component';
+import { DialogDirective } from './dialog.directive';
 
 @Component({
     selector: 'app-root',
@@ -12,7 +14,8 @@ import { MenuDirective } from './menu.directive';
     styleUrls: ['./app.component.css'],
 
     entryComponents: [
-        MainMenuComponent
+        MainMenuComponent,
+        DialogComponent
     ]
 })
 export class AppComponent implements OnInit {
@@ -23,10 +26,17 @@ export class AppComponent implements OnInit {
     @ViewChild(MenuDirective)
     private menuAnchor: MenuDirective;
 
+    @ViewChild(DialogDirective)
+    private dialogComponent: DialogDirective;
+
     @Output()
     private opened: EventEmitter<boolean> = new EventEmitter();
 
     private isOpened: boolean;
+
+    private menuComponentRef:  ComponentRef<MainMenuComponent>;
+
+    private dialogComponentRef: ComponentRef<DialogComponent>;
 
     constructor() { }
 
@@ -53,7 +63,24 @@ export class AppComponent implements OnInit {
 
     private _opened(isOpened): void {
         if (isOpened) {
-            const menuElementRef = this.menuAnchor.createMenu(MainMenuComponent);
+            this.menuComponentRef = this.menuAnchor.createMenu(MainMenuComponent);
+
+            this.menuComponentRef.instance.menuClicked.subscribe((opened) => {
+
+                switch (opened) {
+                    case 'Producción por Cultivo':
+                    this.dialogComponentRef = this.dialogComponent.createDialog(DialogComponent);
+
+                    this.dialogComponentRef.instance.close.subscribe((target) => {
+                        if (target === 'close') {
+                            this.dialogComponentRef.destroy();
+                        }
+                    });
+
+                    break;
+                }
+            });
+
         } else {
             this.menuAnchor.removeMenu();
         }
