@@ -8,30 +8,34 @@ import { AppComponent } from './app.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 
 import { ClarityModule } from "@clr/angular";
+import { AgriculturaComponent } from './agricultura/agricultura.component';
 
 
-const appRoutes: Routes = [
-    {
-        path: 'agricultura',
-        component: null,
-    }
+
+const AppRoutes: Routes = [
+    { path: 'agricultura', component: AgriculturaComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
+
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        MainMenuComponent
+        MainMenuComponent,
+        AgriculturaComponent
     ],
     imports: [
         BrowserModule,
-        RouterModule.forRoot(appRoutes, { enableTracing: true }),
         ClarityModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
     ],
     providers: [],
     bootstrap: [
         AppComponent
+    ],
+    entryComponents : [
+        MainMenuComponent
     ]
 })
 export class AppModule { }
