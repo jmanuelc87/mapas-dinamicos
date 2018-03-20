@@ -9,6 +9,8 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 
 import { ClarityModule } from "@clr/angular";
 import { AgriculturaComponent } from './agricultura/agricultura.component';
+import { DialogDirective } from './dialog.directive';
+import { MenuDirective } from './menu.directive';
 
 
 
@@ -23,7 +25,9 @@ const AppRoutes: Routes = [
     declarations: [
         AppComponent,
         MainMenuComponent,
-        AgriculturaComponent
+        AgriculturaComponent,
+        DialogDirective,
+        MenuDirective
     ],
     imports: [
         BrowserModule,

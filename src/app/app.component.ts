@@ -1,28 +1,34 @@
-import { Component, OnInit, ElementRef, ViewChild, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
-
+import { Component, OnInit, ElementRef, ViewChild, ComponentFactoryResolver, ViewContainerRef, ComponentRef, EventEmitter, Output } from '@angular/core';
 
 import * as Map from 'esri/Map';
 import * as MapView from 'esri/views/MapView';
+
 import { MainMenuComponent } from './main-menu/main-menu.component';
+import { MenuDirective } from './menu.directive';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
+
+    entryComponents: [
+        MainMenuComponent
+    ]
 })
 export class AppComponent implements OnInit {
 
     @ViewChild('map')
     private mapViewEl: ElementRef;
 
-    @ViewChild('menu', { read: ViewContainerRef})
-    private menuViewContainer: ViewContainerRef;
+    @ViewChild(MenuDirective)
+    private menuAnchor: MenuDirective;
 
-    private menuOpened: boolean;
+    @Output()
+    private opened: EventEmitter<boolean> = new EventEmitter();
 
-    private menuComponent: ComponentRef<MainMenuComponent>;
+    private isOpened: boolean;
 
-    constructor(private cfr: ComponentFactoryResolver) {}
+    constructor() { }
 
     ngOnInit(): void {
         /*const map: __esri.Map = new Map({
@@ -35,23 +41,21 @@ export class AppComponent implements OnInit {
             center: [-112, 38],
             zoom: 6
         });*/
+
+        this.opened.subscribe((isOpened) => this._opened(isOpened));
     }
 
 
-    public openMenuEstadisticas(event) {
+    private open(event) {
+        this.isOpened = !this.isOpened;
+        this.opened.emit(this.isOpened);
+    }
 
-        if (!this.menuOpened) {
-            const factory = this.cfr.resolveComponentFactory(MainMenuComponent);
-            this.menuComponent = this.menuViewContainer.createComponent(factory);
-            this.menuViewContainer.insert(this.menuComponent.hostView);
-
-            this.menuComponent.instance.menuClicked.subscribe((menu) => {
-                console.log(menu);
-            });
+    private _opened(isOpened): void {
+        if (isOpened) {
+            const menuElementRef = this.menuAnchor.createMenu(MainMenuComponent);
         } else {
-            this.menuViewContainer.clear();
+            this.menuAnchor.removeMenu();
         }
-
-        this.menuOpened = !this.menuOpened;
     }
 }
