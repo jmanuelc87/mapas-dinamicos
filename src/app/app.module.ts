@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
 import { DialogComponent } from './dialog/dialog.component';
-import { DialogDirective } from './dialog.directive';
+import { DialogDirective } from './directives/dialog.directive';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { NgModule } from '@angular/core';
 

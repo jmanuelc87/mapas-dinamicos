@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ComponentRef } from '@angular/core';
 
 @Component({
     selector: 'app-dialog',
@@ -8,14 +8,21 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 export class DialogComponent implements OnInit {
 
     @Output()
-    public close: EventEmitter<string> = new EventEmitter();
+    public closed: EventEmitter<any> = new EventEmitter();
+
+    private ref: ComponentRef<DialogComponent>;
+
+    public set ComponentRef(v: ComponentRef<DialogComponent>) {
+        this.ref = v;
+    }
 
     constructor() { }
 
     ngOnInit() { }
 
     private _close(event) {
-        this.close.emit('close');
+        this.ref.destroy();
+        this.closed.emit(null);
     }
 
 }

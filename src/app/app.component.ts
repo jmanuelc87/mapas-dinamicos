@@ -12,7 +12,7 @@ import {
     ViewContainerRef
     } from '@angular/core';
 import { DialogComponent } from './dialog/dialog.component';
-import { DialogDirective } from './dialog.directive';
+import { DialogDirective } from './directives/dialog.directive';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 
 
@@ -23,7 +23,6 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
     styleUrls: ['./app.component.css'],
 
     entryComponents: [
-        MainMenuComponent,
         DialogComponent
     ]
 })
@@ -53,10 +52,8 @@ export class AppComponent implements OnInit {
 
     private openMenuProdCultivo() {
         const dialogComponentRef = this.dialogComponent.createDialog();
-        dialogComponentRef.instance.close.subscribe((target) => {
-            dialogComponentRef.destroy();
-        });
      }
 
     private openMenuProdEstado() { }
+
 }
