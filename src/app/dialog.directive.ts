@@ -13,10 +13,10 @@ export class DialogDirective {
   ) { }
 
 
-  public createDialog(dialogComponent: { new(): DialogComponent }): ComponentRef<DialogComponent> {
+  public createDialog(): ComponentRef<DialogComponent> {
     this.viewContainer.clear();
 
-    const dialogComponentFactory = this.componentFactoryResolver.resolveComponentFactory(dialogComponent);
+    const dialogComponentFactory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);
     const dialogComponentRef = this.viewContainer.createComponent(dialogComponentFactory);
     this.viewContainer.insert(dialogComponentRef.hostView);
 

@@ -1,25 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from "@angular/router";
-
 import { AngularDraggableModule } from 'angular2-draggable';
-
 import { AppComponent } from './app.component';
-import { MainMenuComponent } from './main-menu/main-menu.component';
-
-import { ClarityModule } from "@clr/angular";
-import { AgriculturaComponent } from './agricultura/agricultura.component';
-import { DialogDirective } from './dialog.directive';
-import { MenuDirective } from './menu.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { ClarityModule } from '@clr/angular';
 import { DialogComponent } from './dialog/dialog.component';
+import { DialogDirective } from './dialog.directive';
+import { MainMenuComponent } from './main-menu/main-menu.component';
+import { NgModule } from '@angular/core';
 
 
 
-const AppRoutes: Routes = [
-    { path: 'agricultura', component: AgriculturaComponent },
-    { path: '', redirectTo: '/home', pathMatch: 'full' }
-];
 
 
 
@@ -27,9 +17,7 @@ const AppRoutes: Routes = [
     declarations: [
         AppComponent,
         MainMenuComponent,
-        AgriculturaComponent,
         DialogDirective,
-        MenuDirective,
         DialogComponent
     ],
     imports: [
