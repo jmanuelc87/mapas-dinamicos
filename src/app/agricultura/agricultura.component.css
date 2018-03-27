@@ -1,0 +1,12 @@
+form {
+    padding: 0px;
+}
+
+.form-block {
+    display: inline-block;
+    margin: 10px 20px 0 0;
+}
+
+.row {
+    margin-bottom: 0;
+}

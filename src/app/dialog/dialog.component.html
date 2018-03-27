@@ -1,14 +1,14 @@
-<div ngDraggable class="modal">
+<div ngDraggable [handle]="handler" class="modal">
     <div class="modal-dialog modal-lg" role="dialog" aria-hidden="true">
         <div class="modal-content">
-            <div class="modal-header">
-                <button (click)="_close($event)" aria-label="Close" class="close" type="button" >
+            <div #handler class="modal-header">
+                <button (click)="close($event)" aria-label="Close" class="close" type="button">
                     <clr-icon aria-hidden="true" shape="close"></clr-icon>
                 </button>
-                <h3 class="modal-title">I have a nice title</h3>
+                <h4 class="modal-title">{{title}}</h4>
             </div>
             <div class="modal-body">
-                <p>But not much to say...</p>
+                <ng-content></ng-content>
             </div>
         </div>
     </div>

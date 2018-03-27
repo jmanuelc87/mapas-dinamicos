@@ -15,8 +15,6 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DialogDirective } from './directives/dialog.directive';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 
-
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',

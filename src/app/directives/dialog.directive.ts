@@ -1,6 +1,7 @@
 import { Directive, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MainMenuComponent } from '../main-menu/main-menu.component';
+import { AgriculturaComponent } from '../agricultura/agricultura.component';
 
 @Directive({
   selector: '[appDialog]'
@@ -16,7 +17,7 @@ export class DialogDirective {
   public createDialog(): ComponentRef<DialogComponent> {
     this.viewContainer.clear();
 
-    const dialogComponentFactory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);
+    const dialogComponentFactory = this.componentFactoryResolver.resolveComponentFactory(AgriculturaComponent);
     const dialogComponentRef = this.viewContainer.createComponent(dialogComponentFactory);
     dialogComponentRef.instance.ComponentRef = dialogComponentRef;
     this.viewContainer.insert(dialogComponentRef.hostView);

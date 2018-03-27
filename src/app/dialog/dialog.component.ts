@@ -1,4 +1,11 @@
-import { Component, OnInit, EventEmitter, Output, ComponentRef } from '@angular/core';
+import {
+    Component,
+    ComponentRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output
+    } from '@angular/core';
 
 @Component({
     selector: 'app-dialog',
@@ -10,6 +17,9 @@ export class DialogComponent implements OnInit {
     @Output()
     public closed: EventEmitter<any> = new EventEmitter();
 
+    @Input()
+    public title = 'Dialogo...';
+
     private ref: ComponentRef<DialogComponent>;
 
     public set ComponentRef(v: ComponentRef<DialogComponent>) {
@@ -20,7 +30,7 @@ export class DialogComponent implements OnInit {
 
     ngOnInit() { }
 
-    private _close(event) {
+    private close(event) {
         this.ref.destroy();
         this.closed.emit(null);
     }

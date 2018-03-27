@@ -7,6 +7,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DialogDirective } from './directives/dialog.directive';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { NgModule } from '@angular/core';
+import { AgriculturaComponent } from './agricultura/agricultura.component';
 
 
 
@@ -18,7 +19,8 @@ import { NgModule } from '@angular/core';
         AppComponent,
         MainMenuComponent,
         DialogDirective,
-        DialogComponent
+        DialogComponent,
+        AgriculturaComponent
     ],
     imports: [
         BrowserModule,
@@ -31,7 +33,7 @@ import { NgModule } from '@angular/core';
         AppComponent
     ],
     entryComponents : [
-        MainMenuComponent
+        AgriculturaComponent
     ]
 })
 export class AppModule { }
