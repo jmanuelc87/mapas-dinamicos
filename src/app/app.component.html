@@ -7,20 +7,24 @@
         </div>
     </header>
 
-    <div class="content-container">
-        <div appMenu>
-            <!-- Main Menu -->
-            <app-main-menu 
-                (prodCultivo)="openMenuProdCultivo()"
-                (prodEstado)="openMenuProdEstado()"
-            ></app-main-menu>
-        </div>
-        <div class="content-area">
-            
-        </div>
+    <nav class="subnav">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Cloud</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Tenants</a>
+            </li>
+        </ul>
+    </nav>
 
-        <div appDialog>
-            <!-- Dialog Container -->
-        </div>
+    <div class="content-container">
+
     </div>
 </div>
