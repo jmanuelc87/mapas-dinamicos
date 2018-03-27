@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
 import { NgModule } from '@angular/core';
 import { AppMenuComponent } from './app-menu/app-menu.component';
+import { ProduccionCultivoComponent } from './produccion-cultivo/produccion-cultivo.component';
 
 
 
@@ -12,6 +13,7 @@ import { AppMenuComponent } from './app-menu/app-menu.component';
     declarations: [
         AppComponent,
         AppMenuComponent,
+        ProduccionCultivoComponent,
     ],
     imports: [
         BrowserModule,
