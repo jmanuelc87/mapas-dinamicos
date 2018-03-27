@@ -3,24 +3,15 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
-import { DialogComponent } from './dialog/dialog.component';
-import { DialogDirective } from './directives/dialog.directive';
-import { MainMenuComponent } from './main-menu/main-menu.component';
 import { NgModule } from '@angular/core';
-import { AgriculturaComponent } from './agricultura/agricultura.component';
-
-
-
+import { AppMenuComponent } from './app-menu/app-menu.component';
 
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        MainMenuComponent,
-        DialogDirective,
-        DialogComponent,
-        AgriculturaComponent
+        AppMenuComponent,
     ],
     imports: [
         BrowserModule,
@@ -33,7 +24,6 @@ import { AgriculturaComponent } from './agricultura/agricultura.component';
         AppComponent
     ],
     entryComponents : [
-        AgriculturaComponent
     ]
 })
 export class AppModule { }

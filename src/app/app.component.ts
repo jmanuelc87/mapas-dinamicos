@@ -11,9 +11,6 @@ import {
     ViewChild,
     ViewContainerRef
     } from '@angular/core';
-import { DialogComponent } from './dialog/dialog.component';
-import { DialogDirective } from './directives/dialog.directive';
-import { MainMenuComponent } from './main-menu/main-menu.component';
 
 @Component({
     selector: 'app-root',
@@ -21,17 +18,13 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
     styleUrls: ['./app.component.css'],
 
     entryComponents: [
-        DialogComponent
+
     ]
 })
 export class AppComponent implements OnInit {
 
     @ViewChild('map')
     private mapViewEl: ElementRef;
-
-
-    @ViewChild(DialogDirective)
-    private dialogComponent: DialogDirective;
 
     constructor() { }
 
@@ -47,11 +40,5 @@ export class AppComponent implements OnInit {
             zoom: 6
         });*/
     }
-
-    private openMenuProdCultivo() {
-        const dialogComponentRef = this.dialogComponent.createDialog();
-     }
-
-    private openMenuProdEstado() { }
 
 }
