@@ -6,6 +6,7 @@ import { ClarityModule } from '@clr/angular';
 import { NgModule } from '@angular/core';
 import { MenuComponent } from './menu/menu.component';
 import { ProduccionCultivoComponent } from './produccion-cultivo/produccion-cultivo.component';
+import { LateralDirective } from './directives/lateral.directive';
 
 
 
@@ -14,6 +15,7 @@ import { ProduccionCultivoComponent } from './produccion-cultivo/produccion-cult
         AppComponent,
         MenuComponent,
         ProduccionCultivoComponent,
+        LateralDirective,
     ],
     imports: [
         BrowserModule,

@@ -3,14 +3,20 @@
         <div class="branding">
             <a class="nav-link">
                 <span class="title">
+                    Mapas Dinámicos
                 </span>
             </a>
         </div>
     </header>
 
-    <app-menu></app-menu>
+    <app-menu (menuSelected)="menuOpen($event)"></app-menu>
 
     <div class="content-container">
-
+        <div appOpenLateral>
+            <!-- Replace this content -->
+        </div>
+        <div class="content-area">
+            <h1>Hola Mundo!</h1>
+        </div>
     </div>
 </div>

@@ -11,6 +11,8 @@ import {
     ViewChild,
     ViewContainerRef
     } from '@angular/core';
+import { ProduccionCultivoComponent } from './produccion-cultivo/produccion-cultivo.component';
+import { LateralDirective } from './directives/lateral.directive';
 
 @Component({
     selector: 'app-root',
@@ -18,13 +20,16 @@ import {
     styleUrls: ['./app.component.css'],
 
     entryComponents: [
-
+        ProduccionCultivoComponent
     ]
 })
 export class AppComponent implements OnInit {
 
     @ViewChild('map')
     private mapViewEl: ElementRef;
+
+    @ViewChild(LateralDirective)
+    private lateralDirective: LateralDirective;
 
     constructor() { }
 
@@ -41,4 +46,10 @@ export class AppComponent implements OnInit {
         });*/
     }
 
+
+    private menuOpen(menuSelected): void {
+        if (menuSelected === 'produccion_cultivo') {
+            this.lateralDirective.openLateral();
+        }
+    }
 }

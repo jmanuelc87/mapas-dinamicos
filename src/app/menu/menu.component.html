@@ -11,8 +11,8 @@
                     <clr-dropdown>
                         <button type="button" clrDropdownTrigger>Agrícola</button>
                         <clr-dropdown-menu>
-                            <button type="button" clrDropdownItem>Producción por Cultivo</button>
-                            <button type="button" clrDropdownItem>Producción por Estado</button>
+                            <button type="button" (click)="onOpen($event)" clrDropdownItem>Producción por Cultivo</button>
+                            <button type="button" (click)="onOpen($event)" clrDropdownItem>Producción por Estado</button>
                         </clr-dropdown-menu>
                     </clr-dropdown>
                     <button type="button" clrDropdownItem>Pecuario</button>
