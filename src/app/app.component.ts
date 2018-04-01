@@ -12,7 +12,7 @@ import {
     ViewContainerRef
     } from '@angular/core';
 import { ProduccionCultivoComponent } from './produccion-cultivo/produccion-cultivo.component';
-import { LateralDirective } from './directives/lateral.directive';
+import { ProduccionCultivoLateralDirective } from './directives/lateral.directive';
 
 @Component({
     selector: 'app-root',
@@ -28,13 +28,13 @@ export class AppComponent implements OnInit {
     @ViewChild('map')
     private mapViewEl: ElementRef;
 
-    @ViewChild(LateralDirective)
-    private lateralDirective: LateralDirective;
+    @ViewChild(ProduccionCultivoLateralDirective)
+    private lateralDirective: ProduccionCultivoLateralDirective;
 
     constructor() { }
 
     ngOnInit(): void {
-        /*const map: __esri.Map = new Map({
+        const map: __esri.Map = new Map({
             basemap: 'oceans'
         });
 
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
             container: this.mapViewEl.nativeElement,
             center: [-112, 38],
             zoom: 6
-        });*/
+        });
     }
 
 

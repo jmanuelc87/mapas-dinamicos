@@ -5,7 +5,7 @@ import { ProduccionCultivoComponent } from '../produccion-cultivo/produccion-cul
 @Directive({
   selector: '[appOpenLateral]'
 })
-export class LateralDirective {
+export class ProduccionCultivoLateralDirective {
 
   private componentRef: ComponentRef<ProduccionCultivoComponent>;
 

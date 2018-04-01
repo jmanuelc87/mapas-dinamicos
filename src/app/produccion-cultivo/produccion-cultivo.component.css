@@ -1,0 +1,21 @@
+.clr-vertical-nav {
+    height: 100%;
+    width: 18rem;
+}
+
+section.form-block {
+    margin-top: -10px;
+    margin-bottom: 0;
+}
+
+section.form-block > div.form-group:first-child {
+    margin-top: 0;
+}
+
+section.form-block > div.form-group {
+    margin-top: 10px;
+} 
+
+.compact {
+    padding: 0 25px 0 25px;
+}

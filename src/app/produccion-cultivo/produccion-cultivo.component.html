@@ -1,8 +1,106 @@
-<clr-vertical-nav [clrVerticalNavCollapsible]="true">
-    <a clrVerticalNavLink routerLink="./charmander" routerLinkActive="active">Charmander</a>
-    <a clrVerticalNavLink routerLink="./jigglypuff" routerLinkActive="active">Jigglypuff</a>
-    <a clrVerticalNavLink routerLink="./pikachu" routerLinkActive="active">Pikachu</a>
-    <a clrVerticalNavLink routerLink="./raichu" routerLinkActive="active">Raichu</a>
-    <a clrVerticalNavLink routerLink="./snorlax" routerLinkActive="active">Snorlax</a>
-    <a clrVerticalNavLink routerLink="./credit" routerLinkActive="active">Credit</a>
+<clr-vertical-nav [clrVerticalNavCollapsible]="true" ng-style="height:100%;">
+
+    <form class="compact">
+        <section class="form-block">
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    <label>Ciclo</label>
+                    <br/>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-ciclos" id="btn-1">
+                        <label for="btn-1">Otoño-Invierno</label>
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-ciclos" id="btn-2">
+                        <label for="btn-2">Primavera-Verano</label>
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-ciclos" id="btn-3">
+                        <label for="btn-3">Perennes</label>
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-ciclos" id="btn-4">
+                        <label for="btn-4">Año Agricola</label>
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-ciclos" id="btn-5" checked>
+                        <label for="btn-5">Todos</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    <label>Modalidad</label>
+                    <br/>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-moda" id="btn-6">
+                        <label for="btn-6">Riego</label>
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-moda" id="btn-7">
+                        <label for="btn-7">Temporal</label>
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-moda" id="btn-8" checked>
+                        <label for="btn-8">Todos</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    <label>Catálogo</label>
+                    <br/>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-cat" id="btn-9" checked>
+                        <label for="btn-9">Genérico</label>
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" name="btn-cat" id="btn-10">
+                        <label for="btn-10">Detalle</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label for="select-1">Año</label>
+                    <div id="select-1" class="select">
+                        <select>
+                            <option>2016</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <label for="select-2">Estado</label>
+                    <div id="select-2" class="select">
+                        <select>
+                            <option>Aguascalientes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label for="select-3">Distrito</label>
+                    <div id="select-3" class="select">
+                        <select>
+                            <option>Aguascalientes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <label for="select-4">Municipio</label>
+                    <div id="select-4" class="select">
+                        <select>
+                            <option>Aguascalientes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    <button class="btn btn-primary">Consultar</button>
+                </div>
+            </div>
+        </section>
+    </form>
 </clr-vertical-nav>
