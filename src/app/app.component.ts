@@ -13,6 +13,7 @@ import {
     } from '@angular/core';
 import { ProduccionCultivoComponent } from './produccion-cultivo/produccion-cultivo.component';
 import { ProduccionCultivoLateralDirective } from './directives/lateral.directive';
+import { ProduccionEstadoComponent } from './produccion-estado/produccion-estado.component';
 
 @Component({
     selector: 'app-root',
@@ -20,7 +21,8 @@ import { ProduccionCultivoLateralDirective } from './directives/lateral.directiv
     styleUrls: ['./app.component.css'],
 
     entryComponents: [
-        ProduccionCultivoComponent
+        ProduccionCultivoComponent,
+        ProduccionEstadoComponent
     ]
 })
 export class AppComponent implements OnInit {
@@ -49,7 +51,9 @@ export class AppComponent implements OnInit {
 
     private menuOpen(menuSelected): void {
         if (menuSelected === 'produccion_cultivo') {
-            this.lateralDirective.openLateral();
+            this.lateralDirective.openLateralProduccionCultivoComponent();
+        } else if (menuSelected === 'produccion_estado') {
+            this.lateralDirective.openLateralProduccionEstadoComponent();
         }
     }
 }

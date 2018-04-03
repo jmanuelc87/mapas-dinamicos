@@ -1,13 +1,16 @@
 import { Directive, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
 import { Component } from '@angular/compiler/src/core';
 import { ProduccionCultivoComponent } from '../produccion-cultivo/produccion-cultivo.component';
+import { ProduccionEstadoComponent } from '../produccion-estado/produccion-estado.component';
 
 @Directive({
   selector: '[appOpenLateral]'
 })
 export class ProduccionCultivoLateralDirective {
 
-  private componentRef: ComponentRef<ProduccionCultivoComponent>;
+  private componentProduccionCultivoRef: ComponentRef<ProduccionCultivoComponent>;
+
+  private componentProduccionEstadoRef: ComponentRef<ProduccionEstadoComponent>;
 
   constructor(
     private viewContainer: ViewContainerRef,
@@ -15,12 +18,18 @@ export class ProduccionCultivoLateralDirective {
   ) { }
 
 
-  public openLateral() {
+  public openLateralProduccionCultivoComponent() {
     this.viewContainer.clear();
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ProduccionCultivoComponent);
-    this.componentRef = this.viewContainer.createComponent(componentFactory);
-    console.log(this.viewContainer);
-    this.viewContainer.insert(this.componentRef.hostView, 0);
+    this.componentProduccionCultivoRef = this.viewContainer.createComponent(componentFactory);
+    this.viewContainer.insert(this.componentProduccionCultivoRef.hostView, 0);
+  }
+
+  public openLateralProduccionEstadoComponent() {
+    this.viewContainer.clear();
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ProduccionEstadoComponent);
+    this.componentProduccionEstadoRef = this.viewContainer.createComponent(componentFactory);
+    this.viewContainer.insert(this.componentProduccionEstadoRef.hostView, 0);
   }
 
   public closeLateral() {

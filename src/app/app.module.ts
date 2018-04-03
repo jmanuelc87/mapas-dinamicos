@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { MenuComponent } from './menu/menu.component';
 import { ProduccionCultivoComponent } from './produccion-cultivo/produccion-cultivo.component';
 import { ProduccionCultivoLateralDirective } from './directives/lateral.directive';
+import { ProduccionEstadoComponent } from './produccion-estado/produccion-estado.component';
 
 
 
@@ -16,6 +17,7 @@ import { ProduccionCultivoLateralDirective } from './directives/lateral.directiv
         MenuComponent,
         ProduccionCultivoComponent,
         ProduccionCultivoLateralDirective,
+        ProduccionEstadoComponent,
     ],
     imports: [
         BrowserModule,
