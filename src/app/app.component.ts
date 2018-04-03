@@ -14,6 +14,7 @@ import {
 import { ProduccionCultivoComponent } from './produccion-cultivo/produccion-cultivo.component';
 import { ProduccionCultivoLateralDirective } from './directives/lateral.directive';
 import { ProduccionEstadoComponent } from './produccion-estado/produccion-estado.component';
+import { CapasGeograficasComponent } from './capas-geograficas/capas-geograficas.component';
 
 @Component({
     selector: 'app-root',
@@ -22,7 +23,8 @@ import { ProduccionEstadoComponent } from './produccion-estado/produccion-estado
 
     entryComponents: [
         ProduccionCultivoComponent,
-        ProduccionEstadoComponent
+        ProduccionEstadoComponent,
+        CapasGeograficasComponent
     ]
 })
 export class AppComponent implements OnInit {
@@ -54,6 +56,8 @@ export class AppComponent implements OnInit {
             this.lateralDirective.openLateralProduccionCultivoComponent();
         } else if (menuSelected === 'produccion_estado') {
             this.lateralDirective.openLateralProduccionEstadoComponent();
+        } else if (menuSelected === 'capas_geograficas') {
+            this.lateralDirective.openLateralCapasGeograficas();
         }
     }
 }

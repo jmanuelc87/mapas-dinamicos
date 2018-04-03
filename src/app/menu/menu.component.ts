@@ -26,6 +26,10 @@ export class MenuComponent implements OnInit {
             case 'producción por estado':
                 this.menuSelected.emit('produccion_estado');
                 break;
+
+            case 'capas geográficas':
+                this.menuSelected.emit('capas_geograficas');
+                break;
         }
     }
 }

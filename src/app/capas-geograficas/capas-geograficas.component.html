@@ -1,0 +1,20 @@
+<clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed" ng-style="height:100%;">
+    <div *ngIf="!collapsed">
+        <clr-tree-node clrSelected="true">
+            Capa base
+        </clr-tree-node>
+        <clr-tree-node clrSelected="true">
+            Cartografia
+            <ng-template clrIfExpanded>
+                <clr-tree-node>
+                    Rasgos Politicos
+                    <ng-template clrIfExpanded>
+                        <clr-tree-node>Estados</clr-tree-node>
+                        <clr-tree-node>DDR</clr-tree-node>
+                        <clr-tree-node>Municipios</clr-tree-node>
+                    </ng-template>
+                </clr-tree-node>
+            </ng-template>
+        </clr-tree-node>
+    </div>
+</clr-vertical-nav>
