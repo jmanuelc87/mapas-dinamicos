@@ -9,6 +9,7 @@ import { ProduccionCultivoComponent } from './produccion-cultivo/produccion-cult
 import { ProduccionCultivoLateralDirective } from './directives/lateral.directive';
 import { ProduccionEstadoComponent } from './produccion-estado/produccion-estado.component';
 import { CapasGeograficasComponent } from './capas-geograficas/capas-geograficas.component';
+import { WebmapComponent } from './webmap/webmap.component';
 
 
 
@@ -20,6 +21,7 @@ import { CapasGeograficasComponent } from './capas-geograficas/capas-geograficas
         ProduccionCultivoLateralDirective,
         ProduccionEstadoComponent,
         CapasGeograficasComponent,
+        WebmapComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,5 +1,3 @@
-import * as Map from 'esri/Map';
-import * as MapView from 'esri/views/MapView';
 import {
     Component,
     ComponentFactoryResolver,
@@ -29,25 +27,12 @@ import { CapasGeograficasComponent } from './capas-geograficas/capas-geograficas
 })
 export class AppComponent implements OnInit {
 
-    @ViewChild('map')
-    private mapViewEl: ElementRef;
-
     @ViewChild(ProduccionCultivoLateralDirective)
     private lateralDirective: ProduccionCultivoLateralDirective;
 
     constructor() { }
 
     ngOnInit(): void {
-        const map: __esri.Map = new Map({
-            basemap: 'oceans'
-        });
-
-        const view: __esri.MapView = new MapView({
-            map: map,
-            container: this.mapViewEl.nativeElement,
-            center: [-112, 38],
-            zoom: 6
-        });
     }
 
 
