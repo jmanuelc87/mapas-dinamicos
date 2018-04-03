@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProduccionCultivoComponent implements OnInit {
 
+  private collapsed: boolean;
+
   constructor() { }
 
   ngOnInit() {
