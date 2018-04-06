@@ -1,20 +1,14 @@
 <div class="main-container">
-    <header class="header-1">
-        <div class="branding">
-            <a class="nav-link">
-                <span class="title">
-                    Mapas Dinámicos
-                </span>
-            </a>
-        </div>
-    </header>
 
-    <app-menu (menuSelected)="menuOpen($event)"></app-menu>
+    <app-menu></app-menu>
 
     <div class="content-container">
-        <ng-container appOpenLateral></ng-container>
+        <div id="consultas">
+            <router-outlet></router-outlet>
+        </div>
         <div class="content-area">
             <app-webmap></app-webmap>
         </div>
     </div>
+
 </div>

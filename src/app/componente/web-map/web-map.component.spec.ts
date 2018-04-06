@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WebmapComponent } from './webmap.component';
+import { WebMapComponent } from './web-map.component';
 
-describe('WebmapComponent', () => {
-  let component: WebmapComponent;
-  let fixture: ComponentFixture<WebmapComponent>;
+describe('WebMapComponent', () => {
+  let component: WebMapComponent;
+  let fixture: ComponentFixture<WebMapComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WebmapComponent ]
+      declarations: [ WebMapComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WebmapComponent);
+    fixture = TestBed.createComponent(WebMapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

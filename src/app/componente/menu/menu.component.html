@@ -1,3 +1,12 @@
+<header class="header-1">
+    <div class="branding">
+        <a class="nav-link">
+            <span class="title">
+                Mapas Dinámicos
+            </span>
+        </a>
+    </div>
+</header>
 <nav class="subnav">
     <ul class="nav">
         <li class="nav-item">
@@ -11,8 +20,8 @@
                     <clr-dropdown>
                         <button type="button" clrDropdownTrigger>Agrícola</button>
                         <clr-dropdown-menu>
-                            <button type="button" (click)="onOpen($event)" clrDropdownItem>Producción por Cultivo</button>
-                            <button type="button" (click)="onOpen($event)" clrDropdownItem>Producción por Estado</button>
+                            <button type="button" routerLink="/consulta-cultivo" clrDropdownItem>Producción por Cultivo</button>
+                            <button type="button" routerLink="/consulta-estado" clrDropdownItem>Producción por Estado</button>
                         </clr-dropdown-menu>
                     </clr-dropdown>
                     <button type="button" clrDropdownItem>Pecuario</button>
@@ -21,7 +30,7 @@
             </clr-dropdown>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" (click)="onOpen($event)">Capas Geográficas</a>
+            <a class="nav-link" routerLink="/">Capas Geográficas</a>
         </li>
     </ul>
 </nav>
