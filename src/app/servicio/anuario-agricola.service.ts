@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { Anuario } from '../dominio/anuario';
+import { Territorio } from '../dominio/territorio';
 
 const years = [
   { year: 2016 },
@@ -43,19 +45,34 @@ export class AnuarioAgricolaService {
   ) { }
 
 
-  public getAllYears(): Observable<{}> {
-    return of(years);
+  public getAllYears(): Observable<Array<Anuario>> {
+    const all = years.map(item => {
+      return new Anuario(item.year);
+    });
+    return of(all);
   }
 
-  public getAllStates(): Observable<{}> {
-    return of(states);
+  public getAllStates(): Observable<Array<Territorio>> {
+    const all = states.map(item => {
+      return new Territorio(item.id, item.name);
+    });
+
+    return of(all);
   }
 
-  public getDistrictByState(state: number): Observable<{}> {
-    return of(districts);
+  public getDistrictByState(state: number): Observable<Array<Territorio>> {
+    const all = districts.map(item => {
+      return new Territorio(item.id, item.name);
+    });
+    
+    return of(all);
   }
 
-  public getMunicipioByDistrict(district: number): Observable<{}> {
-    return of(municipios);
+  public getMunicipioByDistrict(district: number): Observable<Array<Territorio>> {
+    const all = municipios.map(item => {
+      return new Territorio(item.id, item.name);
+    });
+
+    return of(all);
   }
 }

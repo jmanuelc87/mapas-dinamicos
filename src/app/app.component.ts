@@ -1,17 +1,4 @@
-import {
-    Component,
-    ComponentFactoryResolver,
-    ComponentRef,
-    ElementRef,
-    EventEmitter,
-    OnInit,
-    Output,
-    ViewChild,
-    ViewContainerRef,
-    Directive
-} from '@angular/core';
-
-import { ConsultaCultivoComponent } from './componente/consulta-cultivo/consulta-cultivo.component';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-root',
@@ -23,9 +10,4 @@ export class AppComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void { }
-
-    openLateralComponent(selected: string): void {
-        console.log(selected);
-    }
-
 }

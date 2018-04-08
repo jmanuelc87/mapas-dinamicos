@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
-import { ProduccionCultivo } from '../../dominio/ProduccionCultivo';
+import { Anuario } from '../../dominio/anuario';
+import { Territorio } from '../../dominio/territorio';
+import { AnuarioAgricola } from '../../dominio/anuario-agricola';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-consulta-cultivo',
@@ -12,58 +15,62 @@ import { ProduccionCultivo } from '../../dominio/ProduccionCultivo';
 })
 export class ConsultaCultivoComponent implements OnInit {
 
-    private years: {};
+    private collapsed: boolean;
 
-    private states: {};
+    private consultaCultivoForm: FormGroup;
 
-    private districts: {};
+    private anios: Array<Anuario>;
 
-    private municipio: {};
+    private estados: Array<Territorio>;
 
-    private disabled = true;
+    private distritos: Array<Territorio>;
 
-    private prodCultivo: ProduccionCultivo;
-
-    private showOverlay: boolean;
+    private municipios: Array<Territorio>;
 
     constructor(
         private service: AnuarioAgricolaService
     ) { }
 
     ngOnInit() {
-        this.getAllYears();
-        this.getAllStates();
-        this.prodCultivo = new ProduccionCultivo('all', 'all', 'generico', '2016', 0, 0, 0);
+        this.consultaCultivoForm = this.buildForm();
+        this.consultaCultivoForm.get('estado').valueChanges.subscribe(item => this.getDistritos(item));
+        this.consultaCultivoForm.get('distrito').valueChanges.subscribe(item => {
+            this.service.getMunicipioByDistrict(item).subscribe(municipios => this.municipios = municipios);
+        });
+        this.getAllAnios();
+        this.getAllEstados();
     }
 
-    private getAllYears(): void {
-        this.service.getAllYears().subscribe(years => this.years = years);
+    private buildForm(): FormGroup {
+        return new FormGroup({
+            ciclo: new FormControl('oto-inv', Validators.required),
+            modalidad: new FormControl('riego', Validators.required),
+            catalogo: new FormControl('generico', Validators.required),
+            anio: new FormControl('2016', Validators.required),
+            estado: new FormControl(0, Validators.required),
+            distrito: new FormControl(0, Validators.required),
+            municipio: new FormControl(0, Validators.required)
+        });
     }
 
-    private getAllStates(): void {
-        this.service.getAllStates().subscribe(states => this.states = states);
+    private getAllAnios() {
+        this.service.getAllYears().subscribe(anios =>  this.anios = anios );
     }
 
-    private stateChanged() {
-        this.service.getDistrictByState(this.prodCultivo.state).subscribe(districts => this.districts = districts);
+    private getAllEstados() {
+        this.service.getAllStates().subscribe(estados => this.estados = estados );
     }
 
-    private districtChanged() {
-        this.service.getMunicipioByDistrict(this.prodCultivo.district).subscribe(municipio => this.municipio = municipio);
+    private getDistritos(item) {
+        this.service.getDistrictByState(item).subscribe(distritos => this.distritos = distritos);
     }
 
-    /**
-     * Terminar el submit al servicio web
-     */
-    private onFormSubmit(event) {
-        this.toggle();
-        setTimeout(() => {
-            this.toggle();
-        }, 7000);
+    private onSubmit(event) {
+        if (this.consultaCultivoForm.valid) {
+            console.log('submitted...');
+            console.log(this.consultaCultivoForm.value);
+        } else {
+            console.log('check errors...');
+        }
     }
-
-    private toggle() {
-        this.showOverlay = !this.showOverlay;
-    }
-
 }

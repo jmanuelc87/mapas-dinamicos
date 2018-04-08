@@ -23,3 +23,15 @@ section.form-block > div.form-group {
 .radio-inline {
     margin-right: 15px;
 }
+
+.visible {
+    display: inherit;
+}
+
+.not-visible {
+    display: none;
+}
+
+.error {
+    color: red;
+}

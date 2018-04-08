@@ -5,9 +5,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormsModule } from '@angular/forms';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+
 
 
 /**
@@ -43,16 +44,14 @@ const appRoutes = [
         ClarityModule,
         BrowserAnimationsModule,
         AngularDraggableModule,
-        RouterModule.forRoot(appRoutes, { enableTracing: true }),
+        RouterModule.forRoot(appRoutes),
         HttpClientModule,
+        ReactiveFormsModule,
         FormsModule
     ],
     providers: [],
     bootstrap: [
         AppComponent
-    ],
-    entryComponents: [
-        ConsultaCultivoComponent
     ]
 })
 export class AppModule { }
