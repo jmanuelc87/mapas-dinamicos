@@ -4,7 +4,10 @@ import { WebmapService } from '../../servicio/webmap.service';
 import * as WebMap from 'esri/WebMap';
 import * as MapView from 'esri/views/MapView';
 import * as Extent from "esri/geometry/Extent";
+import * as Layer from 'esri/layers/Layer';
 import * as GraphicsLayer from 'esri/layers/GraphicsLayer';
+import * as MapImageLayer from 'esri/layers/MapImageLayer';
+import * as TextSymbol from 'esri/symbols/TextSymbol';
 
 @Component({
     selector: 'app-webmap',
@@ -16,6 +19,12 @@ import * as GraphicsLayer from 'esri/layers/GraphicsLayer';
 })
 export class WebMapComponent implements OnInit {
 
+    private map: WebMap;
+
+    private view: MapView;
+
+    private mask: boolean;
+
     @ViewChild('webmap')
     private mapViewEl: ElementRef;
 
@@ -25,38 +34,79 @@ export class WebMapComponent implements OnInit {
 
     ngOnInit() {
 
-        const layer01 = new GraphicsLayer();
+        this.mask = true;
 
-        const map = new WebMap({
-            basemap: 'satellite',
-            layers: [layer01]
+        this.map = new WebMap({
+            basemap: 'satellite'
         });
 
-        const view = new MapView({
-            map: map,
+        this.view = new MapView({
+            map: this.map,
             container: this.mapViewEl.nativeElement
         });
 
-        view.on('layerview-create', event => {
+        this.view.when(event => {
             this.service.getEntidadesExtent().subscribe(event => {
-                view.extent = new Extent(event);
+                this.setExtent(new Extent(event));
             });
+        });
 
-            this.service.getAllEntidadesGeometry().subscribe(features => {
-                features.forEach(item => {
+        this.view.when(event => {
+            let layer01 = new GraphicsLayer();
+            this.service.getAllEntidadesGeometry().subscribe(response => {
+                response.features.forEach(item => {
                     item.symbol = {
                         type: 'simple-fill',
                         color: [250, 250, 210, 0.3],
                         style: 'solid',
                         outline: {
                             color: 'black',
-                            width: 1
+                            width: 0.5
                         }
                     };
 
                     layer01.add(item);
                 });
+
+                this.mask = false;
             });
+            this.addLayer(layer01);
         });
+
+        this.view.when(event => {
+            let layer02 = new GraphicsLayer();
+
+            this.service.getAllEntidadesGeometry().subscribe(response => {
+                response.features.forEach(item => {
+                    item.symbol = {
+                        type: 'text',
+                        color: 'black',
+                        haloColor: 'white',
+                        haloSize: '1px',
+                        text: item.attributes['NOM_ENT'],
+                        xoffset: 2,
+                        yoffset: 2,
+                        font: {
+                            size: 7,
+                            family: 'sans-serif'
+                        }
+                    };
+
+                    layer02.add(item);
+                });
+
+                this.mask = false;
+            });
+
+            this.addLayer(layer02);
+        });
+    }
+
+    public setExtent(extent: Extent) {
+        this.view.extent = extent;
+    }
+
+    public addLayer(layer: Layer) {
+        this.map.add(layer);
     }
 }

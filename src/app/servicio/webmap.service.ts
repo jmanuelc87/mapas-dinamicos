@@ -1,11 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Territorio } from '../dominio/territorio';
-import { Observable } from 'rxjs/Observable';
-
-import * as Rx from 'rxjs';
-import * as QueryTask from 'esri/tasks/QueryTask';
+import * as FindParameters from 'esri/tasks/support/FindParameters';
+import * as FindTask from 'esri/tasks/FindTask';
 import * as Query from 'esri/tasks/support/Query';
+import * as QueryTask from 'esri/tasks/QueryTask';
+import * as Rx from 'rxjs';
 import { Extent } from 'esri/geometry';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Territorio } from '../dominio/territorio';
+import { find } from 'rxjs/operators';
+
+
 
 @Injectable()
 export class WebmapService {
@@ -53,12 +57,10 @@ export class WebmapService {
 
         const observable = Rx.Observable.create(obs => {
             queryTask.execute(params).then(response => {
-                console.log('get response...');
-                obs.next(response.features);
+                obs.next(response);
             });
         });
 
         return observable;
     }
-
 }
