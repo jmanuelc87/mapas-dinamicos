@@ -34,9 +34,7 @@ export class ConsultaCultivoComponent implements OnInit {
     ngOnInit() {
         this.consultaCultivoForm = this.buildForm();
         this.consultaCultivoForm.get('estado').valueChanges.subscribe(item => this.getDistritos(item));
-        this.consultaCultivoForm.get('distrito').valueChanges.subscribe(item => {
-            this.service.getMunicipioByDistrict(item).subscribe(municipios => this.municipios = municipios);
-        });
+        this.consultaCultivoForm.get('distrito').valueChanges.subscribe(item => this.getMunicipios(item));
         this.getAllAnios();
         this.getAllEstados();
     }
@@ -54,15 +52,19 @@ export class ConsultaCultivoComponent implements OnInit {
     }
 
     private getAllAnios() {
-        this.service.getAllYears().subscribe(anios =>  this.anios = anios );
+        this.service.getAllYears().subscribe(anios => this.anios = anios);
     }
 
     private getAllEstados() {
-        this.service.getAllStates().subscribe(estados => this.estados = estados );
+        this.service.getAllStates().subscribe(estados => this.estados = estados);
     }
 
     private getDistritos(item) {
         this.service.getDistrictByState(item).subscribe(distritos => this.distritos = distritos);
+    }
+
+    private getMunicipios(item) {
+        this.service.getMunicipioByDistrict(item).subscribe(municipios => this.municipios = municipios);
     }
 
     private onSubmit(event) {

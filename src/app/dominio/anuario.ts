@@ -1,5 +1,5 @@
 export class Anuario {
     constructor(
-        public anio: number
+        public anio?: number
     ) { }
 }

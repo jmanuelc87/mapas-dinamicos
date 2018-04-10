@@ -82,12 +82,10 @@ export class WebMapComponent implements OnInit {
                         type: 'text',
                         color: 'black',
                         haloColor: 'white',
-                        haloSize: '1px',
+                        haloSize: '2px',
                         text: item.attributes['NOM_ENT'],
-                        xoffset: 2,
-                        yoffset: 2,
                         font: {
-                            size: 7,
+                            size: 8,
                             family: 'sans-serif'
                         }
                     };
