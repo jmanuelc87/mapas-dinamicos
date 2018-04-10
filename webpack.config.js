@@ -123,7 +123,7 @@ module.exports = {
 
     /* configuración personalizada para incluir la libreria esri en el proyecto */
 
-    externals : [
+    externals: [
         function (context, request, callback) {
             // verifica que dojo o esri sean incluidos en el bundle
             if (/(^dojo|^dojox|^dijit|^esri)/.test(request)) {
@@ -452,7 +452,10 @@ module.exports = {
             // FIN
             "compile": true,
             "favicon": false,
-            "minify": false,
+            "minify": {
+                removeComments: true,
+                removeTagWhitespace: true,
+            },
             "cache": true,
             "showErrors": true,
             "chunks": "all",
