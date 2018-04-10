@@ -20,6 +20,7 @@ import { ConsultaEstadoComponent } from './componente/consulta-estado/consulta-e
 import { EmptyComponentComponent } from './componente/empty-component/empty-component.component';
 import { WebMapComponent } from './componente/web-map/web-map.component';
 import { OverlayComponent } from './componente/overlay/overlay.component';
+import { TableComponent } from './componente/table/table.component';
 
 
 const appRoutes = [
@@ -37,7 +38,8 @@ const appRoutes = [
         ConsultaEstadoComponent,
         EmptyComponentComponent,
         WebMapComponent,
-        OverlayComponent
+        OverlayComponent,
+        TableComponent
     ],
     imports: [
         BrowserModule,

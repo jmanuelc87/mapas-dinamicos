@@ -1,0 +1,30 @@
+.container-nav {
+    height: 100%;
+    position: relative;
+}
+
+.bottom-nav {
+    height: 350px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+
+    background-color: #eee;
+    border: 1px solid #ddd;
+}
+
+table tbody > tr:hover {
+    background-color: #eee;
+}
+
+.toolbar {
+    padding: 7px;
+}
+
+.content {
+    padding: 1px;
+}
+
+.push-right {
+    float: right;
+}
