@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { Anuario } from '../dominio/anuario';
 import { Territorio } from '../dominio/territorio';
 import { Cultivo } from '../dominio/cultivo';
+import { AnuarioAgricola } from '../dominio/anuario-agricola';
 
 const years = [
     { year: 2016 },
@@ -41,6 +42,33 @@ const cultivos = [
     { id: 1, name: 'Aceituna', variedades: [{ id: 1, nombre: 'manzanilla' }, { id: 2, nombre: 'negra' }] },
     { id: 2, name: 'Agave', variedades: [{ id: 1, nombre: 'tequilero' }, { id: 2, nombre: 'tequilero weber' }] },
     { id: 3, name: 'Aguacate', variedades: [{ id: 1, nombre: 'hass' }, { id: 2, nombre: 'organico' }, { id: 3, nombre: 'criollo' }] }
+]
+
+const anuarioAgricolaXCultivo = [
+    { nombre: "Cacahuate", sembrada: 4432.50, cosechada: 4432.50, produccion: 7963.75, rendimiento: 1.797, pmr: 8539.80, valor: 68008847.63 },
+    { nombre: "Frijol", sembrada: 8031.50, cosechada: 8031.50, produccion: 2882.55, rendimiento: 0.359, pmr: 12386.33, valor: 35704204.00 },
+    { nombre: "Maíz grano", sembrada: 120945.00, cosechada: 120945.00, produccion: 311968.18, rendimiento: 2.579, pmr: 3193.03, valor: 996125280.72 },
+    { nombre: "Cacahuate", sembrada: 4432.50, cosechada: 4432.50, produccion: 7963.75, rendimiento: 1.797, pmr: 8539.80, valor: 68008847.63 },
+    { nombre: "Frijol", sembrada: 8031.50, cosechada: 8031.50, produccion: 2882.55, rendimiento: 0.359, pmr: 12386.33, valor: 35704204.00 },
+    { nombre: "Maíz grano", sembrada: 120945.00, cosechada: 120945.00, produccion: 311968.18, rendimiento: 2.579, pmr: 3193.03, valor: 996125280.72 },
+    { nombre: "Cacahuate", sembrada: 4432.50, cosechada: 4432.50, produccion: 7963.75, rendimiento: 1.797, pmr: 8539.80, valor: 68008847.63 },
+    { nombre: "Frijol", sembrada: 8031.50, cosechada: 8031.50, produccion: 2882.55, rendimiento: 0.359, pmr: 12386.33, valor: 35704204.00 },
+    { nombre: "Maíz grano", sembrada: 120945.00, cosechada: 120945.00, produccion: 311968.18, rendimiento: 2.579, pmr: 3193.03, valor: 996125280.72 },
+    { nombre: "Cacahuate", sembrada: 4432.50, cosechada: 4432.50, produccion: 7963.75, rendimiento: 1.797, pmr: 8539.80, valor: 68008847.63 },
+    { nombre: "Frijol", sembrada: 8031.50, cosechada: 8031.50, produccion: 2882.55, rendimiento: 0.359, pmr: 12386.33, valor: 35704204.00 },
+    { nombre: "Maíz grano", sembrada: 120945.00, cosechada: 120945.00, produccion: 311968.18, rendimiento: 2.579, pmr: 3193.03, valor: 996125280.72 },
+    { nombre: "Cacahuate", sembrada: 4432.50, cosechada: 4432.50, produccion: 7963.75, rendimiento: 1.797, pmr: 8539.80, valor: 68008847.63 },
+    { nombre: "Frijol", sembrada: 8031.50, cosechada: 8031.50, produccion: 2882.55, rendimiento: 0.359, pmr: 12386.33, valor: 35704204.00 },
+    { nombre: "Maíz grano", sembrada: 120945.00, cosechada: 120945.00, produccion: 311968.18, rendimiento: 2.579, pmr: 3193.03, valor: 996125280.72 },
+    { nombre: "Cacahuate", sembrada: 4432.50, cosechada: 4432.50, produccion: 7963.75, rendimiento: 1.797, pmr: 8539.80, valor: 68008847.63 },
+    { nombre: "Frijol", sembrada: 8031.50, cosechada: 8031.50, produccion: 2882.55, rendimiento: 0.359, pmr: 12386.33, valor: 35704204.00 },
+    { nombre: "Maíz grano", sembrada: 120945.00, cosechada: 120945.00, produccion: 311968.18, rendimiento: 2.579, pmr: 3193.03, valor: 996125280.72 },
+    { nombre: "Cacahuate", sembrada: 4432.50, cosechada: 4432.50, produccion: 7963.75, rendimiento: 1.797, pmr: 8539.80, valor: 68008847.63 },
+    { nombre: "Frijol", sembrada: 8031.50, cosechada: 8031.50, produccion: 2882.55, rendimiento: 0.359, pmr: 12386.33, valor: 35704204.00 },
+    { nombre: "Maíz grano", sembrada: 120945.00, cosechada: 120945.00, produccion: 311968.18, rendimiento: 2.579, pmr: 3193.03, valor: 996125280.72 },
+    { nombre: "Cacahuate", sembrada: 4432.50, cosechada: 4432.50, produccion: 7963.75, rendimiento: 1.797, pmr: 8539.80, valor: 68008847.63 },
+    { nombre: "Frijol", sembrada: 8031.50, cosechada: 8031.50, produccion: 2882.55, rendimiento: 0.359, pmr: 12386.33, valor: 35704204.00 },
+    { nombre: "Maíz grano", sembrada: 120945.00, cosechada: 120945.00, produccion: 311968.18, rendimiento: 2.579, pmr: 3193.03, valor: 996125280.72 },
 ]
 
 @Injectable()
@@ -95,5 +123,13 @@ export class AnuarioAgricolaService {
     public getVariedadByCultivo(id: number): Observable<Cultivo> {
         let a = cultivos[id];
         return of(a);
+    }
+
+    public consultaAnuarioPorCultivo(anuario: AnuarioAgricola) {
+        const all = anuarioAgricolaXCultivo.map(item => {
+            return new Cultivo(0, item.nombre, item.sembrada, item.cosechada, item.produccion, item.rendimiento, item.pmr, item.valor);
+        });
+
+        return of(all);
     }
 }

@@ -23,7 +23,9 @@ export class WebMapComponent implements OnInit {
 
     private view: MapView;
 
-    private mask: boolean;
+    private mask01: boolean;
+
+    private mask02: boolean;
 
     @ViewChild('webmap')
     private mapViewEl: ElementRef;
@@ -34,7 +36,8 @@ export class WebMapComponent implements OnInit {
 
     ngOnInit() {
 
-        this.mask = true;
+        this.mask01 = true;
+        this.mask02 = true;
 
         this.map = new WebMap({
             basemap: 'satellite'
@@ -68,7 +71,7 @@ export class WebMapComponent implements OnInit {
                     layer01.add(item);
                 });
 
-                this.mask = false;
+                this.mask01 = false;
             });
             this.addLayer(layer01);
         });
@@ -93,7 +96,7 @@ export class WebMapComponent implements OnInit {
                     layer02.add(item);
                 });
 
-                this.mask = false;
+                this.mask02 = false;
             });
 
             this.addLayer(layer02);

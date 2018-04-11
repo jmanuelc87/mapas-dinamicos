@@ -21,6 +21,7 @@ import { EmptyComponentComponent } from './componente/empty-component/empty-comp
 import { WebMapComponent } from './componente/web-map/web-map.component';
 import { OverlayComponent } from './componente/overlay/overlay.component';
 import { TableComponent } from './componente/table/table.component';
+import { IteratorKeysPipe } from './iterator-keys.pipe';
 
 
 const appRoutes = [
@@ -39,7 +40,8 @@ const appRoutes = [
         EmptyComponentComponent,
         WebMapComponent,
         OverlayComponent,
-        TableComponent
+        TableComponent,
+        IteratorKeysPipe
     ],
     imports: [
         BrowserModule,

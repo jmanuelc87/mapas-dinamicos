@@ -4,6 +4,8 @@
 
 .main-container .content-container .content-area {
     padding: 0;
+    position: relative;
+    height: 100%;
 }
 
 .full-xy {

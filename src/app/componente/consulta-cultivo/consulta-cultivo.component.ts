@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { Anuario } from '../../dominio/anuario';
 import { Territorio } from '../../dominio/territorio';
 import { AnuarioAgricola } from '../../dominio/anuario-agricola';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Cultivo } from '../../dominio/cultivo';
 
 @Component({
     selector: 'app-consulta-cultivo',
@@ -26,6 +27,9 @@ export class ConsultaCultivoComponent implements OnInit {
     private distritos: Array<Territorio>;
 
     private municipios: Array<Territorio>;
+
+    @Output('dataEvent')
+    public getDataEvent: EventEmitter<Cultivo[]> = new EventEmitter<Cultivo[]>();
 
     constructor(
         private service: AnuarioAgricolaService
@@ -69,8 +73,10 @@ export class ConsultaCultivoComponent implements OnInit {
 
     private onSubmit(event) {
         if (this.consultaCultivoForm.valid) {
-            console.log('submitted...');
-            console.log(this.consultaCultivoForm.value);
+            let model = this.consultaCultivoForm.value;
+            this.service.consultaAnuarioPorCultivo(model).subscribe(data => {
+                this.getDataEvent.emit(data);
+            })
         } else {
             console.log('check errors...');
         }

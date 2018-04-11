@@ -1,14 +1,8 @@
-.container-nav {
-    height: 100%;
-    position: relative;
-}
-
 .bottom-nav {
-    height: 350px;
     width: 100%;
     position: absolute;
     bottom: 0;
-
+    overflow-y: hidden;
     background-color: #eee;
     border: 1px solid #ddd;
 }
@@ -22,6 +16,7 @@ table tbody > tr:hover {
 }
 
 .content {
+    margin-top: 3px;
     padding: 1px;
 }
 

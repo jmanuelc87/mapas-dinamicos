@@ -1,23 +1,34 @@
-<div class="container-nav">
-    <div class="bottom-nav">
-        <div class="toolbar">
-            <button class="btn btn-icon">1</button>
-            <button class="btn btn-icon">2</button>
-            <button class="btn btn-icon">3</button>
-            <button class="push-right btn btn-icon">
-                &#9723;
-            </button>
-            <button class="push-right btn btn-icon">
-                &#95;
-            </button>
-        </div>
-        <div class="content">
-            <clr-datagrid>
-                <clr-dg-column>User ID</clr-dg-column>
-                <clr-dg-column>Name</clr-dg-column>
-                <clr-dg-column>Creation date</clr-dg-column>
-                <clr-dg-column>Favorite color</clr-dg-column>
-            </clr-datagrid>
-        </div>
+<div class="bottom-nav" [ngStyle]="{'height': !this.show ? '50px' : ''}">
+    <div class="toolbar">
+        <button *ngIf="this.show" class="btn btn-sm btn-icon">
+            PDF
+        </button>
+        <button class="push-right btn btn-sm btn-icon" (click)="this.show = true">
+            &#9723;
+        </button>
+        <button class="push-right btn btn-sm btn-icon" (click)="this.show = false">
+            &#95;
+        </button>
+    </div>
+    <div class="content">
+        <clr-datagrid [(clrDgSingleSelected)]="selectedUser" [clDgRowSelection]="true">
+            <clr-dg-column *ngFor="let item of data | iteratorKeys">{{item.key}}</clr-dg-column>
+
+            <clr-dg-row *clrDgItems="let item of data" [clrDgItem]="item">
+                <clr-dg-cell>{{item.nombre}}</clr-dg-cell>
+                <clr-dg-cell>{{item.sembrada}}</clr-dg-cell>
+                <clr-dg-cell>{{item.cosechada}}</clr-dg-cell>
+                <clr-dg-cell>{{item.produccion}}</clr-dg-cell>
+                <clr-dg-cell>{{item.rendimiento}}</clr-dg-cell>
+                <clr-dg-cell>{{item.pmr}}</clr-dg-cell>
+                <clr-dg-cell>{{item.valor}}</clr-dg-cell>
+            </clr-dg-row>
+
+            <clr-dg-footer>
+                <clr-dg-pagination #pagination [clrDgPageSize]="5">
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}}
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
     </div>
 </div>
