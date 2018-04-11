@@ -8,6 +8,7 @@ import * as Layer from 'esri/layers/Layer';
 import * as GraphicsLayer from 'esri/layers/GraphicsLayer';
 import * as MapImageLayer from 'esri/layers/MapImageLayer';
 import * as TextSymbol from 'esri/symbols/TextSymbol';
+import { Territorio } from '../../dominio/territorio';
 
 @Component({
     selector: 'app-webmap',
@@ -105,6 +106,17 @@ export class WebMapComponent implements OnInit {
 
     public setExtent(extent: Extent) {
         this.view.extent = extent;
+        this.view.goTo(extent);
+    }
+
+    public fetchForExtent(territorio: Territorio) {
+        if (territorio.tipo === 'estado') {
+            this.service.getEntidadExtent(territorio.id).subscribe(event => this.setExtent(event));
+        } else if (territorio.tipo === 'distrito') {
+            this.service.getDistritoExtent(territorio.id).subscribe(event => this.setExtent(event));
+        } else if (territorio.tipo === 'municipio') {
+            this.service.getMunicipioExtent(territorio.id).subscribe(event => this.setExtent(event));
+        }
     }
 
     public addLayer(layer: Layer) {

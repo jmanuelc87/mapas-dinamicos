@@ -31,14 +31,26 @@ export class ConsultaCultivoComponent implements OnInit {
     @Output('dataEvent')
     public getDataEvent: EventEmitter<Cultivo[]> = new EventEmitter<Cultivo[]>();
 
+    @Output('territorioSelectedEvent')
+    public territorioSelectedEvent: EventEmitter<Territorio> = new EventEmitter<Territorio>();
+
     constructor(
         private service: AnuarioAgricolaService
     ) { }
 
     ngOnInit() {
         this.consultaCultivoForm = this.buildForm();
-        this.consultaCultivoForm.get('estado').valueChanges.subscribe(item => this.getDistritos(item));
-        this.consultaCultivoForm.get('distrito').valueChanges.subscribe(item => this.getMunicipios(item));
+        this.consultaCultivoForm.get('estado').valueChanges.subscribe(item => {
+            this.getDistritos(item);
+            this.emitEstadoSelection(item);
+        });
+        this.consultaCultivoForm.get('distrito').valueChanges.subscribe(item => {
+            this.getMunicipios(item);
+            this.emitDistritoSelection(item);
+        });
+        this.consultaCultivoForm.get('municipio').valueChanges.subscribe(item => {
+            this.emitMunicipioSelection(item);
+        });
         this.getAllAnios();
         this.getAllEstados();
     }
@@ -63,6 +75,27 @@ export class ConsultaCultivoComponent implements OnInit {
         this.service.getAllStates().subscribe(estados => this.estados = estados);
     }
 
+    private emitEstadoSelection(item) {
+        if (item !== '0') {
+            let estado = new Territorio(item, null, 'estado');
+            this.territorioSelectedEvent.emit(estado);
+        }
+    }
+
+    private emitDistritoSelection(item) {
+        if (item !== '0') {
+            let distrito = new Territorio(item, null, 'distrito');
+            this.territorioSelectedEvent.emit(distrito);
+        }
+    }
+
+    private emitMunicipioSelection(item) {
+        if (item !== '0') {
+            let municipio = new Territorio(item, null, 'municipio');
+            this.territorioSelectedEvent.emit(municipio);
+        }
+    }
+
     private getDistritos(item) {
         this.service.getDistrictByState(item).subscribe(distritos => this.distritos = distritos);
     }
@@ -78,7 +111,7 @@ export class ConsultaCultivoComponent implements OnInit {
                 this.getDataEvent.emit(data);
             })
         } else {
-            console.log('check errors...');
+
         }
     }
 }

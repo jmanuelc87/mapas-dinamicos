@@ -11,7 +11,10 @@
         </button>
     </div>
     <div class="content">
-        <clr-datagrid [(clrDgSingleSelected)]="selectedUser" [clDgRowSelection]="true">
+        <clr-datagrid class="datagrid-compact" [(clrDgSingleSelected)]="selectedCultivo" [clDgRowSelection]="true">
+
+            <clr-dg-placeholder>No hay datos que mostrar!</clr-dg-placeholder>
+
             <clr-dg-column *ngFor="let item of data | iteratorKeys">{{item.key}}</clr-dg-column>
 
             <clr-dg-row *clrDgItems="let item of data" [clrDgItem]="item">

@@ -30,6 +30,10 @@ export class AppComponent implements OnInit, AfterViewInit {
             instance.getDataEvent.subscribe(data => {
                 this.tableViewChildren.setData(data);
             });
+
+            instance.territorioSelectedEvent.subscribe(data => {
+                this.webmapViewChildren.fetchForExtent(data);
+            });
         }
     }
 

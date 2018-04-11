@@ -3,5 +3,6 @@ export class Territorio {
     constructor(
         public id?: number,
         public nombre?: string,
+        public tipo?: string
     ) { }
 }

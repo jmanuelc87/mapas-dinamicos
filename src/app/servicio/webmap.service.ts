@@ -25,7 +25,6 @@ export class WebmapService {
         });
 
         const params = new Query({
-            returnGeometry: true,
             outFields: ['*']
         });
 
@@ -62,5 +61,39 @@ export class WebmapService {
         });
 
         return observable;
+    }
+
+    public getExtent(id: number, service: string): Observable<any> {
+        let queryTask = new QueryTask({
+            url: this.url + service
+        });
+
+        let params = new Query({
+            outFields: ['*']
+        });
+
+        let cve = id > 0 && id <= 9 ? '0' + id : id;
+
+        params.where = `CVE_ENT = '${cve}'`
+
+        let observable = Rx.Observable.create(obs => {
+            queryTask.executeForExtent(params).then(response => {
+                obs.next(response.extent);
+            });
+        });
+
+        return observable;
+    }
+
+    public getEntidadExtent(id: number): Observable<any> {
+        return this.getExtent(id, '/6');
+    }
+
+    public getDistritoExtent(id: number): Observable<any> {
+        return this.getExtent(id, '/4')
+    }
+
+    public getMunicipioExtent(id: number): Observable<any> {
+        return this.getExtent(id, '/2');
     }
 }
