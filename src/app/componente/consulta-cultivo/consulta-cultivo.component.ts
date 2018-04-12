@@ -41,8 +41,14 @@ export class ConsultaCultivoComponent implements OnInit {
     ngOnInit() {
         this.consultaCultivoForm = this.buildForm();
         this.consultaCultivoForm.get('estado').valueChanges.subscribe(item => {
-            this.getDistritos(item);
-            this.emitEstadoSelection(item);
+            if (item !== '0') {
+                this.getDistritos(item);
+                this.emitEstadoSelection(item);
+            } else {
+                console.log(item);
+                this.distritos = [];
+                this.municipios = [];
+            }
         });
         this.consultaCultivoForm.get('distrito').valueChanges.subscribe(item => {
             this.getMunicipios(item);
@@ -77,21 +83,22 @@ export class ConsultaCultivoComponent implements OnInit {
 
     private emitEstadoSelection(item) {
         if (item !== '0') {
-            let estado = new Territorio(item, null, 'estado');
+            let estado = new Territorio(item, 0, 0, null, 'estado');
             this.territorioSelectedEvent.emit(estado);
         }
     }
 
     private emitDistritoSelection(item) {
         if (item !== '0') {
-            let distrito = new Territorio(item, null, 'distrito');
+            let distrito = new Territorio(0, item, 0, null, 'distrito');
             this.territorioSelectedEvent.emit(distrito);
         }
     }
 
     private emitMunicipioSelection(item) {
         if (item !== '0') {
-            let municipio = new Territorio(item, null, 'municipio');
+            let id_ent = this.consultaCultivoForm.get('estado').value;
+            let municipio = new Territorio(id_ent, 0, item, null, 'municipio');
             this.territorioSelectedEvent.emit(municipio);
         }
     }
@@ -109,7 +116,7 @@ export class ConsultaCultivoComponent implements OnInit {
             let model = this.consultaCultivoForm.value;
             this.service.consultaAnuarioPorCultivo(model).then(data => {
                 this.getDataEvent.emit(data);
-            })
+            });
         } else {
 
         }

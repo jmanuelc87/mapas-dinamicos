@@ -26,7 +26,6 @@ export class TableComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit() {
-    console.log(this.dataGridView);
     this.dataGridView.singleSelectedChanged.subscribe(event => {
       // works selection!
     });

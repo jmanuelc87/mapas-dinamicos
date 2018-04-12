@@ -75,7 +75,7 @@
                         <label for="select-2">Estado</label>
                         <div id="select-2" class="select">
                             <select formControlName="estado" name="estado">
-                                <option *ngFor="let e of estados" value="{{e.id}}">{{e.nombre}}</option>
+                                <option *ngFor="let e of estados" value="{{e.id_ent}}">{{e.nombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                         <label for="select-3">Distrito</label>
                         <div id="select-3" class="select">
                             <select formControlName="distrito" name="distrito">
-                                <option *ngFor="let d of distritos" value="{{d.id}}">{{d.nombre}}</option>
+                                <option *ngFor="let d of distritos" value="{{d.id_ddr}}">{{d.nombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         <label for="select-4">Municipio</label>
                         <div id="select-4" class="select">
                             <select formControlName="municipio" name="municipio">
-                                <option *ngFor="let m of municipios" value="{{m.id}}">{{m.nombre}}</option>
+                                <option *ngFor="let m of municipios" value="{{m.id_mun}}">{{m.nombre}}</option>
                             </select>
                         </div>
                     </div>

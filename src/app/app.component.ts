@@ -10,12 +10,6 @@ import { ConsultaCultivoComponent } from './componente/consulta-cultivo/consulta
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-    @ViewChild(WebMapComponent)
-    private webmapViewChildren: WebMapComponent;
-
-    @ViewChild(TableComponent)
-    private tableViewChildren: TableComponent;
-
     constructor() { }
 
     ngOnInit(): void { }
@@ -23,22 +17,4 @@ export class AppComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
 
     }
-
-    private onActivate(consultaComponent) {
-        if (consultaComponent instanceof ConsultaCultivoComponent) {
-            let instance = consultaComponent as ConsultaCultivoComponent;
-            instance.getDataEvent.subscribe(data => {
-                this.tableViewChildren.setData(data);
-            });
-
-            instance.territorioSelectedEvent.subscribe(data => {
-                this.webmapViewChildren.fetchForExtent(data);
-            });
-        }
-    }
-
-    private onDeactivate(consultaComponent) {
-
-    }
-
 }

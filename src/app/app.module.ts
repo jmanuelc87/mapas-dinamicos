@@ -3,25 +3,19 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
-import { NgModule, Component } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule, FormControl, FormsModule } from '@angular/forms';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-
-
-
-/**
- * Imports from custom components
- */
-import { HeaderMenuComponent } from './componente/menu/menu.component';
+import { Component, NgModule } from '@angular/core';
 import { ConsultaCultivoComponent } from './componente/consulta-cultivo/consulta-cultivo.component';
 import { ConsultaEstadoComponent } from './componente/consulta-estado/consulta-estado.component';
 import { EmptyComponentComponent } from './componente/empty-component/empty-component.component';
-import { WebMapComponent } from './componente/web-map/web-map.component';
-import { OverlayComponent } from './componente/overlay/overlay.component';
-import { TableComponent } from './componente/table/table.component';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderMenuComponent } from './componente/menu/menu.component';
+import { HttpClientModule } from '@angular/common/http';
 import { IteratorKeysPipe } from './iterator-keys.pipe';
+import { OverlayComponent } from './componente/overlay/overlay.component';
+import { RouterModule, Routes } from '@angular/router';
+import { TableComponent } from './componente/table/table.component';
+import { WebMapComponent } from './componente/web-map/web-map.component';
+
 
 
 const appRoutes = [
@@ -51,7 +45,7 @@ const appRoutes = [
         RouterModule.forRoot(appRoutes),
         HttpClientModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
     ],
     providers: [],
     bootstrap: [

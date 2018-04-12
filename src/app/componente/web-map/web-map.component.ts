@@ -31,6 +31,13 @@ export class WebMapComponent implements OnInit {
 
     private mask: boolean;
 
+    private layerEntidades = new GraphicsLayer();
+
+    private layerDistritos = new GraphicsLayer();
+
+    private layerMunicipios = new GraphicsLayer();
+
+
     @ViewChild('webmap')
     private mapViewEl: ElementRef;
 
@@ -73,8 +80,8 @@ export class WebMapComponent implements OnInit {
                         color: [250, 250, 210, 0.3],
                         style: 'solid',
                         outline: {
-                            color: 'black',
-                            width: 0.5
+                            color: [139, 0, 0, 1.0],
+                            width: '1px'
                         }
                     };
 
@@ -109,30 +116,88 @@ export class WebMapComponent implements OnInit {
 
                 this.mask = false;
             });
+
+            service.then(value => {
+                this.addLayer(this.layerEntidades);
+                this.addLayer(this.layerDistritos);
+                this.addLayer(this.layerMunicipios);
+            })
         });
+
     }
 
     public setExtent(extent) {
-        console.log(extent);
         this.view.extent = extent;
         this.view.goTo(extent);
     }
 
     public fetchForExtent(territorio: Territorio) {
         if (territorio.tipo === 'estado') {
-            console.log('en estado...');
-            this.service.getEntidadExtent(territorio.id).then(value => {
-                console.log(value);
-                this.setExtent(value.extent)
+            this.service.getEntidadExtent(territorio.id_ent).then(value => this.setExtent(value.extent));
+        } else if (territorio.tipo === 'distrito') {
+            this.service.getDistritoExtent(territorio.id_ddr).then(value => this.setExtent(value.extent));
+        }
+    }
+
+    public drawLineOnMap(territorio: Territorio) {
+        if (territorio.tipo === 'estado') {
+            this.service.getEntidadGeometry(territorio.id_ent).then(value => {
+                this.layerEntidades.removeAll();
+                let features = value.features;
+
+                features.forEach(item => {
+                    let cloned = item.clone();
+                    cloned.symbol = {
+                        type: 'simple-line',
+                        color: 'black',
+                        width: '2px',
+                        style: 'dash'
+                    };
+                    this.layerEntidades.add(cloned);
+                });
             });
         } else if (territorio.tipo === 'distrito') {
-            this.service.getDistritoExtent(territorio.id).then(value => this.setExtent(value.extent));
+            this.service.getDistritoGeometry(territorio.id_ddr).then(value => {
+                this.layerDistritos.removeAll();
+                let features = value.features;
+
+                features.forEach(item => {
+                    let cloned = item.clone();
+                    cloned.symbol = {
+                        type: 'simple-fill',
+                        color: 'black',
+                        style: 'backward-diagonal'
+                    }
+
+                    this.layerDistritos.add(cloned);
+                });
+            });
         } else if (territorio.tipo === 'municipio') {
-            this.service.getMunicipioExtent(territorio.id).then(value => this.setExtent(value.extent));
+
+            this.service.getMunicipioGeometry(territorio.id_ent, territorio.id_mun).then(value => {
+                this.layerMunicipios.removeAll();
+                let features = value.features;
+
+                features.forEach(item => {
+                    let cloned = item.clone();
+                    cloned.symbol = {
+                        type: 'simple-fill',
+                        color: 'black',
+                        style: 'diagonal-cross',
+                        outline: {
+                            color: 'red',
+                            width: '2px',
+                            style: 'dash'
+                        }
+                    };
+                    this.layerMunicipios.add(cloned);
+                });
+            });
         }
     }
 
     public addLayer(layer: Layer) {
         this.map.add(layer);
     }
+    
 }

@@ -34,7 +34,11 @@ const municipios = [
     { id: 1, name: 'Aguascalientes' },
     { id: 2, name: 'Asientos' },
     { id: 3, name: 'Calvillo' },
-    { id: 4, name: 'Cosio' },
+    { id: 4, name: 'Cosío' },
+    { id: 6, name: 'Pabellón de Arteaga' },
+    { id: 7, name: 'Rincón de Romos' },
+    { id: 8, name: 'San José de Gracia' },
+    { id: 9, name: 'Tepezalá' },
 ];
 
 const cultivos = [
@@ -93,7 +97,7 @@ export class AnuarioAgricolaService {
     public getAllStates(): Promise<Array<Territorio>> {
         return new Promise((resolve, reject) => {
             let all = states.map(item => {
-                return new Territorio(item.id, item.name);
+                return new Territorio(item.id, 0, 0, item.name);
             })
 
             resolve(all);
@@ -103,7 +107,7 @@ export class AnuarioAgricolaService {
     public getDistrictByState(state: number): Promise<Array<Territorio>> {
         return new Promise((resolve, reject) => {
             let all = districts.map(item => {
-                return new Territorio(item.id, item.name);
+                return new Territorio(0, item.id, 0, item.name);
             });
 
             resolve(all);
@@ -113,7 +117,7 @@ export class AnuarioAgricolaService {
     public getMunicipioByDistrict(district: number): Promise<Array<Territorio>> {
         return new Promise((resolve, reject) => {
             let all = municipios.map(item => {
-                return new Territorio(item.id, item.name);
+                return new Territorio(0, 0, item.id, item.name);
             });
 
             resolve(all);
