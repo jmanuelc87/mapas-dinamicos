@@ -1,14 +1,19 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import * as Extent from 'esri/geometry/Extent';
+import * as GraphicsLayer from 'esri/layers/GraphicsLayer';
+import * as Layer from 'esri/layers/Layer';
+import * as MapImageLayer from 'esri/layers/MapImageLayer';
+import * as MapView from 'esri/views/MapView';
+import * as TextSymbol from 'esri/symbols/TextSymbol';
+import * as WebMap from 'esri/WebMap';
+import {
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild
+} from '@angular/core';
+import { Territorio } from '../../dominio/territorio';
 import { WebmapService } from '../../servicio/webmap.service';
 
-import * as WebMap from 'esri/WebMap';
-import * as MapView from 'esri/views/MapView';
-import * as Extent from "esri/geometry/Extent";
-import * as Layer from 'esri/layers/Layer';
-import * as GraphicsLayer from 'esri/layers/GraphicsLayer';
-import * as MapImageLayer from 'esri/layers/MapImageLayer';
-import * as TextSymbol from 'esri/symbols/TextSymbol';
-import { Territorio } from '../../dominio/territorio';
 
 @Component({
     selector: 'app-webmap',
@@ -24,9 +29,7 @@ export class WebMapComponent implements OnInit {
 
     private view: MapView;
 
-    private mask01: boolean;
-
-    private mask02: boolean;
+    private mask: boolean;
 
     @ViewChild('webmap')
     private mapViewEl: ElementRef;
@@ -37,8 +40,7 @@ export class WebMapComponent implements OnInit {
 
     ngOnInit() {
 
-        this.mask01 = true;
-        this.mask02 = true;
+        this.mask = true;
 
         this.map = new WebMap({
             basemap: 'satellite'
@@ -50,16 +52,23 @@ export class WebMapComponent implements OnInit {
         });
 
         this.view.when(event => {
-            this.service.getEntidadesExtent().subscribe(event => {
-                this.setExtent(new Extent(event));
+
+            this.service.getEntidadesExtent().then(value => {
+                this.setExtent(value.extent);
+
             });
         });
 
         this.view.when(event => {
             let layer01 = new GraphicsLayer();
-            this.service.getAllEntidadesGeometry().subscribe(response => {
-                response.features.forEach(item => {
-                    item.symbol = {
+            let service = this.service.getAllEntidadesGeometry()
+
+            service.then(value => {
+                let features = value.features;
+
+                features.forEach(item => {
+                    let cloned = item.clone();
+                    cloned.symbol = {
                         type: 'simple-fill',
                         color: [250, 250, 210, 0.3],
                         style: 'solid',
@@ -69,20 +78,20 @@ export class WebMapComponent implements OnInit {
                         }
                     };
 
-                    layer01.add(item);
+                    layer01.add(cloned);
                 });
 
-                this.mask01 = false;
+                this.addLayer(layer01);
             });
-            this.addLayer(layer01);
-        });
 
-        this.view.when(event => {
-            let layer02 = new GraphicsLayer();
 
-            this.service.getAllEntidadesGeometry().subscribe(response => {
-                response.features.forEach(item => {
-                    item.symbol = {
+            service.then(value => {
+                let layer02 = new GraphicsLayer();
+                let features = value.features;
+
+                features.forEach(item => {
+                    let cloned = item.clone();
+                    cloned.symbol = {
                         type: 'text',
                         color: 'black',
                         haloColor: 'white',
@@ -94,28 +103,32 @@ export class WebMapComponent implements OnInit {
                         }
                     };
 
-                    layer02.add(item);
+                    layer02.add(cloned);
                 });
+                this.addLayer(layer02);
 
-                this.mask02 = false;
+                this.mask = false;
             });
-
-            this.addLayer(layer02);
         });
     }
 
-    public setExtent(extent: Extent) {
+    public setExtent(extent) {
+        console.log(extent);
         this.view.extent = extent;
         this.view.goTo(extent);
     }
 
     public fetchForExtent(territorio: Territorio) {
         if (territorio.tipo === 'estado') {
-            this.service.getEntidadExtent(territorio.id).subscribe(event => this.setExtent(event));
+            console.log('en estado...');
+            this.service.getEntidadExtent(territorio.id).then(value => {
+                console.log(value);
+                this.setExtent(value.extent)
+            });
         } else if (territorio.tipo === 'distrito') {
-            this.service.getDistritoExtent(territorio.id).subscribe(event => this.setExtent(event));
+            this.service.getDistritoExtent(territorio.id).then(value => this.setExtent(value.extent));
         } else if (territorio.tipo === 'municipio') {
-            this.service.getMunicipioExtent(territorio.id).subscribe(event => this.setExtent(event));
+            this.service.getMunicipioExtent(territorio.id).then(value => this.setExtent(value.extent));
         }
     }
 

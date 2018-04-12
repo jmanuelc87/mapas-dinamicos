@@ -2,13 +2,10 @@ import * as FindParameters from 'esri/tasks/support/FindParameters';
 import * as FindTask from 'esri/tasks/FindTask';
 import * as Query from 'esri/tasks/support/Query';
 import * as QueryTask from 'esri/tasks/QueryTask';
-import * as Rx from 'rxjs';
 import { Extent } from 'esri/geometry';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Territorio } from '../dominio/territorio';
-import { find } from 'rxjs/operators';
-
+import { ServiceUtil } from '../util/util';
 
 
 @Injectable()
@@ -18,7 +15,7 @@ export class WebmapService {
 
     constructor() { }
 
-    public getEntidadesExtent(): Observable<any> {
+    public getEntidadesExtent(): Promise<Territorio> {
 
         const queryTask = new QueryTask({
             url: this.url
@@ -28,19 +25,17 @@ export class WebmapService {
             outFields: ['*']
         });
 
-        const observable = Rx.Observable.create(observer => {
+        return new Promise<Territorio>((resolve, reject) => {
             queryTask.executeForExtent(params).then(response => {
-                observer.next(response.fullExtent);
+                resolve(new Territorio(0, null, null, response.fullExtent));
             });
         });
-
-        return observable;
     }
 
 
-    public getAllEntidadesGeometry(): Observable<any> {
+    public getAllEntidadesGeometry(): Promise<Territorio> {
         const queryTask = new QueryTask({
-            url: this.url + '/6'
+            url: this.url + '/6' // service entidades
         });
 
         const params = new Query({
@@ -48,22 +43,16 @@ export class WebmapService {
             outFields: ['*']
         });
 
-        params.where = `CVE_ENT IN (
-                '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', 
-                '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-                '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
-                '31', '32')`;
+        params.where = ServiceUtil.queryTaskWhere(1, 32);
 
-        const observable = Rx.Observable.create(obs => {
+        return new Promise<Territorio>((resolve, reject) => {
             queryTask.execute(params).then(response => {
-                obs.next(response);
+                resolve(new Territorio(0, null, null, null, response.features));
             });
         });
-
-        return observable;
     }
 
-    public getExtent(id: number, service: string): Observable<any> {
+    public getExtent(id: number, service: string): Promise<Territorio> {
         let queryTask = new QueryTask({
             url: this.url + service
         });
@@ -72,28 +61,24 @@ export class WebmapService {
             outFields: ['*']
         });
 
-        let cve = id > 0 && id <= 9 ? '0' + id : id;
+        params.where = ServiceUtil.queryTaskWhere(id, id);
 
-        params.where = `CVE_ENT = '${cve}'`
-
-        let observable = Rx.Observable.create(obs => {
+        return new Promise((resolve, reject) => {
             queryTask.executeForExtent(params).then(response => {
-                obs.next(response.extent);
-            });
+                resolve(new Territorio(0, null, null, response.extent, null));
+            })
         });
-
-        return observable;
     }
 
-    public getEntidadExtent(id: number): Observable<any> {
-        return this.getExtent(id, '/6');
+    public getEntidadExtent(id: number): Promise<Territorio> {
+        return this.getExtent(id, '/6'); // service entidades
     }
 
-    public getDistritoExtent(id: number): Observable<any> {
-        return this.getExtent(id, '/4')
+    public getDistritoExtent(id: number): Promise<Territorio> {
+        return this.getExtent(id, '/4') // service distritos
     }
 
-    public getMunicipioExtent(id: number): Observable<any> {
-        return this.getExtent(id, '/2');
+    public getMunicipioExtent(id: number): Promise<Territorio> {
+        return this.getExtent(id, '/2'); // service municipios
     }
 }

@@ -68,11 +68,11 @@ export class ConsultaCultivoComponent implements OnInit {
     }
 
     private getAllAnios() {
-        this.service.getAllYears().subscribe(anios => this.anios = anios);
+        this.service.getAllYears().then(anios => this.anios = anios);
     }
 
     private getAllEstados() {
-        this.service.getAllStates().subscribe(estados => this.estados = estados);
+        this.service.getAllStates().then(estados => this.estados = estados);
     }
 
     private emitEstadoSelection(item) {
@@ -97,17 +97,17 @@ export class ConsultaCultivoComponent implements OnInit {
     }
 
     private getDistritos(item) {
-        this.service.getDistrictByState(item).subscribe(distritos => this.distritos = distritos);
+        this.service.getDistrictByState(item).then(distritos => this.distritos = distritos);
     }
 
     private getMunicipios(item) {
-        this.service.getMunicipioByDistrict(item).subscribe(municipios => this.municipios = municipios);
+        this.service.getMunicipioByDistrict(item).then(municipios => this.municipios = municipios);
     }
 
     private onSubmit(event) {
         if (this.consultaCultivoForm.valid) {
             let model = this.consultaCultivoForm.value;
-            this.service.consultaAnuarioPorCultivo(model).subscribe(data => {
+            this.service.consultaAnuarioPorCultivo(model).then(data => {
                 this.getDataEvent.emit(data);
             })
         } else {

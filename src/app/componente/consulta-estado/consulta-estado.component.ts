@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Cultivo } from '../../dominio/cultivo';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
+import { Component, OnInit } from '@angular/core';
+import { Cultivo } from '../../dominio/cultivo';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Territorio } from '../../dominio/territorio';
 
 @Component({
@@ -52,15 +52,15 @@ export class ConsultaEstadoComponent implements OnInit {
     }
 
     private getAllCultivos() {
-        this.service.getAllCultivo().subscribe(cultivos => this.cultivos = cultivos);
+        this.service.getAllCultivo().then(cultivos => this.cultivos = cultivos);
     }
 
     private getVariedadesByCultivo(item) {
-        this.service.getVariedadByCultivo(item).subscribe(variedad => this.variedad = variedad);
+        this.service.getVariedadByCultivo(item).then(variedad => this.variedad = variedad);
     }
 
     private getAllEstados() {
-        this.service.getAllStates().subscribe(estados => this.estados = estados);
+        this.service.getAllStates().then(estados => this.estados = estados);
     }
 
     private changeVisibility(event) {

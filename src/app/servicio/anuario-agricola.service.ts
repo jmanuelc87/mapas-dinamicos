@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { Anuario } from '../dominio/anuario';
 import { Territorio } from '../dominio/territorio';
 import { Cultivo } from '../dominio/cultivo';
 import { AnuarioAgricola } from '../dominio/anuario-agricola';
+import { reject } from 'q';
+import { resolve } from 'url';
 
 const years = [
     { year: 2016 },
@@ -81,55 +81,69 @@ export class AnuarioAgricolaService {
     ) { }
 
 
-    public getAllYears(): Observable<Array<Anuario>> {
-        const all = years.map(item => {
-            return new Anuario(item.year);
+    public getAllYears(): Promise<Array<Anuario>> {
+        return new Promise((resolve, reject) => {
+            let all = years.map(item => {
+                return new Anuario(item.year);
+            })
+            resolve(all);
         });
-        return of(all);
     }
 
-    public getAllStates(): Observable<Array<Territorio>> {
-        const all = states.map(item => {
-            return new Territorio(item.id, item.name);
-        });
+    public getAllStates(): Promise<Array<Territorio>> {
+        return new Promise((resolve, reject) => {
+            let all = states.map(item => {
+                return new Territorio(item.id, item.name);
+            })
 
-        return of(all);
+            resolve(all);
+        });
     }
 
-    public getDistrictByState(state: number): Observable<Array<Territorio>> {
-        const all = districts.map(item => {
-            return new Territorio(item.id, item.name);
-        });
+    public getDistrictByState(state: number): Promise<Array<Territorio>> {
+        return new Promise((resolve, reject) => {
+            let all = districts.map(item => {
+                return new Territorio(item.id, item.name);
+            });
 
-        return of(all);
+            resolve(all);
+        });
     }
 
-    public getMunicipioByDistrict(district: number): Observable<Array<Territorio>> {
-        const all = municipios.map(item => {
-            return new Territorio(item.id, item.name);
-        });
+    public getMunicipioByDistrict(district: number): Promise<Array<Territorio>> {
+        return new Promise((resolve, reject) => {
+            let all = municipios.map(item => {
+                return new Territorio(item.id, item.name);
+            });
 
-        return of(all);
+            resolve(all);
+        });
     }
 
-    public getAllCultivo(): Observable<Array<Cultivo>> {
-        const all = cultivos.map(item => {
-            return new Cultivo(item.id, item.name);
-        });
+    public getAllCultivo(): Promise<Array<Cultivo>> {
+        return new Promise((resolve, reject) => {
+            let all = cultivos.map(item => {
+                return new Cultivo(item.id, item.name);
+            });
 
-        return of(all);
+            resolve(all);
+        });
     }
 
-    public getVariedadByCultivo(id: number): Observable<Cultivo> {
-        let a = cultivos[id];
-        return of(a);
+    public getVariedadByCultivo(id: number): Promise<Cultivo> {
+        return new Promise((resolve, reject) => {
+            let cultivo = cultivos[id];
+            resolve(cultivo);
+        });
     }
 
-    public consultaAnuarioPorCultivo(anuario: AnuarioAgricola) {
-        const all = anuarioAgricolaXCultivo.map(item => {
-            return new Cultivo(0, item.nombre, item.sembrada, item.cosechada, item.produccion, item.rendimiento, item.pmr, item.valor);
-        });
+    public consultaAnuarioPorCultivo(anuario: AnuarioAgricola): Promise<Cultivo[]> {
+        return new Promise((resolve, reject) => {
+            let all = anuarioAgricolaXCultivo.map(item => {
+                return new Cultivo(0, item.nombre, item.sembrada, item.cosechada, item.produccion, item.rendimiento, item.pmr, item.valor);
+            });
 
-        return of(all);
+            resolve(all);
+        });
     }
 }
