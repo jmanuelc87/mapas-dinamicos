@@ -86,6 +86,7 @@
                         <label for="select-3">Distrito</label>
                         <div id="select-3" class="select">
                             <select formControlName="distrito" name="distrito">
+                                <option selected [value]="0">Todos</option>
                                 <option *ngFor="let d of distritos" [value]="d.id">{{d.nombre}}</option>
                             </select>
                         </div>
@@ -94,6 +95,7 @@
                         <label for="select-4">Municipio</label>
                         <div id="select-4" class="select">
                             <select formControlName="municipio" name="municipio">
+                                <option selected [value]="0">Todos</option>
                                 <option *ngFor="let m of municipios" [value]="m.id">{{m.nombre}}</option>
                             </select>
                         </div>

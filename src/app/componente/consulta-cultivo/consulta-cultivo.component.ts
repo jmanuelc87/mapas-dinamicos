@@ -46,29 +46,6 @@ export class ConsultaCultivoComponent implements OnInit {
         private fb: FormBuilder
     ) { }
 
-    /*ngOnInit() {
-        this.consultaCultivoForm = this.buildForm();
-        this.consultaCultivoForm.get('estado').valueChanges.subscribe(item => {
-            if (item !== '0') {
-                this.getDistritos(item);
-                this.emitEstadoSelection(item);
-            } else {
-                console.log(item);
-                this.distritos = [];
-                this.municipios = [];
-            }
-        });
-        this.consultaCultivoForm.get('distrito').valueChanges.subscribe(item => {
-            this.getMunicipios(item);
-            this.emitDistritoSelection(item);
-        });
-        this.consultaCultivoForm.get('municipio').valueChanges.subscribe(item => {
-            this.emitMunicipioSelection(item);
-        });
-        this.getAllAnios();
-        this.getAllEstados();
-    }*/
-
     ngOnInit() {
         this.getAllAnuarios();
         this.getAllEstados();
@@ -79,13 +56,50 @@ export class ConsultaCultivoComponent implements OnInit {
             catalogo: ['generico', Validators.required],
             anio: [2016, Validators.required],
             estado: [0, Validators.required],
-            distrito: [Validators.required],
-            municipio: [Validators.required]
+            distrito: [0, Validators.required],
+            municipio: [0, Validators.required]
         });
 
-        this.form.valueChanges
-            .subscribe(data => {
-                console.log(JSON.stringify(data));
+        // deshabilita los select de 'distrito' y 'municipio'
+        this.form.get('distrito').disable();
+        this.form.get('municipio').disable();
+
+        // llena el select de distrito
+        this.form.get('estado').valueChanges
+            .map(value => Number.parseInt(value))
+            .subscribe(id => this.getDistritosByEstado(id));
+
+        // habilita el select de 'distrito' y 'municipio' cuando un estado es seleccionado
+        this.form.get('estado').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter((value, index) => value !== 0)
+            .subscribe(value => {
+                this.form.get('distrito').enable();
+                this.form.get('municipio').enable();
+            });
+
+        // deshabilita el select 'distrito' y 'municipio' cuando resumen nacional es seleccionado
+        this.form.get('estado').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter((value, index) => value === 0)
+            .subscribe(value => {
+                this.form.get('distrito').setValue('0');
+                this.form.get('municipio').setValue('0');
+                this.form.get('distrito').disable();
+                this.form.get('municipio').disable();
+            });
+
+        // llena el select de 'municipios'
+        this.form.get('distrito').valueChanges
+            .map(value => Number.parseInt(value))
+            .subscribe(id => this.getMunicipiosByDistrito(id));
+
+        // elimina los datos del select 'municipios'
+        this.form.get('distrito').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter((value, index) => value == 0)
+            .subscribe(value => {
+                this.form.get('municipio').setValue('0');
             });
     }
 
@@ -97,37 +111,18 @@ export class ConsultaCultivoComponent implements OnInit {
         this.service.getAllStates().then(estados => this.estados = estados);
     }
 
-    private emitEstadoSelection(item) {
-        if (item !== '0') {
-            //let estado = new Territorio(item, 0, 0, null, 'estado');
-            //this.territorioSelectedEvent.emit(estado);
-        }
+    private getDistritosByEstado(id: number) {
+        this.service.getDistrictByState(id).then(distritos => {
+            this.distritos = distritos
+        });
     }
 
-    private emitDistritoSelection(item) {
-        if (item !== '0') {
-            //let distrito = new Territorio(0, item, 0, null, 'distrito');
-            //this.territorioSelectedEvent.emit(distrito);
-        }
-    }
-
-    private emitMunicipioSelection(item) {
-        if (item !== '0') {
-            //let id_ent = this.consultaCultivoForm.get('estado').value;
-            //let municipio = new Territorio(id_ent, 0, item, null, 'municipio');
-            //this.territorioSelectedEvent.emit(municipio);
-        }
-    }
-
-    private getDistritos(item) {
-        this.service.getDistrictByState(item).then(distritos => this.distritos = distritos);
-    }
-
-    private getMunicipios(item) {
+    private getMunicipiosByDistrito(item) {
         this.service.getMunicipioByDistrict(item).then(municipios => this.municipios = municipios);
     }
 
     private onSubmit(event) {
         // submit event
+        console.log(event);
     }
 }
