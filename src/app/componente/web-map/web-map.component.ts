@@ -131,15 +131,15 @@ export class WebMapComponent implements OnInit {
         this.view.goTo(extent);
     }
 
-    public fetchForExtent(territorio: Territorio) {
+    /*public fetchForExtent(territorio: Territorio) {
         if (territorio.tipo === 'estado') {
-            this.service.getEntidadExtent(territorio.id_ent).then(value => this.setExtent(value.extent));
+            //this.service.getEntidadExtent(territorio.id_ent).then(value => this.setExtent(value.extent));
         } else if (territorio.tipo === 'distrito') {
-            this.service.getDistritoExtent(territorio.id_ddr).then(value => this.setExtent(value.extent));
+            //this.service.getDistritoExtent(territorio.id_ddr).then(value => this.setExtent(value.extent));
         }
-    }
+    }*/
 
-    public drawLineOnMap(territorio: Territorio) {
+    /*public drawLineOnMap(territorio: Territorio) {
         if (territorio.tipo === 'estado') {
             this.service.getEntidadGeometry(territorio.id_ent).then(value => {
                 this.layerEntidades.removeAll();
@@ -194,10 +194,10 @@ export class WebMapComponent implements OnInit {
                 });
             });
         }
-    }
+    }*/
 
     public addLayer(layer: Layer) {
         this.map.add(layer);
     }
-    
+
 }

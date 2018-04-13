@@ -7,6 +7,9 @@ import { Cultivo } from '../dominio/cultivo';
 import { AnuarioAgricola } from '../dominio/anuario-agricola';
 import { reject } from 'q';
 import { resolve } from 'url';
+import { Ddr } from '../dominio/ddr';
+import { Municipio } from '../dominio/municipio';
+import { Estado } from '../dominio/estado';
 
 const years = [
     { year: 2016 },
@@ -17,7 +20,6 @@ const years = [
 ];
 
 const states = [
-    { id: 0, name: 'Resumen Nacional' },
     { id: 1, name: 'Aguascalientes' },
     { id: 2, name: 'Baja California' },
     { id: 3, name: 'Baja California Sur' },
@@ -25,12 +27,10 @@ const states = [
 ];
 
 const districts = [
-    { id: 0, name: 'Todos' },
     { id: 1, name: 'Aguascalientes' },
 ];
 
 const municipios = [
-    { id: 0, name: 'Todos' },
     { id: 1, name: 'Aguascalientes' },
     { id: 2, name: 'Asientos' },
     { id: 3, name: 'Calvillo' },
@@ -89,7 +89,8 @@ export class AnuarioAgricolaService {
         return new Promise((resolve, reject) => {
             let all = years.map(item => {
                 return new Anuario(item.year);
-            })
+            });
+            
             resolve(all);
         });
     }
@@ -97,8 +98,8 @@ export class AnuarioAgricolaService {
     public getAllStates(): Promise<Array<Territorio>> {
         return new Promise((resolve, reject) => {
             let all = states.map(item => {
-                return new Territorio(item.id, 0, 0, item.name);
-            })
+                return new Estado(item.id, item.name);
+            });
 
             resolve(all);
         });
@@ -107,7 +108,7 @@ export class AnuarioAgricolaService {
     public getDistrictByState(state: number): Promise<Array<Territorio>> {
         return new Promise((resolve, reject) => {
             let all = districts.map(item => {
-                return new Territorio(0, item.id, 0, item.name);
+                return new Ddr(item.id, item.name);
             });
 
             resolve(all);
@@ -117,7 +118,7 @@ export class AnuarioAgricolaService {
     public getMunicipioByDistrict(district: number): Promise<Array<Territorio>> {
         return new Promise((resolve, reject) => {
             let all = municipios.map(item => {
-                return new Territorio(0, 0, item.id, item.name);
+                return new Municipio(item.id, item.name);
             });
 
             resolve(all);

@@ -44,8 +44,7 @@ const appRoutes = [
         AngularDraggableModule,
         RouterModule.forRoot(appRoutes),
         HttpClientModule,
-        ReactiveFormsModule,
-        FormsModule,
+        ReactiveFormsModule
     ],
     providers: [],
     bootstrap: [

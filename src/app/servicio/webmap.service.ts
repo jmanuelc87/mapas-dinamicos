@@ -7,6 +7,8 @@ import { Injectable } from '@angular/core';
 import { Territorio } from '../dominio/territorio';
 import { ServiceUtil } from '../util/util';
 import { range } from 'rxjs/observable/range';
+import { Estado } from '../dominio/estado';
+import { Municipio } from '../dominio/municipio';
 
 
 @Injectable()
@@ -28,7 +30,7 @@ export class WebmapService {
 
         return new Promise<Territorio>((resolve, reject) => {
             queryTask.executeForExtent(params).then(response => {
-                resolve(new Territorio(0, 0, 0, null, null, response.fullExtent));
+                resolve(new Estado(0, null, response.fullExtent));
             });
         });
     }
@@ -47,7 +49,7 @@ export class WebmapService {
 
         return new Promise<Territorio>((resolve, reject) => {
             queryTask.execute(params).then(response => {
-                resolve(new Territorio(0, 0, 0, null, null, null, response.features));
+                resolve(new Estado(0, null, null, response.features));
             });
         });
     }
@@ -65,7 +67,7 @@ export class WebmapService {
 
         return new Promise((resolve, reject) => {
             queryTask.executeForExtent(params).then(response => {
-                resolve(new Territorio(0, 0, 0, null, null, response.extent, null));
+                resolve(new Territorio(0, null, response.extent));
             })
         });
     }
@@ -85,7 +87,7 @@ export class WebmapService {
 
         return new Promise((resolve, reject) => {
             queryTask.execute(params).then(response => {
-                resolve(new Territorio(0, 0, 0, null, null, null, response.features));
+                resolve(new Territorio(0, null, null, response.features));
             });
         });
     }
@@ -114,7 +116,7 @@ export class WebmapService {
 
         return new Promise((resolve, reject) => {
             queryTask.executeForExtent(params).then(response => {
-                resolve(new Territorio(0, null, null, response.extent, null));
+                resolve(new Municipio(0, null, response.extent));
             })
         });
     }
@@ -144,7 +146,7 @@ export class WebmapService {
 
         return new Promise((resolve, reject) => {
             queryTask.execute(params).then(response => {
-                resolve(new Territorio(0, 0, 0, null, null, null, response.features));
+                resolve(new Territorio(0, null, null, response.features));
             });
         });
     }

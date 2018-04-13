@@ -1,6 +1,6 @@
 <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed" ng-style="height:100%;">
     <div *ngIf="!collapsed">
-        <form class="compact" [formGroup]="consultaCultivoForm" (ngSubmit)="onSubmit($event)">
+        <form class="compact" [formGroup]="form" (ngSubmit)="onSubmit($event)">
             <section class="form-block">
                 <div class="form-group row">
                     <div class="col-lg-12">
@@ -67,7 +67,7 @@
                         <label for="select-1">Año</label>
                         <div id="select-1" class="select">
                             <select formControlName="anio" name="anio">
-                                <option *ngFor="let item of anios" value="{{item.anio}}">{{item.anio}}</option>
+                                <option *ngFor="let item of anuario" [value]="item.anio">{{item.anio}}</option>
                             </select>
                         </div>
                     </div>
@@ -75,7 +75,8 @@
                         <label for="select-2">Estado</label>
                         <div id="select-2" class="select">
                             <select formControlName="estado" name="estado">
-                                <option *ngFor="let e of estados" value="{{e.id_ent}}">{{e.nombre}}</option>
+                                <option [value]="0">Resumen Nacional</option>
+                                <option *ngFor="let e of estados" [value]="e.id">{{e.nombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -85,7 +86,7 @@
                         <label for="select-3">Distrito</label>
                         <div id="select-3" class="select">
                             <select formControlName="distrito" name="distrito">
-                                <option *ngFor="let d of distritos" value="{{d.id_ddr}}">{{d.nombre}}</option>
+                                <option *ngFor="let d of distritos" [value]="d.id">{{d.nombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -93,7 +94,7 @@
                         <label for="select-4">Municipio</label>
                         <div id="select-4" class="select">
                             <select formControlName="municipio" name="municipio">
-                                <option *ngFor="let m of municipios" value="{{m.id_mun}}">{{m.nombre}}</option>
+                                <option *ngFor="let m of municipios" [value]="m.id">{{m.nombre}}</option>
                             </select>
                         </div>
                     </div>

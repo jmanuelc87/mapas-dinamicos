@@ -3,8 +3,15 @@ import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service'
 import { Anuario } from '../../dominio/anuario';
 import { Territorio } from '../../dominio/territorio';
 import { AnuarioAgricola } from '../../dominio/anuario-agricola';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Cultivo } from '../../dominio/cultivo';
+import { ClrDatagrid } from '@clr/angular';
+import { Estado } from '../../dominio/estado';
+import { Ddr } from '../../dominio/ddr';
+import { Municipio } from '../../dominio/municipio';
+
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 
 @Component({
     selector: 'app-consulta-cultivo',
@@ -18,15 +25,15 @@ export class ConsultaCultivoComponent implements OnInit {
 
     private collapsed: boolean;
 
-    private consultaCultivoForm: FormGroup;
+    private form: FormGroup;
 
-    private anios: Array<Anuario>;
+    private anuario: Array<Anuario>;
 
-    private estados: Array<Territorio>;
+    private estados: Array<Estado>;
 
-    private distritos: Array<Territorio>;
+    private distritos: Array<Ddr>;
 
-    private municipios: Array<Territorio>;
+    private municipios: Array<Municipio>;
 
     @Output('dataEvent')
     public getDataEvent: EventEmitter<Cultivo[]> = new EventEmitter<Cultivo[]>();
@@ -35,10 +42,11 @@ export class ConsultaCultivoComponent implements OnInit {
     public territorioSelectedEvent: EventEmitter<Territorio> = new EventEmitter<Territorio>();
 
     constructor(
-        private service: AnuarioAgricolaService
+        private service: AnuarioAgricolaService,
+        private fb: FormBuilder
     ) { }
 
-    ngOnInit() {
+    /*ngOnInit() {
         this.consultaCultivoForm = this.buildForm();
         this.consultaCultivoForm.get('estado').valueChanges.subscribe(item => {
             if (item !== '0') {
@@ -59,22 +67,30 @@ export class ConsultaCultivoComponent implements OnInit {
         });
         this.getAllAnios();
         this.getAllEstados();
-    }
+    }*/
 
-    private buildForm(): FormGroup {
-        return new FormGroup({
-            ciclo: new FormControl('oto-inv', Validators.required),
-            modalidad: new FormControl('riego', Validators.required),
-            catalogo: new FormControl('generico', Validators.required),
-            anio: new FormControl('2016', Validators.required),
-            estado: new FormControl(0, Validators.required),
-            distrito: new FormControl(0, Validators.required),
-            municipio: new FormControl(0, Validators.required)
+    ngOnInit() {
+        this.getAllAnuarios();
+        this.getAllEstados();
+
+        this.form = this.fb.group({
+            ciclo: ['oto-inv', Validators.required],
+            modalidad: ['riego', Validators.required],
+            catalogo: ['generico', Validators.required],
+            anio: [2016, Validators.required],
+            estado: [0, Validators.required],
+            distrito: [Validators.required],
+            municipio: [Validators.required]
         });
+
+        this.form.valueChanges
+            .subscribe(data => {
+                console.log(JSON.stringify(data));
+            });
     }
 
-    private getAllAnios() {
-        this.service.getAllYears().then(anios => this.anios = anios);
+    private getAllAnuarios() {
+        this.service.getAllYears().then(anuarios => this.anuario = anuarios);
     }
 
     private getAllEstados() {
@@ -83,23 +99,23 @@ export class ConsultaCultivoComponent implements OnInit {
 
     private emitEstadoSelection(item) {
         if (item !== '0') {
-            let estado = new Territorio(item, 0, 0, null, 'estado');
-            this.territorioSelectedEvent.emit(estado);
+            //let estado = new Territorio(item, 0, 0, null, 'estado');
+            //this.territorioSelectedEvent.emit(estado);
         }
     }
 
     private emitDistritoSelection(item) {
         if (item !== '0') {
-            let distrito = new Territorio(0, item, 0, null, 'distrito');
-            this.territorioSelectedEvent.emit(distrito);
+            //let distrito = new Territorio(0, item, 0, null, 'distrito');
+            //this.territorioSelectedEvent.emit(distrito);
         }
     }
 
     private emitMunicipioSelection(item) {
         if (item !== '0') {
-            let id_ent = this.consultaCultivoForm.get('estado').value;
-            let municipio = new Territorio(id_ent, 0, item, null, 'municipio');
-            this.territorioSelectedEvent.emit(municipio);
+            //let id_ent = this.consultaCultivoForm.get('estado').value;
+            //let municipio = new Territorio(id_ent, 0, item, null, 'municipio');
+            //this.territorioSelectedEvent.emit(municipio);
         }
     }
 
@@ -112,13 +128,6 @@ export class ConsultaCultivoComponent implements OnInit {
     }
 
     private onSubmit(event) {
-        if (this.consultaCultivoForm.valid) {
-            let model = this.consultaCultivoForm.value;
-            this.service.consultaAnuarioPorCultivo(model).then(data => {
-                this.getDataEvent.emit(data);
-            });
-        } else {
-
-        }
+        // submit event
     }
 }
