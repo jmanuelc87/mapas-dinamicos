@@ -15,6 +15,7 @@ import { OverlayComponent } from './componente/overlay/overlay.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TableComponent } from './componente/table/table.component';
 import { WebMapComponent } from './componente/web-map/web-map.component';
+import { PicoEventModule } from 'picoevent';
 
 
 
@@ -44,7 +45,8 @@ const appRoutes = [
         AngularDraggableModule,
         RouterModule.forRoot(appRoutes),
         HttpClientModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        PicoEventModule
     ],
     providers: [],
     bootstrap: [

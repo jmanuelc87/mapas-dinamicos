@@ -1,17 +1,32 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { Anuario } from '../../dominio/anuario';
-import { Territorio } from '../../dominio/territorio';
 import { AnuarioAgricola } from '../../dominio/anuario-agricola';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Cultivo } from '../../dominio/cultivo';
+import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { ClrDatagrid } from '@clr/angular';
-import { Estado } from '../../dominio/estado';
+import {
+    Component,
+    EventEmitter,
+    OnDestroy,
+    OnInit,
+    Output
+    } from '@angular/core';
+import { Cultivo } from '../../dominio/cultivo';
 import { Ddr } from '../../dominio/ddr';
+import { Estado } from '../../dominio/estado';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators
+    } from '@angular/forms';
+import { Mensaje } from '../../dominio/mensaje';
 import { Municipio } from '../../dominio/municipio';
-
+import { PicoEvent } from 'picoevent';
+import { Subscription } from 'rxjs/Subscription';
+import { Territorio } from '../../dominio/territorio';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+
+
 
 @Component({
     selector: 'app-consulta-cultivo',
@@ -43,7 +58,8 @@ export class ConsultaCultivoComponent implements OnInit {
 
     constructor(
         private service: AnuarioAgricolaService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private pico: PicoEvent
     ) { }
 
     ngOnInit() {
@@ -68,6 +84,57 @@ export class ConsultaCultivoComponent implements OnInit {
         this.form.get('estado').valueChanges
             .map(value => Number.parseInt(value))
             .subscribe(id => this.getDistritosByEstado(id));
+
+
+        // envia un evento para actualizar el extent de las entidades en el mapa
+        this.form.get('estado').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id !== 0)
+            .subscribe(id => this.pico.publish(new Estado(id), ['update-extent-entidades']));
+
+        // 
+        this.form.get('estado').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id === 0)
+            .subscribe(id => this.pico.publish(new Estado(id), ['update-extent-all']));
+
+        // 
+        this.form.get('estado').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id !== 0)
+            .subscribe(id => this.pico.publish(new Estado(id), ['draw-map-entidad']))
+
+        // 
+        this.form.get('distrito').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id !== 0)
+            .subscribe(id => this.pico.publish(new Ddr(id), ['draw-map-ddr']));
+
+        // 
+        this.form.get('municipio').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id !== 0)
+            .subscribe(id =>
+                this.pico.publish(
+                    new Mensaje(
+                        new Municipio(id),
+                        new Estado(this.form.get('estado').value)
+                    ), ['draw-map-municipio']));
+
+        this.form.get('municipio').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id === 0)
+            .subscribe(id => this.pico.publish(new Mensaje(), ['erase-map-municipio']));
+
+        this.form.get('distrito').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id === 0)
+            .subscribe(id => this.pico.publish(new Mensaje(), ['erase-map-distrito']));
+
+        this.form.get('estado').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id === 0)
+            .subscribe(id => this.pico.publish(new Mensaje(), ['erase-map-estado']));
 
         // habilita el select de 'distrito' y 'municipio' cuando un estado es seleccionado
         this.form.get('estado').valueChanges
@@ -122,7 +189,8 @@ export class ConsultaCultivoComponent implements OnInit {
     }
 
     private onSubmit(event) {
-        // submit event
+        // enviar datos al servidor y emittir evento
+        // verificar y validar los datos
         console.log(event);
     }
 }

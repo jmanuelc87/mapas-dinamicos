@@ -9,10 +9,17 @@ import {
     Component,
     ElementRef,
     OnInit,
-    ViewChild
+    ViewChild,
+    OnDestroy
 } from '@angular/core';
 import { Territorio } from '../../dominio/territorio';
 import { WebmapService } from '../../servicio/webmap.service';
+import { PicoEvent } from 'picoevent';
+import { Subscription } from 'rxjs/Subscription';
+import { Estado } from '../../dominio/estado';
+import { Ddr } from '../../dominio/ddr';
+import { Mensaje } from '../../dominio/mensaje';
+
 
 
 @Component({
@@ -23,7 +30,7 @@ import { WebmapService } from '../../servicio/webmap.service';
         WebmapService
     ]
 })
-export class WebMapComponent implements OnInit {
+export class WebMapComponent implements OnInit, OnDestroy {
 
     private map: WebMap;
 
@@ -37,12 +44,14 @@ export class WebMapComponent implements OnInit {
 
     private layerMunicipios = new GraphicsLayer();
 
+    private channels: Subscription[] = new Array<Subscription>();
 
     @ViewChild('webmap')
     private mapViewEl: ElementRef;
 
     constructor(
-        private service: WebmapService
+        private service: WebmapService,
+        private pico: PicoEvent
     ) { }
 
     ngOnInit() {
@@ -60,7 +69,7 @@ export class WebMapComponent implements OnInit {
 
         this.view.when(event => {
 
-            this.service.getEntidadesExtent().then(value => {
+            this.service.getFullExtent().then(value => {
                 this.setExtent(value.extent);
 
             });
@@ -68,7 +77,7 @@ export class WebMapComponent implements OnInit {
 
         this.view.when(event => {
             let layer01 = new GraphicsLayer();
-            let service = this.service.getAllEntidadesGeometry()
+            let service = this.service.getAllEntidadGeometry();
 
             service.then(value => {
                 let features = value.features;
@@ -124,77 +133,124 @@ export class WebMapComponent implements OnInit {
             })
         });
 
+        this.channels.push(this.pico.listen({
+            type: Estado,
+            targets: ['update-extent-entidades']
+        }, msg => this.updateExtentForEntidades(msg)));
+
+        this.channels.push(this.pico.listen({
+            type: Estado,
+            targets: ['update-extent-all']
+        }, msg => this.updateExtentForAll(msg)));
+
+        this.channels.push(this.pico.listen({
+            type: Estado,
+            targets: ['draw-map-entidad']
+        }, msg => this.drawEntidadOnMap(msg)));
+
+        this.channels.push(this.pico.listen({
+            type: Ddr,
+            targets: ['draw-map-ddr']
+        }, msg => this.drawDdrOnMap(msg)));
+
+        this.channels.push(this.pico.listen({
+            type: Mensaje,
+            targets: ['draw-map-municipio']
+        }, msg => this.drawMunicipioOnMap(msg)));
+
+        this.channels.push(this.pico.listen({
+            type: Mensaje,
+            targets: ['erase-map-municipio']
+        }, msg => this.ereaseOnLayers(this.layerMunicipios)));
+
+        this.channels.push(this.pico.listen({
+            type: Mensaje,
+            targets: ['erase-map-distrito']
+        }, msg => this.ereaseOnLayers(this.layerDistritos)));
+
+        this.channels.push(this.pico.listen({
+            type: Mensaje,
+            targets: ['erase-map-estado']
+        }, msg => this.ereaseOnLayers(this.layerEntidades)));
     }
 
-    public setExtent(extent) {
+    ngOnDestroy(): void {
+        for (let channel of this.channels) {
+            channel.unsubscribe();
+        }
+    }
+
+    private setExtent(extent) {
         this.view.extent = extent;
         this.view.goTo(extent);
     }
 
-    /*public fetchForExtent(territorio: Territorio) {
-        if (territorio.tipo === 'estado') {
-            //this.service.getEntidadExtent(territorio.id_ent).then(value => this.setExtent(value.extent));
-        } else if (territorio.tipo === 'distrito') {
-            //this.service.getDistritoExtent(territorio.id_ddr).then(value => this.setExtent(value.extent));
+    /**
+     * Actualiza el extent del mapa situando cada uno de los estado
+     * 
+     * @param msg clase Estado con el id de la entidad
+     */
+    private updateExtentForEntidades(msg) {
+        this.service.getExtentByEntidad(msg.id).then(value => this.setExtent(value.extent));
+    }
+
+
+    private updateExtentForAll(msg) {
+        this.service.getFullExtent().then(value => this.setExtent(value.extent));
+    }
+
+    private drawEntidadOnMap(msg) {
+        this.layerEntidades.removeAll();
+        let symbol = {
+            type: 'simple-line',
+            color: 'black',
+            width: '2px',
+            style: 'dash'
+        };
+        this.service.getGeometryByEntidad(msg.id).then(value =>
+            this.buildSymbolLayers(value.features, symbol, this.layerEntidades));
+    }
+
+    private drawDdrOnMap(msg) {
+        this.layerDistritos.removeAll();
+        let symbol = {
+            type: 'simple-fill',
+            color: 'black',
+            style: 'backward-diagonal'
+        };
+
+        this.service.getDistritoGeometry(msg.id).then(value =>
+            this.buildSymbolLayers(value.features, symbol, this.layerDistritos));
+    }
+
+    private drawMunicipioOnMap(msg: Mensaje) {
+        this.layerMunicipios.removeAll();
+
+        let symbol = {
+            type: 'simple-fill',
+            color: 'black',
+            style: 'diagonal-cross',
+            outline: {
+                color: 'red',
+                width: '2px',
+                style: 'dash'
+            }
+        };
+
+        this.service.getMunicipioGeometry(msg.entidad.id, msg.municipio.id).then(value =>
+            this.buildSymbolLayers(value.features, symbol, this.layerMunicipios));
+    }
+
+    private buildSymbolLayers(features: any[], symbol: any, layer: GraphicsLayer) {
+        for (let item of features) {
+            item.symbol = symbol;
+            layer.add(item);
         }
-    }*/
+    }
 
-    /*public drawLineOnMap(territorio: Territorio) {
-        if (territorio.tipo === 'estado') {
-            this.service.getEntidadGeometry(territorio.id_ent).then(value => {
-                this.layerEntidades.removeAll();
-                let features = value.features;
-
-                features.forEach(item => {
-                    let cloned = item.clone();
-                    cloned.symbol = {
-                        type: 'simple-line',
-                        color: 'black',
-                        width: '2px',
-                        style: 'dash'
-                    };
-                    this.layerEntidades.add(cloned);
-                });
-            });
-        } else if (territorio.tipo === 'distrito') {
-            this.service.getDistritoGeometry(territorio.id_ddr).then(value => {
-                this.layerDistritos.removeAll();
-                let features = value.features;
-
-                features.forEach(item => {
-                    let cloned = item.clone();
-                    cloned.symbol = {
-                        type: 'simple-fill',
-                        color: 'black',
-                        style: 'backward-diagonal'
-                    }
-
-                    this.layerDistritos.add(cloned);
-                });
-            });
-        } else if (territorio.tipo === 'municipio') {
-
-            this.service.getMunicipioGeometry(territorio.id_ent, territorio.id_mun).then(value => {
-                this.layerMunicipios.removeAll();
-                let features = value.features;
-
-                features.forEach(item => {
-                    let cloned = item.clone();
-                    cloned.symbol = {
-                        type: 'simple-fill',
-                        color: 'black',
-                        style: 'diagonal-cross',
-                        outline: {
-                            color: 'red',
-                            width: '2px',
-                            style: 'dash'
-                        }
-                    };
-                    this.layerMunicipios.add(cloned);
-                });
-            });
-        }
-    }*/
+    private ereaseOnLayers(layer: GraphicsLayer) {
+        layer.removeAll();
+    }
 
     public addLayer(layer: Layer) {
         this.map.add(layer);

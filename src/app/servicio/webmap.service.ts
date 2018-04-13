@@ -18,7 +18,7 @@ export class WebmapService {
 
     constructor() { }
 
-    public getEntidadesExtent(): Promise<Territorio> {
+    public getFullExtent(): Promise<Territorio> {
 
         const queryTask = new QueryTask({
             url: this.url
@@ -35,7 +35,7 @@ export class WebmapService {
         });
     }
 
-    public getAllEntidadesGeometry(): Promise<Territorio> {
+    public getAllEntidadGeometry(): Promise<Territorio> {
         const queryTask = new QueryTask({
             url: this.url + '/6' // service entidades
         });
@@ -92,7 +92,7 @@ export class WebmapService {
         });
     }
 
-    public getEntidadExtent(id: number): Promise<Territorio> {
+    public getExtentByEntidad(id: number): Promise<Territorio> {
         return this.getExtent('CVE_ENT', id, '/6', [0, 9]); // service entidades
     }
 
@@ -121,7 +121,7 @@ export class WebmapService {
         });
     }
 
-    public getEntidadGeometry(id: number): Promise<Territorio> {
+    public getGeometryByEntidad(id: number): Promise<Territorio> {
         return this.getGeometry('CVE_ENT', id, '/6', [0, 9]); // service entidades
     }
 
@@ -144,8 +144,11 @@ export class WebmapService {
 
         params.where = `CVE_ENT = '${id_ent}' AND CVE_MUN = '${id_mun}'`;
 
+        //console.log(params.where);
+
         return new Promise((resolve, reject) => {
             queryTask.execute(params).then(response => {
+                //console.log(response.features[0].attributes['NOM_MUN']);
                 resolve(new Territorio(0, null, null, response.features));
             });
         });
