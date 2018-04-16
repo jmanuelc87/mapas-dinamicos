@@ -1,6 +1,6 @@
 <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed" ng-style="height:100%;">
     <div *ngIf="!collapsed">
-        <form class="compact" [formGroup]="consultaEstadoForm" (ngSubmit)="onSubmit($event)">
+        <form class="compact" [formGroup]="form" (ngSubmit)="onSubmit($event)">
             <section class="form-block">
                 <div class="form-group row">
                     <div class="col-lg-12">
@@ -65,6 +65,7 @@
                         <label for="select-3">Cultivo</label>
                         <div id="select-3" class="select">
                             <select formControlName="cultivo" name="cultivo" id="select-3">
+                                <option value="0">Resumen Nacional</option>
                                 <option *ngFor="let cultivo of cultivos" value="{{cultivo.id}}">{{cultivo.nombre}}</option>
                             </select>
                         </div>
@@ -72,8 +73,8 @@
                     <div class="col-lg-6">
                         <label for="select-4">Variedad</label>
                         <div id="select-4" class="select">
-                            <select formControlName="variedad" name="variedad" id="select-4" *ngIf="variedad !== undefined">
-                                <option *ngFor="let item of variedad.variedades" value="{{item.id}}">{{item.nombre}}</option>
+                            <select formControlName="variedad" name="variedad" id="select-4">
+                                <option *ngFor="let item of variedad" value="{{item.id}}">{{item.nombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -83,6 +84,7 @@
                         <label for="select-5">Estado</label>
                         <div id="select-5" class="select">
                             <select formControlName="estados" name="estados" id="select-5">
+                                <option selected [value]="0">Todos</option>
                                 <option *ngFor="let estado of estados" value="{{estado.id}}">{{estado.nombre}}</option>
                             </select>
                         </div>
@@ -93,19 +95,19 @@
                         <label>Filtro Estado</label>
                         <br />
                         <div class="radio-inline">
-                            <input formControlName="filtro" type="radio" name="filtro" id="btn-11" value="1">
+                            <input formControlName="territorio" type="radio" name="territorio" id="btn-11" value="1">
                             <label for="btn-11">Por Estado</label>
                         </div>
                         <div class="radio-inline">
-                            <input formControlName="filtro" type="radio" name="filtro" id="btn-12" value="2">
+                            <input formControlName="territorio" type="radio" name="territorio" id="btn-12" value="2">
                             <label for="btn-12">Por Distritos</label>
                         </div>
                         <div class="radio-inline">
-                            <input formControlName="filtro" type="radio" name="filtro" id="btn-13" value="3">
+                            <input formControlName="territorio" type="radio" name="territorio" id="btn-13" value="3">
                             <label for="btn-13">Por Municipios</label>
                         </div>
                         <div class="radio-inline">
-                            <input formControlName="filtro" type="radio" name="filtro" id="btn-14" value="4">
+                            <input formControlName="territorio" type="radio" name="territorio" id="btn-14" value="4">
                             <label for="btn-14">Por Distrito-Municipio</label>
                         </div>
                     </div>

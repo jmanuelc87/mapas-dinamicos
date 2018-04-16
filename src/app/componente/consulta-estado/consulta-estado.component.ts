@@ -1,8 +1,19 @@
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { Component, OnInit } from '@angular/core';
 import { Cultivo } from '../../dominio/cultivo';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Estado } from '../../dominio/estado';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators
+} from '@angular/forms';
+import { PicoEvent } from 'picoevent';
 import { Territorio } from '../../dominio/territorio';
+import { Variedad } from '../../dominio/variedad';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+
 
 @Component({
     selector: 'app-consulta-estado',
@@ -14,70 +25,81 @@ import { Territorio } from '../../dominio/territorio';
 })
 export class ConsultaEstadoComponent implements OnInit {
 
-    private consultaEstadoForm: FormGroup;
+    private form: FormGroup;
 
     private estados: Array<Territorio>;
 
     private cultivos: Array<Cultivo>;
 
-    private variedad: Cultivo;
-
-    private variedadFormControl: FormControl;
+    private variedad: Array<Variedad>;
 
     constructor(
-        private service: AnuarioAgricolaService
+        private service: AnuarioAgricolaService,
+        private fb: FormBuilder,
+        private pico: PicoEvent
     ) { }
 
     ngOnInit() {
-        this.consultaEstadoForm = this.buildForm();
-        this.consultaEstadoForm.get('cultivo').valueChanges.subscribe(item => this.getVariedadesByCultivo(item))
-        this.consultaEstadoForm.get('catalogo').valueChanges.subscribe(item => this.changeVisibility(item));
         this.getAllCultivos();
         this.getAllEstados();
-        this.variedadFormControl.disable();
-    }
 
-    private buildForm(): FormGroup {
-        this.variedadFormControl = new FormControl('0', Validators.required);
-
-        return new FormGroup({
-            ciclo: new FormControl('oto-inv', Validators.required),
-            modalidad: new FormControl('riego', Validators.required),
-            catalogo: new FormControl('generico', Validators.required),
-            cultivo: new FormControl('0', Validators.required),
-            variedad: this.variedadFormControl,
-            estados: new FormControl('0', Validators.required),
-            filtro: new FormControl('1', Validators.required)
+        this.form = this.fb.group({
+            ciclo: ['oto-inv', Validators.required],
+            modalidad: ['riego', Validators.required],
+            catalogo: ['generico', Validators.required],
+            cultivo: ['0', Validators.required],
+            variedad: ['1', Validators.required],
+            estados: ['0', Validators.required],
+            territorio: ['1', Validators.required]
         });
+
+        this.form.get('variedad').disable();
+
+        // llena el select de variedades
+        this.form.get('cultivo').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id !== 0)
+            .subscribe(id => this.getVariedadesByCultivo(id));
+
+        // deshabilita el select 'variedades' para hacer la caja de texto el cultivo
+        this.form.get('cultivo').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id === 0)
+            .subscribe(id => {
+                this.form.get('variedad').setValue('0');
+                this.form.get('variedad').disable();
+            });
+
+        // actualiza el extent de los estados
+        this.form.get('estados').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id !== 0)
+            .subscribe(id => this.pico.publish(new Estado(id), ['update-extent-entidades']));
+
+
+        // actualiza el extent a nivel nacional
+        this.form.get('estados').valueChanges
+            .map(value => Number.parseInt(value))
+            .filter(id => id === 0)
+            .subscribe(id => this.pico.publish(new Estado(id), ['update-extent-all']));
     }
 
     private getAllCultivos() {
         this.service.getAllCultivo().then(cultivos => this.cultivos = cultivos);
     }
 
-    private getVariedadesByCultivo(item) {
-        this.service.getVariedadByCultivo(item).then(variedad => this.variedad = variedad);
+    private getVariedadesByCultivo(id) {
+        this.form.get('variedad').enable();
+        this.service.getVariedadByCultivo(id).then(variedad => this.variedad = variedad);
     }
 
     private getAllEstados() {
         this.service.getAllStates().then(estados => this.estados = estados);
     }
 
-    private changeVisibility(event) {
-        if (event === 'generico') {
-            this.variedadFormControl.disable();
-        } else {
-            this.variedadFormControl.enable();
-        }
-    }
-
     private onSubmit(event) {
-        if (this.consultaEstadoForm.valid) {
-            console.log('submitted....');
-            console.log(this.consultaEstadoForm.value);
-        } else {
-            console.log('error....');
-        }
+        // on submit event
+        console.log(JSON.stringify(this.form.value));
     }
 
 }

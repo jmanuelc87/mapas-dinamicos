@@ -10,6 +10,7 @@ import { resolve } from 'url';
 import { Ddr } from '../dominio/ddr';
 import { Municipio } from '../dominio/municipio';
 import { Estado } from '../dominio/estado';
+import { Variedad } from '../dominio/variedad';
 
 const years = [
     { year: 2016 },
@@ -42,7 +43,6 @@ const municipios = [
 ];
 
 const cultivos = [
-    { id: 0, name: 'Resumen Nacional', variedades: [] },
     { id: 1, name: 'Aceituna', variedades: [{ id: 1, nombre: 'manzanilla' }, { id: 2, nombre: 'negra' }] },
     { id: 2, name: 'Agave', variedades: [{ id: 1, nombre: 'tequilero' }, { id: 2, nombre: 'tequilero weber' }] },
     { id: 3, name: 'Aguacate', variedades: [{ id: 1, nombre: 'hass' }, { id: 2, nombre: 'organico' }, { id: 3, nombre: 'criollo' }] }
@@ -90,7 +90,7 @@ export class AnuarioAgricolaService {
             let all = years.map(item => {
                 return new Anuario(item.year);
             });
-            
+
             resolve(all);
         });
     }
@@ -135,10 +135,10 @@ export class AnuarioAgricolaService {
         });
     }
 
-    public getVariedadByCultivo(id: number): Promise<Cultivo> {
+    public getVariedadByCultivo(id: number): Promise<Array<Variedad>> {
         return new Promise((resolve, reject) => {
             let cultivo = cultivos[id];
-            resolve(cultivo);
+            resolve(cultivo.variedades as Array<Variedad>);
         });
     }
 
