@@ -1,7 +1,7 @@
 <div class="bottom-nav" [ngStyle]="{'height': !this.show ? '50px' : ''}">
     <div class="toolbar">
-        <button *ngIf="this.show" class="btn btn-sm btn-icon">
-            Color
+        <button class="btn btn-sm btn-link" (click)="showModal()">
+            Sel. Color
         </button>
         <button class="push-right btn btn-sm btn-icon" (click)="this.show = true">
             &#9723;
@@ -10,6 +10,7 @@
             &#95;
         </button>
     </div>
+
     <div class="content">
         <clr-datagrid class="datagrid-compact" [clDgRowSelection]="true">
 

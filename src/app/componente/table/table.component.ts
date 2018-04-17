@@ -76,4 +76,8 @@ export class TableComponent implements OnInit {
             });
         }
     }
+
+    private showModal() {
+        this.pico.publish(false, ['show-modal']);
+    }
 }

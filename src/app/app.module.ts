@@ -16,6 +16,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TableComponent } from './componente/table/table.component';
 import { WebMapComponent } from './componente/web-map/web-map.component';
 import { PicoEventModule } from 'picoevent';
+import { ModalComponent } from './componente/modal/modal.component';
 
 
 
@@ -36,7 +37,8 @@ const appRoutes = [
         WebMapComponent,
         OverlayComponent,
         TableComponent,
-        IteratorKeysPipe
+        IteratorKeysPipe,
+        ModalComponent
     ],
     imports: [
         BrowserModule,
