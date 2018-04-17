@@ -183,6 +183,8 @@ export class AnuarioAgricolaService {
         });
     }
 
+
+    // verificar la integriadad de los ids
     public consultaAnuarioPorCultivo(anuario: AnuarioAgricola): Promise<Cultivo[]> {
         return new Promise((resolve, reject) => {
             let all = anuarioAgricolaXCultivo.map(item => {
@@ -203,21 +205,21 @@ export class AnuarioAgricolaService {
             });
 
             resolve({
-                estado: estado,
+                territorio: estado,
                 municipios: municipios
             })
         });
     }
 
-    public getEstadosByAnuariondCultivo(anuario: AnuarioAgricola, cultivo: Cultivo): Promise<Municipio[]> {
+    public getEstadosByAnuariondCultivo(anuario: AnuarioAgricola, cultivo: Cultivo): Promise<Estado[]> {
 
         return new Promise((resolve, reject) => {
 
-            let municipios = estadosByAnuarioAndCultivo.territorios.map(item => {
+            let estados = estadosByAnuarioAndCultivo.territorios.map(item => {
                 return new Estado(item.estado, item.nombre);
             });
 
-            resolve(municipios);
+            resolve(estados);
         });
     }
 

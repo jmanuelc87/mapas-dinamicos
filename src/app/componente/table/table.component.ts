@@ -12,6 +12,7 @@ import { DatatableMensaje } from '../../dominio/datatable-mensaje';
 import { WebmapMensaje } from '../../dominio/webmap-mensaje';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { isNull, isUndefined } from 'util';
+import { Territorio } from '../../dominio/territorio';
 
 @Component({
     selector: 'app-table',
@@ -21,13 +22,11 @@ import { isNull, isUndefined } from 'util';
         AnuarioAgricolaService
     ]
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit {
 
     private show: boolean;
 
     private msg: DatatableMensaje = new DatatableMensaje();
-
-    private selectedCultivo: Cultivo;
 
     @ViewChild(ClrDatagrid)
     private dataGridView: ClrDatagrid;
@@ -46,11 +45,6 @@ export class TableComponent implements OnInit, AfterViewInit {
         }, msg01 => this.setData(msg01)));
     }
 
-
-    ngAfterViewInit() {
-        this.dataGridView.singleSelectedChanged.subscribe(event => this.showDataInWebmap(event));
-    }
-
     public setData(msg) {
         // manejar el procesamiento de la informacion del payload 'data'
         // guardar datos en servicio local
@@ -58,22 +52,28 @@ export class TableComponent implements OnInit, AfterViewInit {
         this.show = true;
     }
 
-    public showDataInWebmap(event) {
-        if (!isNull(event)) {
+    public showDataInWebmap(cultivo) {
 
-            console.log(typeof (this.msg.consulta.municipio));
-            console.log(this.msg.consulta.municipio);
+        console.log(cultivo);
 
-            if (this.msg.consulta.municipio === '0') {
-                this.service.getMunicipiosByAnuarioAndCultivo(this.msg.consulta, event).then(value => {
+        console.log(typeof (this.msg.consulta.estado));
+        console.log(this.msg.consulta.estado);
 
-                    let estado = value.estado;
-                    let mpios = value.municipios;
+        if (this.msg.consulta.estado === 0) {
+            console.log('consulta estado x resumen nacional');
+            this.service.getEstadosByAnuariondCultivo(this.msg.consulta, cultivo).then(value => {
+                this.pico.publish(new WebmapMensaje(value, null, 'green'), ['show-query-map-estados'])
+            });
+        }
 
-                    this.pico.publish(new WebmapMensaje(estado, mpios), ['show-query-map']);
-                });
-            }
+        if (this.msg.consulta.estado !== '0' && this.msg.consulta.municipio === '0') {
+            this.service.getMunicipiosByAnuarioAndCultivo(this.msg.consulta, cultivo).then(value => {
+
+                let estado = value.territorio;
+                let mpios = value.municipios;
+
+                this.pico.publish(new WebmapMensaje([estado], mpios, 'green'), ['show-query-map-municipios']);
+            });
         }
     }
-
 }

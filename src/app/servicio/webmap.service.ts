@@ -176,4 +176,25 @@ export class WebmapService {
             });
         });
     }
+
+    public getGeometryByEntidades(id: number[]): Promise<Territorio> {
+        let queryTask = new QueryTask({
+            url: this.url + '/6'
+        });
+
+        let params = new Query({
+            returnGeometry: true,
+            outFields: ['*']
+        });
+
+        let cve = ServiceUtil.getStringFromArray(id, 2);
+
+        params.where = `CVE_ENT IN (${cve})`;
+
+        return new Promise((resolve, reject) => {
+            queryTask.execute(params).then(response => {
+                resolve(new Territorio(0, null, null, response.features));
+            });
+        });
+    }
 }

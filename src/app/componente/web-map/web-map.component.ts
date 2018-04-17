@@ -21,6 +21,8 @@ import { Ddr } from '../../dominio/ddr';
 import { Mensaje } from '../../dominio/mensaje';
 import { WebmapMensaje } from '../../dominio/webmap-mensaje';
 import { Municipio } from '../../dominio/municipio';
+import { Server } from 'selenium-webdriver/safari';
+import { ServiceUtil } from '../../util/util';
 
 
 
@@ -175,11 +177,15 @@ export class WebMapComponent implements OnInit, OnDestroy {
             targets: ['erase-map-estado']
         }, msg => this.ereaseOnLayers(this.layerEntidades)));
 
+        this.channels.push(this.pico.listen({
+            type: WebmapMensaje,
+            targets: ['show-query-map-municipios']
+        }, msg => this.queryConsultaCultivoOnMap(msg)));
 
         this.channels.push(this.pico.listen({
             type: WebmapMensaje,
-            targets: ['show-query-map']
-        }, msg => this.queryConsultaCultivoOnMap(msg)));
+            targets: ['show-query-map-estados']
+        }, msg => this.queryConsultaCultivoOnMapByEstados(msg)));
     }
 
     ngOnDestroy(): void {
@@ -258,7 +264,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
     private queryConsultaCultivoOnMap(msg: WebmapMensaje) {
         // siempre se dibujan los municipios en las consultas
-        let estado = msg.estado;
+        let estado = msg.territorio[0];
         let mpios = msg.municipio;
 
         // convertir a arreglos y pintar sobre el mapa
@@ -268,7 +274,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
         let symbol = {
             type: 'simple-fill',
-            color: 'green',
+            color: msg.color,
             style: 'solid',
             outline: {
                 color: 'black',
@@ -278,6 +284,32 @@ export class WebMapComponent implements OnInit, OnDestroy {
         };
 
         this.service.getGeometryMunicipiosByEntidad(estado.id, mpiosArray).then(value => this.buildSymbolLayers(value.features, symbol, this.layerMunicipios));
+    }
+
+
+    private queryConsultaCultivoOnMapByEstados(msg: WebmapMensaje) {
+        console.log('queryConsultaCultivoOnMapByEstados');
+        // se dibujan los estados/delegaciones en el mapa
+        let estado: Territorio[] = msg.territorio;
+        //let mpios = msg.municipio;
+
+        this.layerMunicipios.removeAll();
+        this.layerDistritos.removeAll();
+
+        let estados = this.modelToArray(estado);
+
+        let symbol = {
+            type: 'simple-fill',
+            color: msg.color,
+            style: 'solid',
+            outline: {
+                color: 'black',
+                width: '1px',
+                style: 'solid'
+            }
+        };
+
+        this.service.getGeometryByEntidades(estados).then(value => this.buildSymbolLayers(value.features, symbol, this.layerDistritos))
     }
 
     private ereaseOnLayers(layer: GraphicsLayer) {
