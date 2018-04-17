@@ -8,8 +8,9 @@ import {
     OnDestroy,
     OnInit,
     Output
-    } from '@angular/core';
+} from '@angular/core';
 import { Cultivo } from '../../dominio/cultivo';
+import { DatatableMensaje } from '../../dominio/datatable-mensaje';
 import { Ddr } from '../../dominio/ddr';
 import { Estado } from '../../dominio/estado';
 import {
@@ -17,15 +18,16 @@ import {
     FormControl,
     FormGroup,
     Validators
-    } from '@angular/forms';
+} from '@angular/forms';
 import { Mensaje } from '../../dominio/mensaje';
 import { Municipio } from '../../dominio/municipio';
 import { PicoEvent } from 'picoevent';
+import { ServiceUtil } from '../../util/util';
 import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
-
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+
 
 
 
@@ -192,6 +194,15 @@ export class ConsultaCultivoComponent implements OnInit {
     private onSubmit(event) {
         // enviar datos al servidor y emittir evento
         // verificar y validar los datos
-        console.log(event);
+        // console.log(JSON.stringify(this.form.value));
+        let val = this.form.value;
+        let anuario = new AnuarioAgricola(0, val.anio, val.ciclo, val.modalidad, val.catalogo, val.estado, val.distrito, val.municipio);
+
+        let fields = ServiceUtil.buildFieldsConsultaCultivo(anuario);
+        let printableFields = ServiceUtil.buildPrintableFieldsConsultaCultivo(anuario);
+
+        this.service.consultaAnuarioPorCultivo(anuario).then(cultivo => {
+            this.pico.publish(new DatatableMensaje(cultivo, fields, printableFields, anuario), ['update-table']);
+        });
     }
 }

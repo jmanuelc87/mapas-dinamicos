@@ -1,4 +1,5 @@
 import { Variedad } from "./variedad";
+import { Territorio } from "./territorio";
 
 export class Cultivo {
     constructor(
@@ -10,6 +11,6 @@ export class Cultivo {
         public rendimiento?: number,
         public pmr?: number,
         public valor?: number,
-        public variedades?: Array<Variedad>
+        public variedad?: string,
     ) { }
 }

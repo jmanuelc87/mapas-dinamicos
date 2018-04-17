@@ -1,7 +1,7 @@
 <div class="bottom-nav" [ngStyle]="{'height': !this.show ? '50px' : ''}">
     <div class="toolbar">
         <button *ngIf="this.show" class="btn btn-sm btn-icon">
-            PDF
+            Color
         </button>
         <button class="push-right btn btn-sm btn-icon" (click)="this.show = true">
             &#9723;
@@ -15,16 +15,10 @@
 
             <clr-dg-placeholder>No hay datos que mostrar!</clr-dg-placeholder>
 
-            <clr-dg-column *ngFor="let item of data | iteratorKeys">{{item.key}}</clr-dg-column>
+            <clr-dg-column *ngFor="let item of msg.fields">{{ item }}</clr-dg-column>
 
-            <clr-dg-row *clrDgItems="let item of data" [clrDgItem]="item">
-                <clr-dg-cell>{{item.nombre}}</clr-dg-cell>
-                <clr-dg-cell>{{item.sembrada}}</clr-dg-cell>
-                <clr-dg-cell>{{item.cosechada}}</clr-dg-cell>
-                <clr-dg-cell>{{item.produccion}}</clr-dg-cell>
-                <clr-dg-cell>{{item.rendimiento}}</clr-dg-cell>
-                <clr-dg-cell>{{item.pmr}}</clr-dg-cell>
-                <clr-dg-cell>{{item.valor}}</clr-dg-cell>
+            <clr-dg-row *clrDgItems="let item of msg.data" [clrDgItem]="item">
+                <clr-dg-cell *ngFor="let key of item | iteratorKeys: msg.printableFields">{{ item[key] }}</clr-dg-cell>
             </clr-dg-row>
 
             <clr-dg-footer>

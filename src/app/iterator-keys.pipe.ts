@@ -5,12 +5,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class IteratorKeysPipe implements PipeTransform {
 
-    transform(value: any, args?: any): any {
+    transform(value: string[], args?: any): any {
         let keys = [];
-        if (value !== undefined && value.length > 0) {
-            for (let key in value[0]) {
-                if (key !== 'id' && key !== 'variedades') {
-                    keys.push({ key: key, value: value[key] });
+        let printableFields = [];
+        printableFields = args
+        if (value !== undefined) {
+            for (let key in value) {
+                if (printableFields.includes(key)) {
+                    keys.push(key);
                 }
             }
         }

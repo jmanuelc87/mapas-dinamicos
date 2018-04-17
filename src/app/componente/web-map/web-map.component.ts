@@ -19,6 +19,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { Estado } from '../../dominio/estado';
 import { Ddr } from '../../dominio/ddr';
 import { Mensaje } from '../../dominio/mensaje';
+import { WebmapMensaje } from '../../dominio/webmap-mensaje';
+import { Municipio } from '../../dominio/municipio';
 
 
 
@@ -77,7 +79,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
         this.view.when(event => {
             let layer01 = new GraphicsLayer();
-            let service = this.service.getAllEntidadGeometry();
+            let service = this.service.getGeometryEntidadAll();
 
             service.then(value => {
                 let features = value.features;
@@ -172,6 +174,12 @@ export class WebMapComponent implements OnInit, OnDestroy {
             type: Mensaje,
             targets: ['erase-map-estado']
         }, msg => this.ereaseOnLayers(this.layerEntidades)));
+
+
+        this.channels.push(this.pico.listen({
+            type: WebmapMensaje,
+            targets: ['show-query-map']
+        }, msg => this.queryConsultaCultivoOnMap(msg)));
     }
 
     ngOnDestroy(): void {
@@ -207,7 +215,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
             width: '2px',
             style: 'dash'
         };
-        this.service.getGeometryByEntidad(msg.id).then(value =>
+        this.service.getGeometryEntidad(msg.id).then(value =>
             this.buildSymbolLayers(value.features, symbol, this.layerEntidades));
     }
 
@@ -219,7 +227,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
             style: 'backward-diagonal'
         };
 
-        this.service.getDistritoGeometry(msg.id).then(value =>
+        this.service.getGeometryDistrito(msg.id).then(value =>
             this.buildSymbolLayers(value.features, symbol, this.layerDistritos));
     }
 
@@ -237,7 +245,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
             }
         };
 
-        this.service.getMunicipioGeometry(msg.entidad.id, msg.municipio.id).then(value =>
+        this.service.getGeometryMunicipioByEntidad(msg.entidad.id, msg.municipio.id).then(value =>
             this.buildSymbolLayers(value.features, symbol, this.layerMunicipios));
     }
 
@@ -248,12 +256,44 @@ export class WebMapComponent implements OnInit, OnDestroy {
         }
     }
 
+    private queryConsultaCultivoOnMap(msg: WebmapMensaje) {
+        // siempre se dibujan los municipios en las consultas
+        let estado = msg.estado;
+        let mpios = msg.municipio;
+
+        // convertir a arreglos y pintar sobre el mapa
+        let mpiosArray = this.modelToArray(mpios);
+
+        this.layerMunicipios.removeAll();
+
+        let symbol = {
+            type: 'simple-fill',
+            color: 'green',
+            style: 'solid',
+            outline: {
+                color: 'black',
+                width: '1px',
+                style: 'solid'
+            }
+        };
+
+        this.service.getGeometryMunicipiosByEntidad(estado.id, mpiosArray).then(value => this.buildSymbolLayers(value.features, symbol, this.layerMunicipios));
+    }
+
     private ereaseOnLayers(layer: GraphicsLayer) {
         layer.removeAll();
     }
 
     public addLayer(layer: Layer) {
         this.map.add(layer);
+    }
+
+    private modelToArray(territorio: Territorio[]) {
+        let array = [];
+        for (let t of territorio) {
+            array.push(t.id);
+        }
+        return array;
     }
 
 }
