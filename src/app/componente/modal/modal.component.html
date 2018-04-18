@@ -1,10 +1,56 @@
-<clr-modal [(clrModalOpen)]="basic">
-  <h3 class="modal-title">I have a nice title</h3>
-  <div class="modal-body">
-    <p>But not much to say...</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline" (click)="basic = false">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="basic = false">Ok</button>
-  </div>
-</clr-modal>
+<div class="modal">
+    <div class="modal-dialog" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="Close" class="close" type="button" (click)="closed()">
+                    <clr-icon aria-hidden="true" shape="close"></clr-icon>
+                </button>
+                <h3 class="modal-title">Selección de Color</h3>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>
+                            <div class=" xy " [ngStyle]="{'background-color': '#ff0000'}" (click)="confirm('ff0000')"></div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="xy " [ngStyle]="{ 'background-color': '#ffc000'}" (click)="confirm('ffc000')"></div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class=" xy " [ngStyle]="{ 'background-color': '#ffff00'}" (click)="confirm('ffff00')"></div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="xy " [ngStyle]="{ 'background-color': '#92d050'}" (click)="confirm('92d050')"></div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="xy " [ngStyle]="{ 'background-color': '#00b050'}" (click)="confirm('00b050')"></div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="xy " [ngStyle]="{ 'background-color': '#00b0f0'}" (click)="confirm('00b0f0')"></div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="xy " [ngStyle]="{ 'background-color': '#0070c0'}" (click)="confirm('0070c0')"></div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="xy " [ngStyle]="{ 'background-color': '#002060'}" (click)="confirm('002060')"></div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="xy " [ngStyle]="{ 'background-color': '#7030a0'}" (click)="confirm('7030a0')"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer ">
+                <button class="btn btn-primary " type="button " (click)="closed()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

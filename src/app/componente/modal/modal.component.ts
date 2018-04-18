@@ -1,30 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { PicoEvent } from 'picoevent';
-import { Subscription } from 'rxjs/Subscription';
+import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
+
+export interface ConfirmModel { }
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent extends DialogComponent<ConfirmModel, string> implements OnInit, ConfirmModel {
 
-  private basic: boolean;
-
-  private channel: Subscription;
+  title: string;
+  message: string;
 
   constructor(
-    private pico: PicoEvent
-  ) { }
-
-  ngOnInit() {
-    this.channel = this.pico.listen({
-      type: Boolean,
-      targets: ['show-modal']
-    }, msg => {
-      console.log(msg);
-      this.basic = !msg
-    });
+    dialogService: DialogService
+  ) {
+    super(dialogService)
   }
 
+  ngOnInit() {
+  }
+
+
+  closed() {
+    this.close();
+  }
+
+  confirm(color) {
+    this.result = color;
+    this.close();
+  }
 }

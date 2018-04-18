@@ -8,6 +8,6 @@ export class WebmapMensaje {
     constructor(
         public territorio?: Array<Territorio>,
         public municipio?: Array<Municipio>,
-        public color?: string
+        public color?: Array<number>
     ) { }
 }

@@ -12,12 +12,13 @@ import { HeaderMenuComponent } from './componente/menu/menu.component';
 import { HttpClientModule } from '@angular/common/http';
 import { IteratorKeysPipe } from './iterator-keys.pipe';
 import { OverlayComponent } from './componente/overlay/overlay.component';
+import { PicoEventModule } from 'picoevent';
 import { RouterModule, Routes } from '@angular/router';
 import { TableComponent } from './componente/table/table.component';
 import { WebMapComponent } from './componente/web-map/web-map.component';
-import { PicoEventModule } from 'picoevent';
 import { ModalComponent } from './componente/modal/modal.component';
 
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
 
 const appRoutes = [
@@ -38,7 +39,7 @@ const appRoutes = [
         OverlayComponent,
         TableComponent,
         IteratorKeysPipe,
-        ModalComponent
+        ModalComponent,
     ],
     imports: [
         BrowserModule,
@@ -48,11 +49,15 @@ const appRoutes = [
         RouterModule.forRoot(appRoutes),
         HttpClientModule,
         ReactiveFormsModule,
-        PicoEventModule
+        PicoEventModule,
+        BootstrapModalModule.forRoot({ container: document.body })
     ],
     providers: [],
     bootstrap: [
         AppComponent
+    ],
+    entryComponents: [
+        ModalComponent
     ]
 })
 export class AppModule { }

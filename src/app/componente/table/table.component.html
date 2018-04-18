@@ -1,12 +1,12 @@
 <div class="bottom-nav" [ngStyle]="{'height': !this.show ? '50px' : ''}">
     <div class="toolbar">
-        <button class="btn btn-sm btn-link" (click)="showModal()">
+        <button *ngIf="show" class="btn btn-sm btn-link" (click)="showColorModal()">
             Sel. Color
         </button>
-        <button class="push-right btn btn-sm btn-icon" (click)="this.show = true">
+        <button class="push-right btn btn-sm btn-icon" (click)="show = true">
             &#9723;
         </button>
-        <button class="push-right btn btn-sm btn-icon" (click)="this.show = false">
+        <button class="push-right btn btn-sm btn-icon" (click)="show = false">
             &#95;
         </button>
     </div>
