@@ -31,7 +31,7 @@ export class WebmapService {
         return new Promise<Territorio>((resolve, reject) => {
             queryTask.executeForExtent(params).then(response => {
                 resolve(new Estado(0, null, response.fullExtent));
-            });
+            }).catch(err => reject(err));
         });
     }
 
@@ -51,7 +51,7 @@ export class WebmapService {
         return new Promise<Territorio>((resolve, reject) => {
             queryTask.execute(params).then(response => {
                 resolve(new Estado(0, null, null, response.features));
-            });
+            }).catch(err => reject(err));
         });
     }
 
@@ -70,7 +70,7 @@ export class WebmapService {
         return new Promise((resolve, reject) => {
             queryTask.executeForExtent(params).then(response => {
                 resolve(new Territorio(0, null, response.extent));
-            })
+            }).catch(err => reject(err));
         });
     }
 
@@ -90,7 +90,7 @@ export class WebmapService {
         return new Promise((resolve, reject) => {
             queryTask.execute(params).then(response => {
                 resolve(new Territorio(0, null, null, response.features));
-            });
+            }).catch(err => reject(err));
         });
     }
 
@@ -119,7 +119,7 @@ export class WebmapService {
         return new Promise((resolve, reject) => {
             queryTask.executeForExtent(params).then(response => {
                 resolve(new Municipio(0, null, response.extent));
-            })
+            }).catch(err => reject(err));
         });
     }
 
@@ -150,7 +150,7 @@ export class WebmapService {
             queryTask.execute(params).then(response => {
                 //console.log(response.features[0].attributes['NOM_MUN']);
                 resolve(new Territorio(0, null, null, response.features));
-            });
+            }).catch(err => reject(err));
         });
     }
 
@@ -173,7 +173,7 @@ export class WebmapService {
         return new Promise((resolve, reject) => {
             queryTask.execute(params).then(response => {
                 resolve(new Territorio(0, null, null, response.features));
-            });
+            }).catch(err => reject(err));
         });
     }
 
@@ -194,7 +194,7 @@ export class WebmapService {
         return new Promise((resolve, reject) => {
             queryTask.execute(params).then(response => {
                 resolve(new Territorio(0, null, null, response.features));
-            });
+            }).catch(err => reject(err));
         });
     }
 }

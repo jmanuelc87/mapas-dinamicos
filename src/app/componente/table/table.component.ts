@@ -17,6 +17,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
 import { WebmapMensaje } from '../../dominio/webmap-mensaje';
 
+
+
 @Component({
     selector: 'app-table',
     templateUrl: './table.component.html',
@@ -53,12 +55,12 @@ export class TableComponent implements OnInit {
         }, msg01 => this.setData(msg01)));
     }
 
-    public setData(msg) {
+    private setData(msg) {
         this.msg = msg;
         this.show = true;
     }
 
-    public showDataInWebmap(cultivo) {
+    private showDataInWebmap(cultivo) {
         let estado = this.msg.consulta.estado;
         let ddr = this.msg.consulta.distrito;
         let mun = this.msg.consulta.municipio;
@@ -66,7 +68,7 @@ export class TableComponent implements OnInit {
         if (estado == 0) {
             this.service.getEstadosByAnuariondCultivo(this.msg.consulta, cultivo).then(value => {
                 this.pico.publish(new WebmapMensaje(value, null, isUndefined(this.color) ? [0, 100, 0] : this.color), ['show-query-map-estados'])
-            });
+            }).catch(err => console.log(err));
         }
 
         if (estado != 0 && mun == 0) {
@@ -76,8 +78,12 @@ export class TableComponent implements OnInit {
                 let mpios = value.municipios;
 
                 this.pico.publish(new WebmapMensaje([estado], mpios, isUndefined(this.color) ? [0, 100, 0] : this.color), ['show-query-map-municipios']);
-            });
+            }).catch(err => console.log(err));
         }
+    }
+
+    private showQueryOnMap(item) {
+        console.log(item);
     }
 
     private showColorModal() {

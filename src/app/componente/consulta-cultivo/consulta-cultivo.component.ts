@@ -88,7 +88,6 @@ export class ConsultaCultivoComponent implements OnInit {
             .map(value => Number.parseInt(value))
             .subscribe(id => this.getDistritosByEstado(id));
 
-
         // envia un evento para actualizar el extent de las entidades en el mapa
         this.form.get('estado').valueChanges
             .map(value => Number.parseInt(value))

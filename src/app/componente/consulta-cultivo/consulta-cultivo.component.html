@@ -67,7 +67,7 @@
                         <label for="select-1">Año</label>
                         <div id="select-1" class="select">
                             <select formControlName="anio" name="anio">
-                                <option *ngFor="let item of anuario" [value]="item.anio">{{item.anio}}</option>
+                                <option *ngFor="let item of anuario" [value]="item.year">{{item.year}}</option>
                             </select>
                         </div>
                     </div>
@@ -75,7 +75,6 @@
                         <label for="select-2">Estado</label>
                         <div id="select-2" class="select">
                             <select formControlName="estado" name="estado">
-                                <option [value]="0">Resumen Nacional</option>
                                 <option *ngFor="let e of estados" [value]="e.id">{{e.nombre}}</option>
                             </select>
                         </div>

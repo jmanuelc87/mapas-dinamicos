@@ -8,21 +8,21 @@ import * as WebMap from 'esri/WebMap';
 import {
     Component,
     ElementRef,
+    OnDestroy,
     OnInit,
-    ViewChild,
-    OnDestroy
+    ViewChild
 } from '@angular/core';
-import { Territorio } from '../../dominio/territorio';
-import { WebmapService } from '../../servicio/webmap.service';
-import { PicoEvent } from 'picoevent';
-import { Subscription } from 'rxjs/Subscription';
-import { Estado } from '../../dominio/estado';
 import { Ddr } from '../../dominio/ddr';
+import { Estado } from '../../dominio/estado';
 import { Mensaje } from '../../dominio/mensaje';
-import { WebmapMensaje } from '../../dominio/webmap-mensaje';
 import { Municipio } from '../../dominio/municipio';
+import { PicoEvent } from 'picoevent';
 import { Server } from 'selenium-webdriver/safari';
 import { ServiceUtil } from '../../util/util';
+import { Subscription } from 'rxjs/Subscription';
+import { Territorio } from '../../dominio/territorio';
+import { WebmapMensaje } from '../../dominio/webmap-mensaje';
+import { WebmapService } from '../../servicio/webmap.service';
 
 
 
@@ -75,7 +75,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
             this.service.getFullExtent().then(value => {
                 this.setExtent(value.extent);
-
             });
         });
 
@@ -134,7 +133,10 @@ export class WebMapComponent implements OnInit, OnDestroy {
                 this.addLayer(this.layerEntidades);
                 this.addLayer(this.layerDistritos);
                 this.addLayer(this.layerMunicipios);
-            })
+            });
+
+
+            service.catch(err => console.log(err));
         });
 
         this.channels.push(this.pico.listen({
@@ -176,16 +178,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
             type: Mensaje,
             targets: ['erase-map-estado']
         }, msg => this.ereaseOnLayers(this.layerEntidades)));
-
-        this.channels.push(this.pico.listen({
-            type: WebmapMensaje,
-            targets: ['show-query-map-municipios']
-        }, msg => this.queryConsultaCultivoOnMap(msg)));
-
-        this.channels.push(this.pico.listen({
-            type: WebmapMensaje,
-            targets: ['show-query-map-estados']
-        }, msg => this.queryConsultaCultivoOnMapByEstados(msg)));
     }
 
     ngOnDestroy(): void {
@@ -326,6 +318,10 @@ export class WebMapComponent implements OnInit, OnDestroy {
             array.push(t.id);
         }
         return array;
+    }
+
+    private addLayerToMap(layer: Layer) {
+        this.map.add(layer);
     }
 
 }

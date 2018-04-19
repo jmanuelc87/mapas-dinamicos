@@ -1,47 +1,15 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
 import { Anuario } from '../dominio/anuario';
-import { Territorio } from '../dominio/territorio';
-import { Cultivo } from '../dominio/cultivo';
 import { AnuarioAgricola } from '../dominio/anuario-agricola';
-import { reject } from 'q';
-import { resolve } from 'url';
+import { Cultivo } from '../dominio/cultivo';
 import { Ddr } from '../dominio/ddr';
-import { Municipio } from '../dominio/municipio';
 import { Estado } from '../dominio/estado';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Municipio } from '../dominio/municipio';
+import { RequestOptionsArgs } from '@angular/http';
+import { Territorio } from '../dominio/territorio';
 import { Variedad } from '../dominio/variedad';
-import { promise } from 'selenium-webdriver';
-
-const years = [
-    { year: 2016 },
-    { year: 2015 },
-    { year: 2014 },
-    { year: 2013 },
-    { year: 2012 }
-];
-
-const states = [
-    { id: 1, name: 'Aguascalientes' },
-    { id: 2, name: 'Baja California' },
-    { id: 3, name: 'Baja California Sur' },
-    { id: 4, name: 'Campeche' }
-];
-
-const districts = [
-    { id: 1, name: 'Aguascalientes' },
-];
-
-const municipios = [
-    { id: 1, name: 'Aguascalientes' },
-    { id: 2, name: 'Asientos' },
-    { id: 3, name: 'Calvillo' },
-    { id: 4, name: 'Cosío' },
-    { id: 6, name: 'Pabellón de Arteaga' },
-    { id: 7, name: 'Rincón de Romos' },
-    { id: 8, name: 'San José de Gracia' },
-    { id: 9, name: 'Tepezalá' },
-];
+import 'rxjs/Rx';
 
 const cultivos = [
     { id: 1, name: 'Aceituna', variedades: [{ id: 1, nombre: 'manzanilla' }, { id: 2, nombre: 'negra' }] },
@@ -119,7 +87,7 @@ const estadosByAnuarioAndCultivo = {
 @Injectable()
 export class AnuarioAgricolaService {
 
-    private url = '';
+    private url = 'http://localhost:8080/server-mp/index.php';
 
     constructor(
         private http: HttpClient
@@ -128,41 +96,47 @@ export class AnuarioAgricolaService {
 
     public getAllYears(): Promise<Array<Anuario>> {
         return new Promise((resolve, reject) => {
-            let all = years.map(item => {
-                return new Anuario(item.year);
-            });
+            let path = `${this.url}?c=1`;
 
-            resolve(all);
+            this.http.get<Anuario[]>(path).subscribe(response => {
+                resolve(response);
+            })
         });
     }
 
     public getAllStates(): Promise<Array<Territorio>> {
-        return new Promise((resolve, reject) => {
-            let all = states.map(item => {
-                return new Estado(item.id, item.name);
-            });
+        let promise = new Promise<Estado[]>((resolve, reject) => {
+            let path = `${this.url}?c=2`;
 
-            resolve(all);
+            this.http.get<Estado[]>(path).subscribe(response => {
+                resolve(response);
+            });
         });
+
+        return promise;
     }
 
     public getDistrictByState(state: number): Promise<Array<Territorio>> {
         return new Promise((resolve, reject) => {
-            let all = districts.map(item => {
-                return new Ddr(item.id, item.name);
-            });
+            let path = `${this.url}?c=3`;
+            let params = `estado=${state}`;
+            let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-            resolve(all);
+            this.http.post<Ddr[]>(path, params, { headers: headers }).subscribe(response => {
+                resolve(response);
+            });
         });
     }
 
     public getMunicipioByDistrict(district: number): Promise<Array<Territorio>> {
         return new Promise((resolve, reject) => {
-            let all = municipios.map(item => {
-                return new Municipio(item.id, item.name);
-            });
+            let path = `${this.url}?c=4`;
+            let params = `distrito=${district}`;
+            let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-            resolve(all);
+            this.http.post<Ddr[]>(path, params, { headers: headers }).subscribe(response => {
+                resolve(response);
+            });
         });
     }
 

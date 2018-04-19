@@ -1,5 +1,7 @@
 import { AngularDraggableModule } from 'angular2-draggable';
+import { AnuarioAgricolaService } from './servicio/anuario-agricola.service';
 import { AppComponent } from './app.component';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
@@ -11,14 +13,13 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderMenuComponent } from './componente/menu/menu.component';
 import { HttpClientModule } from '@angular/common/http';
 import { IteratorKeysPipe } from './iterator-keys.pipe';
+import { ModalComponent } from './componente/modal/modal.component';
 import { OverlayComponent } from './componente/overlay/overlay.component';
 import { PicoEventModule } from 'picoevent';
 import { RouterModule, Routes } from '@angular/router';
 import { TableComponent } from './componente/table/table.component';
 import { WebMapComponent } from './componente/web-map/web-map.component';
-import { ModalComponent } from './componente/modal/modal.component';
 
-import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
 
 const appRoutes = [
@@ -46,18 +47,20 @@ const appRoutes = [
         ClarityModule,
         BrowserAnimationsModule,
         AngularDraggableModule,
-        RouterModule.forRoot(appRoutes),
         HttpClientModule,
+        RouterModule.forRoot(appRoutes),
         ReactiveFormsModule,
         PicoEventModule,
         BootstrapModalModule.forRoot({ container: document.body })
     ],
-    providers: [],
+    providers: [
+        AnuarioAgricolaService
+    ],
     bootstrap: [
         AppComponent
     ],
     entryComponents: [
         ModalComponent
-    ]
+    ],
 })
 export class AppModule { }

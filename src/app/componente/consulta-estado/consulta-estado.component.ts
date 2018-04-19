@@ -48,27 +48,25 @@ export class ConsultaEstadoComponent implements OnInit {
             modalidad: ['riego', Validators.required],
             catalogo: ['generico', Validators.required],
             cultivo: ['0', Validators.required],
-            variedad: ['1', Validators.required],
+            variedad: ['0', Validators.required],
             estados: ['0', Validators.required],
             territorio: ['1', Validators.required]
         });
 
         this.form.get('variedad').disable();
+        let catalogo = this.form.get('catalogo');
 
         // llena el select de variedades
         this.form.get('cultivo').valueChanges
             .map(value => Number.parseInt(value))
             .filter(id => id !== 0)
-            .subscribe(id => this.getVariedadesByCultivo(id));
+            .subscribe(id => catalogo.value == 'detalle' ? this.getVariedadesByCultivo(id) : this.disableVariedad());
 
         // deshabilita el select 'variedades' para hacer la caja de texto el cultivo
         this.form.get('cultivo').valueChanges
             .map(value => Number.parseInt(value))
             .filter(id => id === 0)
-            .subscribe(id => {
-                this.form.get('variedad').setValue('0');
-                this.form.get('variedad').disable();
-            });
+            .subscribe(id => this.form.get('variedad').setValue('0'));
 
         // actualiza el extent de los estados
         this.form.get('estados').valueChanges
@@ -82,6 +80,24 @@ export class ConsultaEstadoComponent implements OnInit {
             .map(value => Number.parseInt(value))
             .filter(id => id === 0)
             .subscribe(id => this.pico.publish(new Estado(id), ['update-extent-all']));
+
+
+        this.form.get('catalogo').valueChanges
+            .filter(value => value === 'detalle')
+            .subscribe(value => this.enableVariedad());
+
+        this.form.get('catalogo').valueChanges
+            .filter(value => value === 'generico')
+            .subscribe(value => this.disableVariedad());
+    }
+
+    private disableVariedad() {
+        this.form.get('variedad').setValue('0');
+        this.form.get('variedad').disable();
+    }
+
+    private enableVariedad() {
+        this.form.get('variedad').enable();
     }
 
     private getAllCultivos() {
@@ -98,8 +114,16 @@ export class ConsultaEstadoComponent implements OnInit {
     }
 
     private onSubmit(event) {
-        // on submit event
-        console.log(JSON.stringify(this.form.value));
+
+        let catalogo = this.form.get('catalogo');
+        let variedad = this.form.get('variedad');
+
+        if (catalogo.value === 'detalle' && variedad.value == '0') {
+            console.log('tiene errores el formulario');
+        } else {
+            console.log('no tiene errores el formulario');
+        }
+
     }
 
 }

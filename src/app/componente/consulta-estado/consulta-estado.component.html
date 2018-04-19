@@ -74,6 +74,7 @@
                         <label for="select-4">Variedad</label>
                         <div id="select-4" class="select">
                             <select formControlName="variedad" name="variedad" id="select-4">
+                                <option value="0">Seleccionar Variedad</option>
                                 <option *ngFor="let item of variedad" value="{{item.id}}">{{item.nombre}}</option>
                             </select>
                         </div>
