@@ -12,5 +12,6 @@ export class Cultivo {
         public pmr?: number,
         public valor?: number,
         public variedad?: string,
+        public idcultivo?: number
     ) { }
 }

@@ -1,10 +1,16 @@
 import * as Extent from 'esri/geometry/Extent';
+import * as geometryEngine from 'esri/geometry/geometryEngine';
+import * as Graphic from 'esri/Graphic';
 import * as GraphicsLayer from 'esri/layers/GraphicsLayer';
 import * as Layer from 'esri/layers/Layer';
-import * as MapImageLayer from 'esri/layers/MapImageLayer';
 import * as MapView from 'esri/views/MapView';
+import * as Query from 'esri/tasks/support/Query';
+import * as SimpleFillSymbol from 'esri/symbols/SimpleFillSymbol';
+import * as SimpleLineSymbol from 'esri/symbols/SimpleLineSymbol';
 import * as TextSymbol from 'esri/symbols/TextSymbol';
 import * as WebMap from 'esri/WebMap';
+import { Anuario } from '../../dominio/anuario';
+import { AnuarioAgricola } from '../../dominio/anuario-agricola';
 import {
     Component,
     ElementRef,
@@ -14,15 +20,20 @@ import {
 } from '@angular/core';
 import { Ddr } from '../../dominio/ddr';
 import { Estado } from '../../dominio/estado';
+import { isUndefined } from 'util';
 import { Mensaje } from '../../dominio/mensaje';
 import { Municipio } from '../../dominio/municipio';
+import { Observable } from 'rxjs/Observable';
 import { PicoEvent } from 'picoevent';
+import { Point } from 'esri/geometry';
 import { Server } from 'selenium-webdriver/safari';
 import { ServiceUtil } from '../../util/util';
 import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
 import { WebmapMensaje } from '../../dominio/webmap-mensaje';
 import { WebmapService } from '../../servicio/webmap.service';
+import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
+import { Estadistica } from '../../dominio/estadistica';
 
 
 
@@ -31,7 +42,8 @@ import { WebmapService } from '../../servicio/webmap.service';
     templateUrl: './web-map.component.html',
     styleUrls: ['./web-map.component.css'],
     providers: [
-        WebmapService
+        WebmapService,
+        ServiceUtil
     ]
 })
 export class WebMapComponent implements OnInit, OnDestroy {
@@ -48,6 +60,14 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
     private layerMunicipios = new GraphicsLayer();
 
+    private layerOutput = new GraphicsLayer();
+
+    private observable: Observable<Point>;
+
+    private features: Graphic[];
+
+    private msg: WebmapMensaje;
+
     private channels: Subscription[] = new Array<Subscription>();
 
     @ViewChild('webmap')
@@ -55,6 +75,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
     constructor(
         private service: WebmapService,
+        private service01: AnuarioAgricolaService,
         private pico: PicoEvent
     ) { }
 
@@ -133,11 +154,29 @@ export class WebMapComponent implements OnInit, OnDestroy {
                 this.addLayer(this.layerEntidades);
                 this.addLayer(this.layerDistritos);
                 this.addLayer(this.layerMunicipios);
+                this.addLayer(this.layerOutput);
             });
 
 
             service.catch(err => console.log(err));
         });
+
+
+        this.observable = Observable.create(observer => {
+            this.view.on('pointer-move', (event) => {
+                observer.next(
+                    this.view.toMap(new Point({
+                        x: event.x,
+                        y: event.y
+                    }))
+                );
+            });
+        });
+
+
+        this.observable
+            .debounceTime(500)
+            .subscribe(value => this.checkPopupOnMap(value));
 
         this.channels.push(this.pico.listen({
             type: Estado,
@@ -178,6 +217,16 @@ export class WebMapComponent implements OnInit, OnDestroy {
             type: Mensaje,
             targets: ['erase-map-estado']
         }, msg => this.ereaseOnLayers(this.layerEntidades)));
+
+        this.channels.push(this.pico.listen({
+            type: WebmapMensaje,
+            targets: ['show-query-map-municipios']
+        }, msg => this.queryConsultaCultivoOnMap(msg)));
+
+        this.channels.push(this.pico.listen({
+            type: WebmapMensaje,
+            targets: ['show-query-map-estados']
+        }, msg => this.queryConsultaCultivoOnMapByEstados(msg)));
     }
 
     ngOnDestroy(): void {
@@ -258,11 +307,11 @@ export class WebMapComponent implements OnInit, OnDestroy {
         // siempre se dibujan los municipios en las consultas
         let estado = msg.territorio[0];
         let mpios = msg.municipio;
+        this.msg = msg;
 
-        // convertir a arreglos y pintar sobre el mapa
+        // convertir objetos a un arreglo de numeros
         let mpiosArray = this.modelToArray(mpios);
 
-        this.layerMunicipios.removeAll();
 
         let symbol = {
             type: 'simple-fill',
@@ -275,18 +324,22 @@ export class WebMapComponent implements OnInit, OnDestroy {
             }
         };
 
-        this.service.getGeometryMunicipiosByEntidad(estado.id, mpiosArray).then(value => this.buildSymbolLayers(value.features, symbol, this.layerMunicipios));
+        this.layerOutput.removeAll();
+
+        this.service.getGeometryMunicipiosByEntidad(estado.id, mpiosArray)
+            .then(value => {
+                this.features = value.features as Graphic[];
+                this.buildSymbolLayers(value.features, symbol, this.layerOutput);
+            });
     }
 
-
     private queryConsultaCultivoOnMapByEstados(msg: WebmapMensaje) {
-        console.log('queryConsultaCultivoOnMapByEstados');
         // se dibujan los estados/delegaciones en el mapa
         let estado: Territorio[] = msg.territorio;
+        this.msg = msg;
         //let mpios = msg.municipio;
 
-        this.layerMunicipios.removeAll();
-        this.layerDistritos.removeAll();
+        this.layerOutput.removeAll();
 
         let estados = this.modelToArray(estado);
 
@@ -301,7 +354,11 @@ export class WebMapComponent implements OnInit, OnDestroy {
             }
         };
 
-        this.service.getGeometryByEntidades(estados).then(value => this.buildSymbolLayers(value.features, symbol, this.layerDistritos))
+        this.service.getGeometryByEntidades(estados)
+            .then(value => {
+                this.features = value.features as Graphic[];
+                this.buildSymbolLayers(value.features, symbol, this.layerOutput)
+            });
     }
 
     private ereaseOnLayers(layer: GraphicsLayer) {
@@ -312,7 +369,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
         this.map.add(layer);
     }
 
-    private modelToArray(territorio: Territorio[]) {
+    private modelToArray(territorio: Territorio[]): number[] {
         let array = [];
         for (let t of territorio) {
             array.push(t.id);
@@ -320,8 +377,74 @@ export class WebMapComponent implements OnInit, OnDestroy {
         return array;
     }
 
-    private addLayerToMap(layer: Layer) {
-        this.map.add(layer);
+    private checkPopupOnMap(value: Point) {
+        if (!isUndefined(this.features)) {
+            for (let item of this.features) {
+                if (geometryEngine.distance(value, item.geometry, 'meters') === 0) {
+
+                    this.showPopupOnMap(this.msg, item, value);
+
+                    // atributos de la geometria del estado o municipio
+                    /*for (let attr in item.attributes) {
+                        console.log(attr, item.attributes[attr]);
+                    }*/
+                }
+            }
+        }
+
+        /*
+        this.view.popup.open({
+            title: "You clicked here",
+            content: "This is a point of interest",
+            location: value,
+        });
+        */
+    }
+
+    private showPopupOnMap(msg: WebmapMensaje, item: Graphic, point: Point) {
+        let year;
+        let ciclo;
+        let modalidad;
+        let estado;
+        let attr;
+        let cultivo;
+
+        if (this.msg.anuario instanceof AnuarioAgricola) {
+            // obtener propiedades del anuario agricola
+            let anuario = (this.msg.anuario as AnuarioAgricola);
+            year = anuario.anio;
+            ciclo = anuario.ciclo
+            modalidad = anuario.modalidad;
+            estado = anuario.estado;
+            cultivo = this.msg.cultivoId;
+        }
+
+        if (estado == 0) {
+            attr = item.attributes['CVE_ENT'];
+        } else {
+            attr = item.attributes['CVE_MUN'];
+        }
+
+        // llamar al servicio
+        this.service01
+            .getEstadisticaByEstado(year, ciclo, modalidad, Number.parseInt(attr), cultivo)
+            .then((value: Estadistica) => {
+                this.view.popup.open({
+                    title: 'Estadísticas del Cultivo',
+                    content: `
+                        <div>Cultivo: ${value.cultivo.nombre}</div>
+                        <div>Estado: ${value.territorio.nombre}</div>
+                        <div>Sup. Sembrada (Ha): ${value.cultivo.sembrada}</div>
+                        <div>Sup. cosechada (Ha): ${value.cultivo.cosechada}</div>
+                        <div>Producción (Ton): ${value.cultivo.produccion}</div>
+                        <div>Valor (Miles de pesos): ${value.cultivo.valor}</div>
+                    `,
+                    location: point
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
 }

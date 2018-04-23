@@ -3,13 +3,14 @@ import {
     Component,
     OnInit,
     ViewChild
-} from '@angular/core';
+    } from '@angular/core';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { ClrDatagrid } from '@clr/angular';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { Cultivo } from '../../dominio/cultivo';
 import { DatatableMensaje } from '../../dominio/datatable-mensaje';
 import { DialogService } from 'ng2-bootstrap-modal';
+import { Estado } from '../../dominio/estado';
 import { isNull, isUndefined } from 'util';
 import { ModalComponent } from '../modal/modal.component';
 import { PicoEvent } from 'picoevent';
@@ -45,7 +46,7 @@ export class TableComponent implements OnInit {
     constructor(
         private pico: PicoEvent,
         private service: AnuarioAgricolaService,
-        private dialogService: DialogService
+        private dialogService: DialogService,
     ) { }
 
     ngOnInit() {
@@ -66,24 +67,19 @@ export class TableComponent implements OnInit {
         let mun = this.msg.consulta.municipio;
 
         if (estado == 0) {
-            this.service.getEstadosByAnuariondCultivo(this.msg.consulta, cultivo).then(value => {
-                this.pico.publish(new WebmapMensaje(value, null, isUndefined(this.color) ? [0, 100, 0] : this.color), ['show-query-map-estados'])
+            this.service.getEstadosByAnuarioAndCultivo(this.msg.consulta, cultivo).then(value => {
+                this.pico.publish(new WebmapMensaje(this.msg.consulta, cultivo.id, value, null, isUndefined(this.color) ? [0, 100, 0] : this.color), ['show-query-map-estados'])
             }).catch(err => console.log(err));
         }
 
         if (estado != 0 && mun == 0) {
             this.service.getMunicipiosByAnuarioAndCultivo(this.msg.consulta, cultivo).then(value => {
-
                 let estado = value.territorio;
                 let mpios = value.municipios;
 
-                this.pico.publish(new WebmapMensaje([estado], mpios, isUndefined(this.color) ? [0, 100, 0] : this.color), ['show-query-map-municipios']);
+                this.pico.publish(new WebmapMensaje(this.msg.consulta, cultivo.id, [estado], mpios, isUndefined(this.color) ? [0, 100, 0] : this.color), ['show-query-map-municipios']);
             }).catch(err => console.log(err));
         }
-    }
-
-    private showQueryOnMap(item) {
-        console.log(item);
     }
 
     private showColorModal() {
@@ -102,6 +98,14 @@ export class TableComponent implements OnInit {
 
                 this.color = rgb;
             });
+    }
+
+    private isString(value) {
+        return typeof (value) === 'string';
+    }
+
+    private isNumber(value) {
+        return typeof (value) === 'number';
     }
 
 }

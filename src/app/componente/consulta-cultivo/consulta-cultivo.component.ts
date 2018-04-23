@@ -194,6 +194,7 @@ export class ConsultaCultivoComponent implements OnInit {
         // enviar datos al servidor y emittir evento
         // verificar y validar los datos
         // console.log(JSON.stringify(this.form.value));
+        
         let val = this.form.value;
         let anuario = new AnuarioAgricola(0, val.anio, val.ciclo, val.modalidad, val.catalogo, val.estado, val.distrito, val.municipio);
 
@@ -202,6 +203,7 @@ export class ConsultaCultivoComponent implements OnInit {
 
         this.service.consultaAnuarioPorCultivo(anuario).then(cultivo => {
             this.pico.publish(new DatatableMensaje(cultivo, fields, printableFields, anuario), ['update-table']);
+            this.collapsed = true;
         });
     }
 }

@@ -20,13 +20,20 @@
 
             <clr-dg-row *clrDgItems="let item of msg.data" [clrDgItem]="item">
                 <clr-dg-action-overflow>
-                    <button class="action-item" (click)="showQueryOnMap(item)">Mostar en Mapa</button>
+                    <button class="action-item" (click)="showDataInWebmap(item)">Mostar en Mapa</button>
                 </clr-dg-action-overflow>
-                <clr-dg-cell *ngFor="let key of item | iteratorKeys: msg.printableFields">{{ item[key] }}</clr-dg-cell>
+                <clr-dg-cell *ngFor="let key of item | iteratorKeys: msg.printableFields">
+                    <div *ngIf="isString(item[key])">
+                        {{ item[key] }}
+                    </div>
+                    <div *ngIf="isNumber(item[key])">
+                        {{ item[key] | number:'1.2' }}
+                    </div>
+                </clr-dg-cell>
             </clr-dg-row>
 
             <clr-dg-footer>
-                <clr-dg-pagination #pagination [clrDgPageSize]="5">
+                <clr-dg-pagination #pagination [clrDgPageSize]="7">
                     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}}
                 </clr-dg-pagination>
             </clr-dg-footer>

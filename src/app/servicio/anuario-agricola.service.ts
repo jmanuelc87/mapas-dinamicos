@@ -10,12 +10,8 @@ import { RequestOptionsArgs } from '@angular/http';
 import { Territorio } from '../dominio/territorio';
 import { Variedad } from '../dominio/variedad';
 import 'rxjs/Rx';
-
-const cultivos = [
-    { id: 1, name: 'Aceituna', variedades: [{ id: 1, nombre: 'manzanilla' }, { id: 2, nombre: 'negra' }] },
-    { id: 2, name: 'Agave', variedades: [{ id: 1, nombre: 'tequilero' }, { id: 2, nombre: 'tequilero weber' }] },
-    { id: 3, name: 'Aguacate', variedades: [{ id: 1, nombre: 'hass' }, { id: 2, nombre: 'organico' }, { id: 3, nombre: 'criollo' }] }
-]
+import { reject } from 'q';
+import { Estadistica } from '../dominio/estadistica';
 
 const anuarioAgricolaXCultivo = [
     { nombre: "Cacahuate", sembrada: 4432.50, cosechada: 4432.50, produccion: 7963.75, rendimiento: 1.797, pmr: 8539.80, valor: 68008847.63 },
@@ -142,18 +138,23 @@ export class AnuarioAgricolaService {
 
     public getAllCultivo(): Promise<Array<Cultivo>> {
         return new Promise((resolve, reject) => {
-            let all = cultivos.map(item => {
-                return new Cultivo(item.id, item.name);
-            });
+            let path = `${this.url}?c=5`;
 
-            resolve(all);
+            this.http.get<Cultivo[]>(path).subscribe(response => {
+                resolve(response);
+            });
         });
     }
 
     public getVariedadByCultivo(id: number): Promise<Array<Variedad>> {
         return new Promise((resolve, reject) => {
-            let cultivo = cultivos[id];
-            resolve(cultivo.variedades as Array<Variedad>);
+            let path = `${this.url}?c=6`;
+            let params = `cultivo=${id}`;
+            let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+            this.http.post<Ddr[]>(path, params, { headers: headers }).subscribe(response => {
+                resolve(response);
+            });
         });
     }
 
@@ -161,39 +162,79 @@ export class AnuarioAgricolaService {
     // verificar la integriadad de los ids
     public consultaAnuarioPorCultivo(anuario: AnuarioAgricola): Promise<Cultivo[]> {
         return new Promise((resolve, reject) => {
-            let all = anuarioAgricolaXCultivo.map(item => {
-                return new Cultivo(0, item.nombre, item.sembrada, item.cosechada, item.produccion, item.rendimiento, item.pmr, item.valor);
-            });
+            let path = `${this.url}?c=7`;
+            let params = `anuario=${JSON.stringify(anuario)}`;
+            let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-            resolve(all);
+            this.http.post<Cultivo[]>(path, params, { headers: headers }).subscribe(response => {
+                resolve(response);
+            });
         });
     }
 
     public getMunicipiosByAnuarioAndCultivo(anuario: AnuarioAgricola, cultivo: Cultivo): Promise<any> {
         return new Promise((resolve, reject) => {
+            let path = `${this.url}?c=8`;
+            let params = `anuario=${JSON.stringify(anuario)}`;
+            params += `&cultivo=${JSON.stringify(cultivo)}`;
+            let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-            let estado = new Estado(municipiosByAnuarioAndCultivo.estado);
 
-            let municipios = municipiosByAnuarioAndCultivo.municipios.map(item => {
-                return new Municipio(item.municipio, item.nombre)
+            this.http.post<any>(path, params, { headers: headers }).subscribe(response => {
+                let estado = new Estado(response[0].estado);
+
+                let municipios = response.map(item => {
+                    return new Municipio(item.mpio, item.municipio);
+                });
+
+                resolve({
+                    territorio: estado,
+                    municipios: municipios
+                });
             });
-
-            resolve({
-                territorio: estado,
-                municipios: municipios
-            })
         });
     }
 
-    public getEstadosByAnuariondCultivo(anuario: AnuarioAgricola, cultivo: Cultivo): Promise<Estado[]> {
+    public getEstadosByAnuarioAndCultivo(anuario: AnuarioAgricola, cultivo: Cultivo): Promise<Estado[]> {
 
         return new Promise((resolve, reject) => {
+            let path = `${this.url}?c=9`;
+            let params = `anuario=${JSON.stringify(anuario)}`;
+            params += `&cultivo=${JSON.stringify(cultivo)}`;
 
-            let estados = estadosByAnuarioAndCultivo.territorios.map(item => {
-                return new Estado(item.estado, item.nombre);
+            let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+            this.http.post<any>(path, params, { headers: headers }).subscribe(response => {
+                let estados = response.map(item => {
+                    return new Estado(item.id, item.nombre);
+                });
+
+                resolve(estados);
             });
+        });
+    }
 
-            resolve(estados);
+
+    public getEstadisticaByEstado(year, ciclo, moda, estado, cultivo): Promise<Estadistica> {
+        return new Promise<Estadistica>((resolve, reject) => {
+            let path = `${this.url}?c=10`;
+            let params = `year=${year}`;
+            params += `&ciclo=${ciclo}`;
+            params += `&moda=${moda}`;
+            params += `&estado=${estado}`;
+            params += `&cultivo=${cultivo}`;
+
+            let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+            console.log('enviando datos...');
+
+            this.http.post<Estadistica>(path, params, { headers: headers })
+                .subscribe(response => {
+                    console.log('recibiendo respuesta...');
+                    resolve(response);
+                }, error => {
+                    reject(error);
+                });
         });
     }
 
