@@ -3,12 +3,11 @@ import {
     Component,
     OnInit,
     ViewChild
-    } from '@angular/core';
+} from '@angular/core';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { ClrDatagrid } from '@clr/angular';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { Cultivo } from '../../dominio/cultivo';
-import { DatatableMensaje } from '../../dominio/datatable-mensaje';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Estado } from '../../dominio/estado';
 import { isNull, isUndefined } from 'util';
@@ -16,7 +15,6 @@ import { ModalComponent } from '../modal/modal.component';
 import { PicoEvent } from 'picoevent';
 import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
-import { WebmapMensaje } from '../../dominio/webmap-mensaje';
 
 
 
@@ -36,7 +34,7 @@ export class TableComponent implements OnInit {
 
     private color: Array<number>;
 
-    private msg: DatatableMensaje = new DatatableMensaje();
+    private msg: Map<string, any> = new Map();
 
     @ViewChild(ClrDatagrid)
     private dataGridView: ClrDatagrid;
@@ -51,7 +49,7 @@ export class TableComponent implements OnInit {
 
     ngOnInit() {
         this.channels.push(this.pico.listen({
-            type: DatatableMensaje,
+            type: Map,
             targets: ['update-table']
         }, msg01 => this.setData(msg01)));
     }
@@ -62,22 +60,40 @@ export class TableComponent implements OnInit {
     }
 
     private showDataInWebmap(cultivo) {
-        let estado = this.msg.consulta.estado;
-        let ddr = this.msg.consulta.distrito;
-        let mun = this.msg.consulta.municipio;
+        let consulta = this.msg.get('anuario');
+        let estado = consulta.estado;
+        let ddr = consulta.distrito;
+        let mun = consulta.municipio;
 
         if (estado == 0) {
-            this.service.getEstadosByAnuarioAndCultivo(this.msg.consulta, cultivo).then(value => {
-                this.pico.publish(new WebmapMensaje(this.msg.consulta, cultivo.id, value, null, isUndefined(this.color) ? [0, 100, 0] : this.color), ['show-query-map-estados'])
+            this.service.getEstadosByAnuarioAndCultivo(consulta, cultivo).then(value => {
+                let map = new Map<string, any>();
+                map.set('anuario', consulta);
+                map.set('cultivo.id', cultivo.id);
+                map.set('estados', value);
+                map.set('color', isUndefined(this.color) ? [0, 100, 0] : this.color);
+
+                this.pico.publish(map, ['show-query-map-estados'])
+                this.show = false;
             }).catch(err => console.log(err));
         }
 
         if (estado != 0 && mun == 0) {
-            this.service.getMunicipiosByAnuarioAndCultivo(this.msg.consulta, cultivo).then(value => {
+            this.service.getMunicipiosByAnuarioAndCultivo(consulta, cultivo).then(value => {
                 let estado = value.territorio;
                 let mpios = value.municipios;
+                
+                let map = new Map<string, any>();
+                map.set('anuario', consulta);
+                map.set('cultivo.id', cultivo.id);
+                map.set('estados', [estado]);
+                map.set('municipios', mpios);
+                map.set('color', isUndefined(this.color) ? [0, 100, 0] : this.color);
 
-                this.pico.publish(new WebmapMensaje(this.msg.consulta, cultivo.id, [estado], mpios, isUndefined(this.color) ? [0, 100, 0] : this.color), ['show-query-map-municipios']);
+
+
+                this.pico.publish(map, ['show-query-map-municipios']);
+                this.show = false;
             }).catch(err => console.log(err));
         }
     }

@@ -10,7 +10,6 @@ import {
     Output
 } from '@angular/core';
 import { Cultivo } from '../../dominio/cultivo';
-import { DatatableMensaje } from '../../dominio/datatable-mensaje';
 import { Ddr } from '../../dominio/ddr';
 import { Estado } from '../../dominio/estado';
 import {
@@ -19,7 +18,6 @@ import {
     FormGroup,
     Validators
 } from '@angular/forms';
-import { Mensaje } from '../../dominio/mensaje';
 import { Municipio } from '../../dominio/municipio';
 import { PicoEvent } from 'picoevent';
 import { ServiceUtil } from '../../util/util';
@@ -116,27 +114,28 @@ export class ConsultaCultivoComponent implements OnInit {
         this.form.get('municipio').valueChanges
             .map(value => Number.parseInt(value))
             .filter(id => id !== 0)
-            .subscribe(id =>
-                this.pico.publish(
-                    new Mensaje(
-                        new Municipio(id),
-                        new Estado(this.form.get('estado').value)
-                    ), ['draw-map-municipio']));
+            .subscribe(id => {
+                let obj: Map<string, any> = new Map();
+                obj.set('municipio', new Municipio(id));
+                obj.set('estado', new Estado(this.form.get('estado').value));
+
+                this.pico.publish(obj, ['draw-map-municipio'])
+            });
 
         this.form.get('municipio').valueChanges
             .map(value => Number.parseInt(value))
             .filter(id => id === 0)
-            .subscribe(id => this.pico.publish(new Mensaje(), ['erase-map-municipio']));
+            .subscribe(id => this.pico.publish(new Map(), ['erase-map-municipio']));
 
         this.form.get('distrito').valueChanges
             .map(value => Number.parseInt(value))
             .filter(id => id === 0)
-            .subscribe(id => this.pico.publish(new Mensaje(), ['erase-map-distrito']));
+            .subscribe(id => this.pico.publish(new Map(), ['erase-map-distrito']));
 
         this.form.get('estado').valueChanges
             .map(value => Number.parseInt(value))
             .filter(id => id === 0)
-            .subscribe(id => this.pico.publish(new Mensaje(), ['erase-map-estado']));
+            .subscribe(id => this.pico.publish(new Map(), ['erase-map-estado']));
 
         // habilita el select de 'distrito' y 'municipio' cuando un estado es seleccionado
         this.form.get('estado').valueChanges
@@ -194,7 +193,7 @@ export class ConsultaCultivoComponent implements OnInit {
         // enviar datos al servidor y emittir evento
         // verificar y validar los datos
         // console.log(JSON.stringify(this.form.value));
-        
+
         let val = this.form.value;
         let anuario = new AnuarioAgricola(0, val.anio, val.ciclo, val.modalidad, val.catalogo, val.estado, val.distrito, val.municipio);
 
@@ -202,7 +201,13 @@ export class ConsultaCultivoComponent implements OnInit {
         let printableFields = ServiceUtil.buildPrintableFieldsConsultaCultivo(anuario);
 
         this.service.consultaAnuarioPorCultivo(anuario).then(cultivo => {
-            this.pico.publish(new DatatableMensaje(cultivo, fields, printableFields, anuario), ['update-table']);
+            let obj: Map<string, any> = new Map();
+            obj.set('data', cultivo);
+            obj.set('fields', fields);
+            obj.set('printable', printableFields);
+            obj.set('anuario', anuario);
+
+            this.pico.publish(obj, ['update-table']);
             this.collapsed = true;
         });
     }

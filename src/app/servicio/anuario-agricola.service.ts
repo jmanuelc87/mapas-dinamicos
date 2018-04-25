@@ -226,11 +226,30 @@ export class AnuarioAgricolaService {
 
             let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-            console.log('enviando datos...');
 
             this.http.post<Estadistica>(path, params, { headers: headers })
                 .subscribe(response => {
-                    console.log('recibiendo respuesta...');
+                    resolve(response);
+                }, error => {
+                    reject(error);
+                });
+        });
+    }
+
+    public getEstadisticaByMunicipio(year, ciclo, moda, estado, municipio, cultivo): Promise<Estadistica> {
+        return new Promise<Estadistica>((resolve, reject) => {
+            let path = `${this.url}?c=11`;
+            let params = `year=${year}`;
+            params += `&ciclo=${ciclo}`;
+            params += `&moda=${moda}`;
+            params += `&estado=${estado}`;
+            params += `&municipio=${municipio}`;
+            params += `&cultivo=${cultivo}`;
+
+            let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+            this.http.post<Estadistica>(path, params, { headers: headers })
+                .subscribe(response => {
                     resolve(response);
                 }, error => {
                     reject(error);

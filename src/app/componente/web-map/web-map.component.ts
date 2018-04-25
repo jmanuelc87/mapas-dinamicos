@@ -21,7 +21,6 @@ import {
 import { Ddr } from '../../dominio/ddr';
 import { Estado } from '../../dominio/estado';
 import { isUndefined } from 'util';
-import { Mensaje } from '../../dominio/mensaje';
 import { Municipio } from '../../dominio/municipio';
 import { Observable } from 'rxjs/Observable';
 import { PicoEvent } from 'picoevent';
@@ -30,10 +29,11 @@ import { Server } from 'selenium-webdriver/safari';
 import { ServiceUtil } from '../../util/util';
 import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
-import { WebmapMensaje } from '../../dominio/webmap-mensaje';
 import { WebmapService } from '../../servicio/webmap.service';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { Estadistica } from '../../dominio/estadistica';
+import { MapOperator } from 'rxjs/operators/map';
+import { promise } from 'selenium-webdriver';
 
 
 
@@ -66,7 +66,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
     private features: Graphic[];
 
-    private msg: WebmapMensaje;
+    private msg: Map<string, any>;
 
     private channels: Subscription[] = new Array<Subscription>();
 
@@ -93,7 +93,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
         });
 
         this.view.when(event => {
-
             this.service.getFullExtent().then(value => {
                 this.setExtent(value.extent);
             });
@@ -175,7 +174,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
 
         this.observable
-            .debounceTime(500)
+            .debounceTime(350)
             .subscribe(value => this.checkPopupOnMap(value));
 
         this.channels.push(this.pico.listen({
@@ -199,32 +198,32 @@ export class WebMapComponent implements OnInit, OnDestroy {
         }, msg => this.drawDdrOnMap(msg)));
 
         this.channels.push(this.pico.listen({
-            type: Mensaje,
+            type: Map,
             targets: ['draw-map-municipio']
         }, msg => this.drawMunicipioOnMap(msg)));
 
         this.channels.push(this.pico.listen({
-            type: Mensaje,
+            type: Map,
             targets: ['erase-map-municipio']
         }, msg => this.ereaseOnLayers(this.layerMunicipios)));
 
         this.channels.push(this.pico.listen({
-            type: Mensaje,
+            type: Map,
             targets: ['erase-map-distrito']
         }, msg => this.ereaseOnLayers(this.layerDistritos)));
 
         this.channels.push(this.pico.listen({
-            type: Mensaje,
+            type: Map,
             targets: ['erase-map-estado']
         }, msg => this.ereaseOnLayers(this.layerEntidades)));
 
         this.channels.push(this.pico.listen({
-            type: WebmapMensaje,
+            type: Map,
             targets: ['show-query-map-municipios']
         }, msg => this.queryConsultaCultivoOnMap(msg)));
 
         this.channels.push(this.pico.listen({
-            type: WebmapMensaje,
+            type: Map,
             targets: ['show-query-map-estados']
         }, msg => this.queryConsultaCultivoOnMapByEstados(msg)));
     }
@@ -278,7 +277,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
             this.buildSymbolLayers(value.features, symbol, this.layerDistritos));
     }
 
-    private drawMunicipioOnMap(msg: Mensaje) {
+    private drawMunicipioOnMap(msg) {
         this.layerMunicipios.removeAll();
 
         let symbol = {
@@ -292,7 +291,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
             }
         };
 
-        this.service.getGeometryMunicipioByEntidad(msg.entidad.id, msg.municipio.id).then(value =>
+        this.service.getGeometryMunicipioByEntidad(msg.get('estado').id, msg.get('municipio').id).then(value =>
             this.buildSymbolLayers(value.features, symbol, this.layerMunicipios));
     }
 
@@ -303,19 +302,18 @@ export class WebMapComponent implements OnInit, OnDestroy {
         }
     }
 
-    private queryConsultaCultivoOnMap(msg: WebmapMensaje) {
+    private queryConsultaCultivoOnMap(msg) {
         // siempre se dibujan los municipios en las consultas
-        let estado = msg.territorio[0];
-        let mpios = msg.municipio;
+        let estado = msg.get('estados');
+        let mpios = msg.get('municipios');
         this.msg = msg;
 
         // convertir objetos a un arreglo de numeros
         let mpiosArray = this.modelToArray(mpios);
 
-
         let symbol = {
             type: 'simple-fill',
-            color: msg.color,
+            color: msg.get('color'),
             style: 'solid',
             outline: {
                 color: 'black',
@@ -326,16 +324,16 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
         this.layerOutput.removeAll();
 
-        this.service.getGeometryMunicipiosByEntidad(estado.id, mpiosArray)
+        this.service.getGeometryMunicipiosByEntidad(estado[0].id, mpiosArray)
             .then(value => {
                 this.features = value.features as Graphic[];
                 this.buildSymbolLayers(value.features, symbol, this.layerOutput);
             });
     }
 
-    private queryConsultaCultivoOnMapByEstados(msg: WebmapMensaje) {
+    private queryConsultaCultivoOnMapByEstados(msg) {
         // se dibujan los estados/delegaciones en el mapa
-        let estado: Territorio[] = msg.territorio;
+        let estado: Territorio[] = msg.get('estados');
         this.msg = msg;
         //let mpios = msg.municipio;
 
@@ -345,7 +343,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
         let symbol = {
             type: 'simple-fill',
-            color: msg.color,
+            color: msg.get('color'),
             style: 'solid',
             outline: {
                 color: 'black',
@@ -381,13 +379,8 @@ export class WebMapComponent implements OnInit, OnDestroy {
         if (!isUndefined(this.features)) {
             for (let item of this.features) {
                 if (geometryEngine.distance(value, item.geometry, 'meters') === 0) {
-
                     this.showPopupOnMap(this.msg, item, value);
 
-                    // atributos de la geometria del estado o municipio
-                    /*for (let attr in item.attributes) {
-                        console.log(attr, item.attributes[attr]);
-                    }*/
                 }
             }
         }
@@ -401,50 +394,106 @@ export class WebMapComponent implements OnInit, OnDestroy {
         */
     }
 
-    private showPopupOnMap(msg: WebmapMensaje, item: Graphic, point: Point) {
+    private showPopupOnMap(msg, item: Graphic, point: Point) {
         let year;
         let ciclo;
         let modalidad;
         let estado;
-        let attr;
+        let ent;
+        let mun;
         let cultivo;
 
-        if (this.msg.anuario instanceof AnuarioAgricola) {
+        if (this.msg.get('anuario') instanceof AnuarioAgricola) {
             // obtener propiedades del anuario agricola
-            let anuario = (this.msg.anuario as AnuarioAgricola);
+            let anuario = (this.msg.get('anuario') as AnuarioAgricola);
             year = anuario.anio;
             ciclo = anuario.ciclo
             modalidad = anuario.modalidad;
             estado = anuario.estado;
-            cultivo = this.msg.cultivoId;
+            cultivo = this.msg.get('cultivo.id');
         }
+
+        let promise;
 
         if (estado == 0) {
-            attr = item.attributes['CVE_ENT'];
+            ent = item.attributes['CVE_ENT'];
+
+            // llamar al servicio por estado
+            promise = this.service01
+                .getEstadisticaByEstado(year, ciclo, modalidad, Number.parseInt(ent), cultivo)
         } else {
-            attr = item.attributes['CVE_MUN'];
+
+            ent = Number.parseInt(item.attributes['CVE_ENT']);
+            mun = Number.parseInt(item.attributes['CVE_MUN']);
+
+            promise = this.service01.getEstadisticaByMunicipio(year, ciclo, modalidad, ent, mun, cultivo);
         }
 
-        // llamar al servicio
-        this.service01
-            .getEstadisticaByEstado(year, ciclo, modalidad, Number.parseInt(attr), cultivo)
-            .then((value: Estadistica) => {
+        // obtener los datos desde el servicio
+        if (!isUndefined(promise)) {
+            promise.then((value: Estadistica) => {
                 this.view.popup.open({
                     title: 'Estadísticas del Cultivo',
                     content: `
-                        <div>Cultivo: ${value.cultivo.nombre}</div>
-                        <div>Estado: ${value.territorio.nombre}</div>
-                        <div>Sup. Sembrada (Ha): ${value.cultivo.sembrada}</div>
-                        <div>Sup. cosechada (Ha): ${value.cultivo.cosechada}</div>
-                        <div>Producción (Ton): ${value.cultivo.produccion}</div>
-                        <div>Valor (Miles de pesos): ${value.cultivo.valor}</div>
+                            <table>
+                            <tbody>
+                            <tr>
+                                <td>Cultivo</td>
+                                <td>
+                                <strong>
+                                ${value.cultivo.nombre}
+                                </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Estado</td>
+                                <td>
+                                <strong>
+                                ${value.territorio.nombre}
+                                </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sup. Sembrada (Ha)</td>
+                                <td>
+                                <strong>
+                                ${value.cultivo.sembrada}
+                                </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sup. Cosechada (Ha)</td>
+                                <td>
+                                <strong>
+                                ${value.cultivo.cosechada}
+                                </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Producción (Ton)</td>
+                                <td>
+                                <strong>
+                                ${value.cultivo.produccion}
+                                </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Valor (Miles de Pesos)</td>
+                                <td>
+                                <strong>
+                                $${value.cultivo.valor}
+                                </strong>
+                                </td>
+                            </tr>
+                            <tbody>
+                        </table>
                     `,
                     location: point
                 });
-            })
-            .catch(err => {
+            }).catch(err => {
                 console.log(err);
-            })
+            });
+        }
     }
 
 }

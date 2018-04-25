@@ -16,13 +16,13 @@
 
             <clr-dg-placeholder>No hay datos que mostrar!</clr-dg-placeholder>
 
-            <clr-dg-column *ngFor="let item of msg.fields">{{ item }}</clr-dg-column>
+            <clr-dg-column *ngFor="let item of msg.get('fields')">{{ item }}</clr-dg-column>
 
-            <clr-dg-row *clrDgItems="let item of msg.data" [clrDgItem]="item">
+            <clr-dg-row *clrDgItems="let item of msg.get('data')" [clrDgItem]="item">
                 <clr-dg-action-overflow>
                     <button class="action-item" (click)="showDataInWebmap(item)">Mostar en Mapa</button>
                 </clr-dg-action-overflow>
-                <clr-dg-cell *ngFor="let key of item | iteratorKeys: msg.printableFields">
+                <clr-dg-cell *ngFor="let key of item | iteratorKeys: msg.get('printable')">
                     <div *ngIf="isString(item[key])">
                         {{ item[key] }}
                     </div>
