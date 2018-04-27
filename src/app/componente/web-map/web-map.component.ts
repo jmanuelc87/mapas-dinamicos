@@ -52,7 +52,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
     private view: MapView;
 
-    private mask: boolean;
+    //private mask: boolean;
 
     private layerEntidades = new GraphicsLayer();
 
@@ -81,7 +81,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
-        this.mask = true;
+        // this.mask = true;
 
         this.map = new WebMap({
             basemap: 'satellite'
@@ -146,7 +146,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
                 });
                 this.addLayer(layer02);
 
-                this.mask = false;
+                //this.mask = false;
             });
 
             service.then(value => {
@@ -304,7 +304,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
     private queryConsultaCultivoOnMap(msg) {
         // siempre se dibujan los municipios en las consultas
-        let estado = msg.get('estados');
+        let estado = msg.get('estado.id');
         let mpios = msg.get('municipios');
         this.msg = msg;
 
@@ -322,10 +322,9 @@ export class WebMapComponent implements OnInit, OnDestroy {
             }
         };
 
-        this.layerOutput.removeAll();
-
-        this.service.getGeometryMunicipiosByEntidad(estado[0].id, mpiosArray)
+        this.service.getGeometryMunicipiosByEntidad(estado, mpiosArray)
             .then(value => {
+                this.layerOutput.removeAll();
                 this.features = value.features as Graphic[];
                 this.buildSymbolLayers(value.features, symbol, this.layerOutput);
             });
@@ -411,6 +410,8 @@ export class WebMapComponent implements OnInit, OnDestroy {
             modalidad = anuario.modalidad;
             estado = anuario.estado;
             cultivo = this.msg.get('cultivo.id');
+
+            console.log("showPopupOnMap", cultivo);
         }
 
         let promise;
@@ -433,7 +434,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
         if (!isUndefined(promise)) {
             promise.then((value: Estadistica) => {
                 this.view.popup.open({
-                    title: 'Estadísticas del Cultivo',
+                    title: '<div style="color: whitesmoke;">Estadísticas del Cultivo</div>',
                     content: `
                             <table>
                             <tbody>
@@ -446,7 +447,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Estado</td>
+                                <td>Territorio</td>
                                 <td>
                                 <strong>
                                 ${value.territorio.nombre}

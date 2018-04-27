@@ -4,6 +4,7 @@ import { Territorio } from "./territorio";
 export class Cultivo {
     constructor(
         public id?: number,
+        public idvariedad?: number,
         public nombre?: string,
         public sembrada?: number,
         public cosechada?: number,
@@ -12,6 +13,5 @@ export class Cultivo {
         public pmr?: number,
         public valor?: number,
         public variedad?: string,
-        public idcultivo?: number
     ) { }
 }

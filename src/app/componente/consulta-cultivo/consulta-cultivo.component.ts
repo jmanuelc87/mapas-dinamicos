@@ -68,8 +68,8 @@ export class ConsultaCultivoComponent implements OnInit {
         this.getAllEstados();
 
         this.form = this.fb.group({
-            ciclo: ['oto-inv', Validators.required],
-            modalidad: ['riego', Validators.required],
+            ciclo: ['1', Validators.required],
+            modalidad: ['1', Validators.required],
             catalogo: ['generico', Validators.required],
             anio: [2016, Validators.required],
             estado: [0, Validators.required],
@@ -190,10 +190,6 @@ export class ConsultaCultivoComponent implements OnInit {
     }
 
     private onSubmit(event) {
-        // enviar datos al servidor y emittir evento
-        // verificar y validar los datos
-        // console.log(JSON.stringify(this.form.value));
-
         let val = this.form.value;
         let anuario = new AnuarioAgricola(0, val.anio, val.ciclo, val.modalidad, val.catalogo, val.estado, val.distrito, val.municipio);
 

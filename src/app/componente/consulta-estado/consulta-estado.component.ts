@@ -40,7 +40,7 @@ export class ConsultaEstadoComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.getAllCultivos();
+        this.getAllCultivos('generico');
         this.getAllEstados();
 
         this.form = this.fb.group({
@@ -89,6 +89,9 @@ export class ConsultaEstadoComponent implements OnInit {
         this.form.get('catalogo').valueChanges
             .filter(value => value === 'generico')
             .subscribe(value => this.disableVariedad());
+
+        this.form.get('catalogo').valueChanges
+            .subscribe(value => this.getAllCultivos(value));
     }
 
     private disableVariedad() {
@@ -100,8 +103,8 @@ export class ConsultaEstadoComponent implements OnInit {
         this.form.get('variedad').enable();
     }
 
-    private getAllCultivos() {
-        this.service.getAllCultivo().then(cultivos => this.cultivos = cultivos);
+    private getAllCultivos(catalogo: string) {
+        this.service.getAllCultivo(catalogo).then(cultivos => this.cultivos = cultivos);
     }
 
     private getVariedadesByCultivo(id) {

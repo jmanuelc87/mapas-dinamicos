@@ -13,7 +13,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderMenuComponent } from './componente/menu/menu.component';
 import { HttpClientModule } from '@angular/common/http';
 import { IteratorKeysPipe } from './iterator-keys.pipe';
-import { ModalComponent } from './componente/modal/modal.component';
+import { ModalComponent } from './componente/modal-color/modal.component';
 import { OverlayComponent } from './componente/overlay/overlay.component';
 import { PicoEventModule } from 'picoevent';
 import { RouterModule, Routes } from '@angular/router';
