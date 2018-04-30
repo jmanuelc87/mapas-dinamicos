@@ -144,7 +144,7 @@ export class AnuarioAgricolaService {
         });
     }
 
-    public getEstadisticaByEstado(year, ciclo, moda, estado, cultivo): Promise<Estadistica> {
+    public getEstadisticaByEstado(year, ciclo, moda, estado, cultivo, variedad, catalogo): Promise<Estadistica> {
         return new Promise<Estadistica>((resolve, reject) => {
             let path = `${this.url}/consultas/estadistica-estado`;
             let params = `year=${year}`;
@@ -152,11 +152,17 @@ export class AnuarioAgricolaService {
             params += `&moda=${moda}`;
             params += `&estado=${estado}`;
             params += `&cultivo=${cultivo}`;
+            params += `&variedad=${variedad}`;
+            params += `&catalogo=${catalogo}`;
 
             let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
             this.http.post<Estadistica>(path, params, { headers: headers })
                 .subscribe(response => {
+
+                    console.log(response);
+
+
                     resolve(response);
                 }, error => {
                     reject(error);

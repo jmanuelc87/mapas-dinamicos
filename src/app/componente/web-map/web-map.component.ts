@@ -18,7 +18,7 @@ import {
     OnDestroy,
     OnInit,
     ViewChild
-    } from '@angular/core';
+} from '@angular/core';
 import { Ddr } from '../../dominio/ddr';
 import { Estadistica } from '../../dominio/estadistica';
 import { Estado } from '../../dominio/estado';
@@ -417,7 +417,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
             // TODO: terminar el servicio en el backend
             promise = this.service01
-                .getEstadisticaByEstado(year, ciclo, modalidad, ent, cultivo)
+                .getEstadisticaByEstado(year, ciclo, modalidad, ent, cultivo, variedad, catalogo);
         } else {
 
             ent = Number.parseInt(item.attributes['CVE_ENT']);
@@ -430,9 +430,9 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
         // obtener los datos desde el servicio
         if (!isUndefined(promise)) {
-            promise.then((value: Estadistica) => {
+            promise.then((estadistica: Estadistica[]) => {
 
-                console.log(value);
+                let value = estadistica.pop();
 
                 this.view.popup.open({
                     title: '<div style="color: whitesmoke;">Estadísticas del Cultivo</div>',
