@@ -153,10 +153,7 @@ export class AnuarioAgricolaService {
             params += `&estado=${estado}`;
             params += `&cultivo=${cultivo}`;
 
-            console.log(params);
-
             let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-
 
             this.http.post<Estadistica>(path, params, { headers: headers })
                 .subscribe(response => {
@@ -167,15 +164,17 @@ export class AnuarioAgricolaService {
         });
     }
 
-    public getEstadisticaByMunicipio(year, ciclo, moda, estado, municipio, cultivo): Promise<Estadistica> {
+    public getEstadisticaByMunicipio(year, ciclo, moda, estado, municipio, cultivo, variedad, catalogo): Promise<Estadistica> {
         return new Promise<Estadistica>((resolve, reject) => {
-            let path = `${this.url}?c=11`;
+            let path = `${this.url}/consultas/estadistica-municipio`;
             let params = `year=${year}`;
             params += `&ciclo=${ciclo}`;
             params += `&moda=${moda}`;
             params += `&estado=${estado}`;
             params += `&municipio=${municipio}`;
             params += `&cultivo=${cultivo}`;
+            params += `&variedad=${variedad}`;
+            params += `&catalogo=${catalogo}`;
 
             let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 

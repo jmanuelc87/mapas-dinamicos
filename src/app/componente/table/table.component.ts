@@ -3,7 +3,7 @@ import {
     Component,
     OnInit,
     ViewChild
-} from '@angular/core';
+    } from '@angular/core';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { ClrDatagrid } from '@clr/angular';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
@@ -59,13 +59,11 @@ export class TableComponent implements OnInit {
         this.show = true;
     }
 
-    private showDataInWebmap(cultivo) {
+    private showDataInWebmap(cultivo: Cultivo) {
         let consulta = this.msg.get('anuario');
         let estado = consulta.estado;
         let ddr = consulta.distrito;
         let mun = consulta.municipio;
-
-        console.log("showDataInWebmap", cultivo);
 
         // si estado es igual a cero
         // entonces mostrar los estado con el determinado cultivo
@@ -74,7 +72,8 @@ export class TableComponent implements OnInit {
 
                 let map = new Map<string, any>();
                 map.set('anuario', consulta);
-                map.set('cultivo.id', cultivo.id);
+                map.set('cultivo.id', cultivo.idcultivo);
+                map.set('variedad.id', cultivo.idvariedad);
                 map.set('estados', value);
                 map.set('color', this.color);
 
@@ -94,7 +93,8 @@ export class TableComponent implements OnInit {
 
                 let map = new Map<string, any>();
                 map.set('anuario', consulta);
-                map.set('cultivo.id', cultivo.id);
+                map.set('cultivo.id', cultivo.idcultivo);
+                map.set('variedad.id', cultivo.idvariedad);
                 map.set('estado.id', estado.id);
                 map.set('municipios', mpios);
                 map.set('color', this.color);
@@ -116,10 +116,13 @@ export class TableComponent implements OnInit {
 
                 let map = new Map<string, any>();
                 map.set('anuario', consulta);
-                map.set('cultivo.id', cultivo.id);
+                map.set('cultivo.id', cultivo.idcultivo);
+                map.set('variedad.id', cultivo.idvariedad);
                 map.set('estado.id', estado.id);
                 map.set('municipios', mpios);
                 map.set('color', this.color);
+
+                console.log(map);
 
                 this.pico.publish(map, ['show-query-map-municipios']);
                 this.show = false;

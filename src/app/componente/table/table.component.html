@@ -16,7 +16,7 @@
 
             <clr-dg-placeholder>No hay datos que mostrar!</clr-dg-placeholder>
 
-            <clr-dg-column *ngFor="let item of msg.get('fields')">{{ item }}</clr-dg-column>
+            <clr-dg-column *ngFor="let item of msg.get('printable')">{{ item }}</clr-dg-column>
 
             <clr-dg-row *clrDgItems="let item of msg.get('data')" [clrDgItem]="item">
                 <clr-dg-action-overflow>

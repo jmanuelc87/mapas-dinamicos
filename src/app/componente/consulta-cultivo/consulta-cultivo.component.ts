@@ -196,9 +196,10 @@ export class ConsultaCultivoComponent implements OnInit {
         let fields = ServiceUtil.buildFieldsConsultaCultivo(anuario);
         let printableFields = ServiceUtil.buildPrintableFieldsConsultaCultivo(anuario);
 
-        this.service.consultaAnuarioPorCultivo(anuario).then(cultivo => {
+        this.service.consultaAnuarioPorCultivo(anuario).then((cultivos: Cultivo[]) => {
+            
             let obj: Map<string, any> = new Map();
-            obj.set('data', cultivo);
+            obj.set('data', cultivos);
             obj.set('fields', fields);
             obj.set('printable', printableFields);
             obj.set('anuario', anuario);

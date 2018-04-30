@@ -11,29 +11,29 @@ import * as TextSymbol from 'esri/symbols/TextSymbol';
 import * as WebMap from 'esri/WebMap';
 import { Anuario } from '../../dominio/anuario';
 import { AnuarioAgricola } from '../../dominio/anuario-agricola';
+import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import {
     Component,
     ElementRef,
     OnDestroy,
     OnInit,
     ViewChild
-} from '@angular/core';
+    } from '@angular/core';
 import { Ddr } from '../../dominio/ddr';
+import { Estadistica } from '../../dominio/estadistica';
 import { Estado } from '../../dominio/estado';
 import { isUndefined } from 'util';
+import { MapOperator } from 'rxjs/operators/map';
 import { Municipio } from '../../dominio/municipio';
 import { Observable } from 'rxjs/Observable';
 import { PicoEvent } from 'picoevent';
 import { Point } from 'esri/geometry';
+import { promise } from 'selenium-webdriver';
 import { Server } from 'selenium-webdriver/safari';
 import { ServiceUtil } from '../../util/util';
 import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
 import { WebmapService } from '../../servicio/webmap.service';
-import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
-import { Estadistica } from '../../dominio/estadistica';
-import { MapOperator } from 'rxjs/operators/map';
-import { promise } from 'selenium-webdriver';
 
 
 
@@ -378,19 +378,11 @@ export class WebMapComponent implements OnInit, OnDestroy {
         if (!isUndefined(this.features)) {
             for (let item of this.features) {
                 if (geometryEngine.distance(value, item.geometry, 'meters') === 0) {
+                    console.log('show popupOnMap');
                     this.showPopupOnMap(this.msg, item, value);
-
                 }
             }
         }
-
-        /*
-        this.view.popup.open({
-            title: "You clicked here",
-            content: "This is a point of interest",
-            location: value,
-        });
-        */
     }
 
     private showPopupOnMap(msg, item: Graphic, point: Point) {
@@ -399,8 +391,11 @@ export class WebMapComponent implements OnInit, OnDestroy {
         let modalidad;
         let estado;
         let ent;
+        let ddr;
         let mun;
         let cultivo;
+        let variedad;
+        let catalogo;
 
         if (this.msg.get('anuario') instanceof AnuarioAgricola) {
             // obtener propiedades del anuario agricola
@@ -410,29 +405,35 @@ export class WebMapComponent implements OnInit, OnDestroy {
             modalidad = anuario.modalidad;
             estado = anuario.estado;
             cultivo = this.msg.get('cultivo.id');
-
-            console.log("showPopupOnMap", cultivo);
+            variedad = this.msg.get('variedad.id');
+            catalogo = anuario.catalogo;
         }
 
         let promise;
 
-        if (estado == 0) {
-            ent = item.attributes['CVE_ENT'];
 
-            // llamar al servicio por estado
+        if (estado == 0) {
+            ent = Number.parseInt(item.attributes['CVE_ENT']);
+
+            // TODO: terminar el servicio en el backend
             promise = this.service01
-                .getEstadisticaByEstado(year, ciclo, modalidad, Number.parseInt(ent), cultivo)
+                .getEstadisticaByEstado(year, ciclo, modalidad, ent, cultivo)
         } else {
 
             ent = Number.parseInt(item.attributes['CVE_ENT']);
             mun = Number.parseInt(item.attributes['CVE_MUN']);
 
-            promise = this.service01.getEstadisticaByMunicipio(year, ciclo, modalidad, ent, mun, cultivo);
+            console.log(year, ciclo, modalidad, ent, mun, cultivo, variedad, catalogo);
+
+            promise = this.service01.getEstadisticaByMunicipio(year, ciclo, modalidad, ent, mun, cultivo, variedad, catalogo);
         }
 
         // obtener los datos desde el servicio
         if (!isUndefined(promise)) {
             promise.then((value: Estadistica) => {
+
+                console.log(value);
+
                 this.view.popup.open({
                     title: '<div style="color: whitesmoke;">Estadísticas del Cultivo</div>',
                     content: `
@@ -442,7 +443,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
                                 <td>Cultivo</td>
                                 <td>
                                 <strong>
-                                ${value.cultivo.nombre}
+                                ${value.cultivo}
                                 </strong>
                                 </td>
                             </tr>
@@ -450,7 +451,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
                                 <td>Territorio</td>
                                 <td>
                                 <strong>
-                                ${value.territorio.nombre}
+                                ${value.territorio}
                                 </strong>
                                 </td>
                             </tr>
@@ -458,7 +459,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
                                 <td>Sup. Sembrada (Ha)</td>
                                 <td>
                                 <strong>
-                                ${value.cultivo.sembrada}
+                                ${value.sembrada}
                                 </strong>
                                 </td>
                             </tr>
@@ -466,7 +467,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
                                 <td>Sup. Cosechada (Ha)</td>
                                 <td>
                                 <strong>
-                                ${value.cultivo.cosechada}
+                                ${value.cosechada}
                                 </strong>
                                 </td>
                             </tr>
@@ -474,7 +475,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
                                 <td>Producción (Ton)</td>
                                 <td>
                                 <strong>
-                                ${value.cultivo.produccion}
+                                ${value.produccion}
                                 </strong>
                                 </td>
                             </tr>
@@ -482,7 +483,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
                                 <td>Valor (Miles de Pesos)</td>
                                 <td>
                                 <strong>
-                                $${value.cultivo.valor}
+                                $${value.valor}
                                 </strong>
                                 </td>
                             </tr>

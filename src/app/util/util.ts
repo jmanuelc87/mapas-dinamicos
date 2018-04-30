@@ -51,12 +51,11 @@ export class ServiceUtil {
     }
 
 
-    public static buildPrintableFieldsConsultaCultivo(obj: AnuarioAgricola): string[] {
-
+    public static buildPrintableFieldsConsultaCultivo(obj: any): string[] {
         if (obj.catalogo !== undefined && obj.catalogo === 'detalle') {
-            return ['nombre', 'variedad', 'sembrada', 'cosechada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+            return ['nombre', 'variedad', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
         } else {
-            return ['nombre', 'sembrada', 'cosechada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+            return ['nombre', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
         }
     }
 
