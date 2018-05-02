@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { PicoEvent } from 'picoevent';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-overlay',
@@ -7,12 +9,29 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class OverlayComponent implements OnInit {
 
-  @Input()
-  private showOverlay: boolean;
+  private channel: Subscription;
 
-  constructor() { }
+  private modalShow: boolean;
+
+  constructor(
+    private pico: PicoEvent
+  ) { }
 
   ngOnInit() {
+
+    this.channel = this.pico.listen({
+      type: Boolean,
+      targets: ['show-overlay']
+    }, value => this.show(value));
+  }
+
+  stop(event) {
+    event.stoppropagation();
+  }
+
+  show(value) {
+    console.log(value);
+    this.modalShow = value;
   }
 
 }

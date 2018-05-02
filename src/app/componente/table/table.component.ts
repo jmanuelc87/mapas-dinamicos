@@ -3,9 +3,9 @@ import {
     Component,
     OnInit,
     ViewChild
-    } from '@angular/core';
+} from '@angular/core';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
-import { ClrDatagrid } from '@clr/angular';
+import { ClrDatagrid, ClrDatagridComparatorInterface } from '@clr/angular';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { Cultivo } from '../../dominio/cultivo';
 import { DialogService } from 'ng2-bootstrap-modal';
@@ -60,6 +60,8 @@ export class TableComponent implements OnInit {
     }
 
     private showDataInWebmap(cultivo: Cultivo) {
+        this.pico.publish(true, ['show-overlay']);
+
         let consulta = this.msg.get('anuario');
         let estado = consulta.estado;
         let ddr = consulta.distrito;
@@ -76,6 +78,9 @@ export class TableComponent implements OnInit {
                 map.set('variedad.id', cultivo.idvariedad);
                 map.set('estados', value);
                 map.set('color', this.color);
+
+
+                console.log('showDataInWebmap', map);
 
                 this.pico.publish(map, ['show-query-map-estados'])
                 this.show = false;
@@ -156,4 +161,12 @@ export class TableComponent implements OnInit {
         return typeof (value) === 'number';
     }
 
+}
+
+
+class StringComparator implements ClrDatagridComparatorInterface<string> {
+
+    compare(a: string, b: string): number {
+        return a.localeCompare(b);
+    }
 }

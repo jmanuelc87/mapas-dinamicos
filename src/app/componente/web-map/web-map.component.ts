@@ -157,6 +157,11 @@ export class WebMapComponent implements OnInit, OnDestroy {
             });
 
 
+            service.then(value => {
+                this.pico.publish(false, ['show-overlay']);
+            });
+
+
             service.catch(err => console.log(err));
         });
 
@@ -170,6 +175,11 @@ export class WebMapComponent implements OnInit, OnDestroy {
                     }))
                 );
             });
+        });
+
+
+        this.view.on('pointer-leave', event => {
+            this.view.popup.close();
         });
 
 
@@ -327,10 +337,14 @@ export class WebMapComponent implements OnInit, OnDestroy {
                 this.layerOutput.removeAll();
                 this.features = value.features as Graphic[];
                 this.buildSymbolLayers(value.features, symbol, this.layerOutput);
+                this.pico.publish(false, ['show-overlay']);
             });
     }
 
     private queryConsultaCultivoOnMapByEstados(msg) {
+
+        console.log('queryConsultaCultivoOnMapByEstados', msg);
+
         // se dibujan los estados/delegaciones en el mapa
         let estado: Territorio[] = msg.get('estados');
         this.msg = msg;
@@ -355,6 +369,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
             .then(value => {
                 this.features = value.features as Graphic[];
                 this.buildSymbolLayers(value.features, symbol, this.layerOutput)
+                this.pico.publish(false, ['show-overlay']);
             });
     }
 

@@ -1,7 +1,9 @@
-<div *ngIf="showOverlay">
-  <span class="loading">
-    <span class="spinner spinner-inverse">
-      Loading...
-    </span>
-  </span>
+<div *ngIf="modalShow" class="modal" (click)="stop($event)">
+    <div class="color">
+        <span class="spinner spinner-inverse spinner-inline">
+        </span>
+        <span>
+            Cargando...
+        </span>
+    </div>
 </div>

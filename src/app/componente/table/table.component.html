@@ -1,7 +1,7 @@
 <div class="bottom-nav" [ngStyle]="{'height': !this.show ? '50px' : ''}">
     <div class="toolbar">
-        <button *ngIf="show" class="btn btn-sm btn-link" (click)="showColorModal()">
-            Sel. Color
+        <button *ngIf="show" class="btn btn-sm btn-icon" (click)="showColorModal()">
+            Color
         </button>
         <button class="push-right btn btn-sm btn-icon" (click)="show = true">
             &#9723;
@@ -16,7 +16,7 @@
 
             <clr-dg-placeholder>No hay datos que mostrar!</clr-dg-placeholder>
 
-            <clr-dg-column *ngFor="let item of msg.get('printable')">{{ item }}</clr-dg-column>
+            <clr-dg-column *ngFor="let item of msg.get('printable')" [clrDgField]="item" [clrDgSortBy]="StringComparator">{{ item }}</clr-dg-column>
 
             <clr-dg-row *clrDgItems="let item of msg.get('data')" [clrDgItem]="item">
                 <clr-dg-action-overflow>
