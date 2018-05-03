@@ -8,7 +8,7 @@ import {
     OnDestroy,
     OnInit,
     Output
-} from '@angular/core';
+    } from '@angular/core';
 import { Cultivo } from '../../dominio/cultivo';
 import { Ddr } from '../../dominio/ddr';
 import { Estado } from '../../dominio/estado';
@@ -17,7 +17,7 @@ import {
     FormControl,
     FormGroup,
     Validators
-} from '@angular/forms';
+    } from '@angular/forms';
 import { Municipio } from '../../dominio/municipio';
 import { PicoEvent } from 'picoevent';
 import { ServiceUtil } from '../../util/util';
@@ -202,7 +202,7 @@ export class ConsultaCultivoComponent implements OnInit {
             obj.set('data', cultivos);
             obj.set('fields', fields);
             obj.set('printable', printableFields);
-            obj.set('anuario', anuario);
+            obj.set('anuario', anuario); // datos para enviar de nuevo al servidor
 
             this.pico.publish(obj, ['update-table']);
             this.collapsed = true;

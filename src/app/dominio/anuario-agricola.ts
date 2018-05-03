@@ -12,6 +12,7 @@ export class AnuarioAgricola extends Anuario {
         public estado?: Territorio,
         public distrito?: Territorio,
         public municipio?: Territorio,
+        public filtroTerritorio?: number,
     ) {
         super(anio);
     }

@@ -30,7 +30,6 @@ export class OverlayComponent implements OnInit {
   }
 
   show(value) {
-    console.log(value);
     this.modalShow = value;
   }
 

@@ -59,4 +59,33 @@ export class ServiceUtil {
         }
     }
 
+    public static buildPrintableFieldsTerritorioCultivo(obj: number): string[] {
+        switch (obj) {
+            case 1:
+                return ['estado', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+
+
+            case 2:
+                return ['estado', 'distrito', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+
+
+            case 3:
+                return ['estado', 'municipio', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+
+
+            case 4:
+                return ['estado', 'distrito', 'municipio', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+
+
+            case 5:
+                return ['distrito', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+
+
+            case 6:
+                return ['municipio', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+        }
+
+        return [];
+    }
+
 }

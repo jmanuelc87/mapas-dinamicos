@@ -1,6 +1,7 @@
 import { Anuario } from '../dominio/anuario';
 import { AnuarioAgricola } from '../dominio/anuario-agricola';
 import { Cultivo } from '../dominio/cultivo';
+import { CultivoTerritorio } from '../dominio/CultivoTerritorio';
 import { Ddr } from '../dominio/ddr';
 import { Estadistica } from '../dominio/estadistica';
 import { Estado } from '../dominio/estado';
@@ -185,6 +186,32 @@ export class AnuarioAgricolaService {
             let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
             this.http.post<Estadistica>(path, params, { headers: headers })
+                .subscribe(response => {
+                    resolve(response);
+                }, error => {
+                    reject(error);
+                });
+        });
+    }
+
+
+    public consultaProduccionPorEstado(year, ciclo, modalidad, catalogo, cultivo, variedad, estado, filtroTerritorio, distrito) {
+        let path = `${this.url}/`;
+
+        let params = `year=${year}`;
+        params += `&ciclo=${ciclo}`;
+        params += `&moda=${modalidad}`;
+        params += `&estado=${estado}`;
+        params += `&cultivo=${cultivo}`;
+        params += `&variedad=${variedad}`;
+        params += `&catalogo=${catalogo}`;
+        params += `&filtroTerritorio=${filtroTerritorio}`;
+        params += `&distrito=${distrito}`;
+
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+        return new Promise<CultivoTerritorio[]>((resolve, reject) => {
+            this.http.post<CultivoTerritorio[]>(path, params, { headers: headers })
                 .subscribe(response => {
                     resolve(response);
                 }, error => {
