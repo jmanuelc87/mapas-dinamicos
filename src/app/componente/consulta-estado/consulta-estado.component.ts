@@ -15,6 +15,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import { Ddr } from '../../dominio/ddr';
 import { Anuario } from '../../dominio/anuario';
+import { ServiceUtil } from '../../util/util';
 
 
 @Component({
@@ -22,7 +23,8 @@ import { Anuario } from '../../dominio/anuario';
     templateUrl: './consulta-estado.component.html',
     styleUrls: ['./consulta-estado.component.css'],
     providers: [
-        AnuarioAgricolaService
+        AnuarioAgricolaService,
+        ServiceUtil
     ]
 })
 export class ConsultaEstadoComponent implements OnInit {
@@ -44,6 +46,8 @@ export class ConsultaEstadoComponent implements OnInit {
     private distritosFormControl: FormControl;
 
     constructor(
+        private service: AnuarioAgricolaService,
+        private util: ServiceUtil,
         private fb: FormBuilder,
         private pico: PicoEvent
     ) { }
@@ -164,19 +168,27 @@ export class ConsultaEstadoComponent implements OnInit {
         let filtroTerritorio = this.form.get('filtroTerritorio').value;
         let distrito = this.form.get('distrito').value;
 
+        filtroTerritorio = Number.parseInt(filtroTerritorio);
 
-        let printable;
-        let fields; // TODO SELECCIONAR LOS CAMPOS QUE SE VAN A IMPRIMIR
+        let fields = ServiceUtil.buildColumnFieldsTerritorioCultivo(filtroTerritorio);
+        let printable = ServiceUtil.buildPrintableFieldsTerritorioCultivo(filtroTerritorio);
 
         this.service.consultaProduccionPorEstado(year, ciclo, modalidad, catalogo, cultivo, variedad, estado, filtroTerritorio, distrito)
-            .then(cultivoTerritorio => {
+            .then((cultivoTerritorio) => {
+
                 let map = new Map();
+                map.set('id', 'produccion-estado');
                 map.set('data', cultivoTerritorio);
                 map.set('fields', fields);
                 map.set('printable', printable);
 
+                // extra parameters
+                map.set('estados', cultivoTerritorio);
+                map.set('distrito.id', distrito);
+                map.set('cultivo.id', cultivo);
+                map.set('variedad.id', variedad);
+
                 this.pico.publish(map, ['update-table']);
             });
     }
-
 }

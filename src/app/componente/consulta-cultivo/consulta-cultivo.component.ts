@@ -8,7 +8,7 @@ import {
     OnDestroy,
     OnInit,
     Output
-    } from '@angular/core';
+} from '@angular/core';
 import { Cultivo } from '../../dominio/cultivo';
 import { Ddr } from '../../dominio/ddr';
 import { Estado } from '../../dominio/estado';
@@ -17,7 +17,7 @@ import {
     FormControl,
     FormGroup,
     Validators
-    } from '@angular/forms';
+} from '@angular/forms';
 import { Municipio } from '../../dominio/municipio';
 import { PicoEvent } from 'picoevent';
 import { ServiceUtil } from '../../util/util';
@@ -25,7 +25,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-
 
 
 
@@ -197,8 +196,9 @@ export class ConsultaCultivoComponent implements OnInit {
         let printableFields = ServiceUtil.buildPrintableFieldsConsultaCultivo(anuario);
 
         this.service.consultaAnuarioPorCultivo(anuario).then((cultivos: Cultivo[]) => {
-            
+
             let obj: Map<string, any> = new Map();
+            obj.set('id', 'produccion-cultivo');
             obj.set('data', cultivos);
             obj.set('fields', fields);
             obj.set('printable', printableFields);

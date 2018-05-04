@@ -15,6 +15,7 @@ import { ModalComponent } from '../modal-color/modal.component';
 import { PicoEvent } from 'picoevent';
 import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
+import { AnuarioAgricola } from '../../dominio/anuario-agricola';
 
 
 
@@ -59,79 +60,94 @@ export class TableComponent implements OnInit {
         this.show = true;
     }
 
-    private showDataInWebmap(cultivo: Cultivo) {
+    private showDataInWebmap(cultivo: any) {
         this.pico.publish(true, ['show-overlay']);
 
-        let consulta = this.msg.get('anuario');
-        let estado = consulta.estado;
-        let ddr = consulta.distrito;
-        let mun = consulta.municipio;
+
+        let id = this.msg.get('id');
 
         // si estado es igual a cero
         // entonces mostrar los estado con el determinado cultivo
-        if (estado == 0) {
-            this.service.getEstadosByAnuarioAndCultivo(consulta, cultivo).then(value => {
+        if (id == 'produccion-cultivo') {
 
-                let map = new Map<string, any>();
-                map.set('anuario', consulta);
-                map.set('cultivo.id', cultivo.idcultivo);
-                map.set('variedad.id', cultivo.idvariedad);
-                map.set('estados', value);
-                map.set('color', this.color);
+            let consulta = this.msg.get('anuario');
+            let estado = consulta.estado;
+            let ddr = consulta.distrito;
+            let mun = consulta.municipio;
+
+            if (estado == 0) {
+                this.service.getEstadosByAnuarioAndCultivo(consulta, cultivo).then(value => {
+
+                    let map = new Map<string, any>();
+                    map.set('anuario', consulta);
+                    map.set('cultivo.id', cultivo.idcultivo);
+                    map.set('variedad.id', cultivo.idvariedad);
+                    map.set('estados', value);
+                    map.set('color', this.color);
 
 
-                console.log('showDataInWebmap', map);
+                    console.log('showDataInWebmap', map);
 
-                this.pico.publish(map, ['show-query-map-estados'])
-                this.show = false;
-            }).catch(err => console.log(err));
+                    this.pico.publish(map, ['show-query-map-estados'])
+                    this.show = false;
+                }).catch(err => console.log(err));
+            }
+
+            if (estado != 0 && ddr == 0 && mun == 0) {
+                this.service.getMunicipiosByAnuarioAndCultivo(consulta, cultivo).then(value => {
+                    let estado = value.territorio;
+                    let mpios = value.municipios;
+
+                    let map = new Map<string, any>();
+                    map.set('anuario', consulta);
+                    map.set('cultivo.id', cultivo.idcultivo);
+                    map.set('variedad.id', cultivo.idvariedad);
+                    map.set('estado.id', estado.id);
+                    map.set('municipios', mpios);
+                    map.set('color', this.color);
+
+
+
+                    this.pico.publish(map, ['show-query-map-municipios']);
+                    this.show = false;
+                }).catch(err => console.log(err));
+            }
+
+            if (estado != 0 && ddr != 0 && mun == 0) {
+                this.service.getMunicipiosByAnuarioAndCultivo(consulta, cultivo).then(value => {
+                    let estado = value.territorio;
+                    let mpios = value.municipios;
+
+                    let map = new Map<string, any>();
+                    map.set('anuario', consulta);
+                    map.set('cultivo.id', cultivo.idcultivo);
+                    map.set('variedad.id', cultivo.idvariedad);
+                    map.set('estado.id', estado.id);
+                    map.set('municipios', mpios);
+                    map.set('color', this.color);
+
+                    console.log(map);
+
+                    this.pico.publish(map, ['show-query-map-municipios']);
+                    this.show = false;
+                });
+            }
         }
 
-        // TODO: Seleccionar cuando los municipios estan dentro de un distrito y cuando estan dentro del estado
-
-        // si estado esta seleccionado con una entidad y municipios todos
-        // buscar todos los municipios dentro del estado
-        if (estado != 0 && ddr == 0 && mun == 0) {
-            this.service.getMunicipiosByAnuarioAndCultivo(consulta, cultivo).then(value => {
-                let estado = value.territorio;
-                let mpios = value.municipios;
-
-                let map = new Map<string, any>();
-                map.set('anuario', consulta);
-                map.set('cultivo.id', cultivo.idcultivo);
-                map.set('variedad.id', cultivo.idvariedad);
-                map.set('estado.id', estado.id);
-                map.set('municipios', mpios);
-                map.set('color', this.color);
+        if (id == 'produccion-estado') {
+            let estado = this.msg.get('estados');
+            let distrito = this.msg.get('distrito.id');
+            let cultivo = this.msg.get('cultivo.id');
+            let variedad = this.msg.get('variedad.id');
 
 
+            let map = new Map();
+            map.set('estados', [cultivo.id]);
+            map.set('cultivo.id', cultivo);
+            map.set('estados.id', estado);
+            map.set('color', this.color);
 
-                this.pico.publish(map, ['show-query-map-municipios']);
-                this.show = false;
-            }).catch(err => console.log(err));
-        }
-
-
-        // si estado esta seleccionado con una entidad y hay algún distrito especifico seleccionado
-        // buscar todos los municipios dentro del distrito
-        if (estado != 0 && ddr != 0 && mun == 0) {
-            this.service.getMunicipiosByAnuarioAndCultivo(consulta, cultivo).then(value => {
-                let estado = value.territorio;
-                let mpios = value.municipios;
-
-                let map = new Map<string, any>();
-                map.set('anuario', consulta);
-                map.set('cultivo.id', cultivo.idcultivo);
-                map.set('variedad.id', cultivo.idvariedad);
-                map.set('estado.id', estado.id);
-                map.set('municipios', mpios);
-                map.set('color', this.color);
-
-                console.log(map);
-
-                this.pico.publish(map, ['show-query-map-municipios']);
-                this.show = false;
-            });
+            this.pico.publish(map, ['show-query-map-estados']);
         }
     }
 

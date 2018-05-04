@@ -1,7 +1,7 @@
 import { Anuario } from '../dominio/anuario';
 import { AnuarioAgricola } from '../dominio/anuario-agricola';
 import { Cultivo } from '../dominio/cultivo';
-import { CultivoTerritorio } from '../dominio/CultivoTerritorio';
+import { CultivoTerritorio } from '../dominio/cultivo-territorio';
 import { Ddr } from '../dominio/ddr';
 import { Estadistica } from '../dominio/estadistica';
 import { Estado } from '../dominio/estado';
@@ -196,11 +196,11 @@ export class AnuarioAgricolaService {
 
 
     public consultaProduccionPorEstado(year, ciclo, modalidad, catalogo, cultivo, variedad, estado, filtroTerritorio, distrito) {
-        let path = `${this.url}/`;
+        let path = `${this.url}/consultas/estados`;
 
         let params = `year=${year}`;
         params += `&ciclo=${ciclo}`;
-        params += `&moda=${modalidad}`;
+        params += `&modalidad=${modalidad}`;
         params += `&estado=${estado}`;
         params += `&cultivo=${cultivo}`;
         params += `&variedad=${variedad}`;

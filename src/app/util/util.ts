@@ -88,4 +88,33 @@ export class ServiceUtil {
         return [];
     }
 
+    public static buildColumnFieldsTerritorioCultivo(obj: number): string[] {
+        switch (obj) {
+            case 1:
+                return ['Estado', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
+
+
+            case 2:
+                return ['Estado', 'Distrito', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
+
+
+            case 3:
+                return ['Estado', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
+
+
+            case 4:
+                return ['Estado', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
+
+
+            case 5:
+                return ['Distrito', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
+
+
+            case 6:
+                return ['Municipio', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
+        }
+
+        return [];
+    }
+
 }

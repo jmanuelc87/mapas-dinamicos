@@ -342,15 +342,14 @@ export class WebMapComponent implements OnInit, OnDestroy {
     }
 
     private queryConsultaCultivoOnMapByEstados(msg) {
-
-        console.log('queryConsultaCultivoOnMapByEstados', msg);
-
         // se dibujan los estados/delegaciones en el mapa
         let estado: Territorio[] = msg.get('estados');
         this.msg = msg;
         //let mpios = msg.municipio;
 
         this.layerOutput.removeAll();
+
+        console.log(estado);
 
         let estados = this.modelToArray(estado);
 
