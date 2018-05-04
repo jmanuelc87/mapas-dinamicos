@@ -9,6 +9,8 @@ const autoprefixer = require('autoprefixer');
 const postcssUrl = require('postcss-url');
 const postcssImports = require('postcss-import');
 
+const ArcGISPlugin = require("@arcgis/webpack-plugin");
+
 const { NoEmitOnErrorsPlugin, SourceMapDevToolPlugin, NamedModulesPlugin } = require('webpack');
 const { NamedLazyChunksWebpackPlugin, BaseHrefWebpackPlugin, PostcssCliResources } = require('@angular/cli/plugins/webpack');
 const { CommonsChunkPlugin } = require('webpack').optimize;
@@ -126,8 +128,8 @@ module.exports = {
     externals: [
         function (context, request, callback) {
             // verifica que dojo o esri sean incluidos en el bundle
-            if (/(^dojo|^dojox|^dijit|^esri)/.test(request)) {
-                return callback(null, request);
+            if (/(pe-wasm$)/.test(request)) {
+                return callback(null, "amd " + request);
             }
             callback();
         }
@@ -177,10 +179,11 @@ module.exports = {
 
         /* configuración para convertir los archivos a formato amd */
 
-        libraryTarget: "amd"
+        // libraryTarget: "amd"
 
         /* FIN */
     },
+
     "module": {
         "rules": [
             {
@@ -407,7 +410,9 @@ module.exports = {
             }
         ]
     },
+
     "plugins": [
+        new ArcGISPlugin(),
         new NoEmitOnErrorsPlugin(),
         new CopyWebpackPlugin([
             {
@@ -448,7 +453,7 @@ module.exports = {
             "hash": false,
             // Configuramos inject a false para que nosotros nos encarguemos
             // de configurar la applicación.
-            "inject": false,
+            "inject": true,
             // FIN
             "compile": true,
             "favicon": false,
@@ -525,11 +530,11 @@ module.exports = {
     ],
     "node": {
         "fs": "empty",
-        "global": true,
+        "global": false, // changed from arcgis-webpack-plugin
         "crypto": "empty",
         "tls": "empty",
         "net": "empty",
-        "process": true,
+        "process": false, // changed from arcgis-webpack-plugin
         "module": false,
         "clearImmediate": false,
         "setImmediate": false
