@@ -52,8 +52,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
     private view: MapView;
 
-    //private mask: boolean;
-
     private layerEntidades = new GraphicsLayer();
 
     private layerDistritos = new GraphicsLayer();
@@ -80,8 +78,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-
-        // this.mask = true;
 
         this.map = new WebMap({
             basemap: 'satellite'
@@ -145,8 +141,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
                     layer02.add(cloned);
                 });
                 this.addLayer(layer02);
-
-                //this.mask = false;
             });
 
             service.then(value => {

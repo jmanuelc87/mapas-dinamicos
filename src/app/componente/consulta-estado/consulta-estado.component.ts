@@ -43,6 +43,8 @@ export class ConsultaEstadoComponent implements OnInit {
 
     private filtro: boolean = true;
 
+    private collapsed: boolean;
+
     private distritosFormControl: FormControl;
 
     constructor(
@@ -189,6 +191,7 @@ export class ConsultaEstadoComponent implements OnInit {
                 map.set('variedad.id', variedad);
 
                 this.pico.publish(map, ['update-table']);
+                this.collapsed = true;
             });
     }
 }
