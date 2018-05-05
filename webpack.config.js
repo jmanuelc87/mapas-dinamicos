@@ -120,7 +120,6 @@ const postcssPlugins = function (loader) {
 
 
 
-
 module.exports = {
 
     /* configuración personalizada para incluir la libreria esri en el proyecto */
@@ -129,6 +128,7 @@ module.exports = {
         function (context, request, callback) {
             // verifica que dojo o esri sean incluidos en el bundle
             if (/(pe-wasm$)/.test(request)) {
+                console.log("amd", request);
                 return callback(null, "amd " + request);
             }
             callback();
