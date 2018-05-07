@@ -68,7 +68,7 @@ export class ConsultaEstadoComponent implements OnInit {
             variedad: ['0', Validators.required],
             estados: ['0', Validators.required],
             filtroTerritorio: ['1', Validators.required],
-            distrito: ['', Validators.required]
+            distrito: ['0', Validators.required]
         });
 
         this.form.get('variedad').disable();
@@ -176,16 +176,34 @@ export class ConsultaEstadoComponent implements OnInit {
         let printable = ServiceUtil.buildPrintableFieldsTerritorioCultivo(filtroTerritorio);
 
         this.service.consultaProduccionPorEstado(year, ciclo, modalidad, catalogo, cultivo, variedad, estado, filtroTerritorio, distrito)
-            .then((cultivoTerritorio) => {
+            .then((response) => {
+
+                // combine 'data' into table
+                let data = response.territorio.map((value, index, array) => {
+                    let elements = {};
+
+                    for (let key in value) {
+                        elements[key] = value[key];
+                    }
+
+                    let element = response.cultivo[index];
+
+                    for (let key in element) {
+                        elements[key] = element[key];
+                    }
+
+                    return elements;
+                })
 
                 let map = new Map();
                 map.set('id', 'produccion-estado');
-                map.set('data', cultivoTerritorio);
+                map.set('data', data);
                 map.set('fields', fields);
                 map.set('printable', printable);
 
+
                 // extra parameters
-                map.set('estados', cultivoTerritorio);
+                map.set('estados', response.territorio);
                 map.set('distrito.id', distrito);
                 map.set('cultivo.id', cultivo);
                 map.set('variedad.id', variedad);
@@ -194,4 +212,5 @@ export class ConsultaEstadoComponent implements OnInit {
                 this.collapsed = true;
             });
     }
+
 }

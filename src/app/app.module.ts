@@ -19,6 +19,7 @@ import { PicoEventModule } from 'picoevent';
 import { RouterModule, Routes } from '@angular/router';
 import { TableComponent } from './componente/table/table.component';
 import { WebMapComponent } from './componente/web-map/web-map.component';
+import { ModalRangosComponent } from './componente/modal-rangos/modal-rangos.component';
 
 
 
@@ -41,6 +42,7 @@ const appRoutes = [
         TableComponent,
         IteratorKeysPipe,
         ModalComponent,
+        ModalRangosComponent,
     ],
     imports: [
         BrowserModule,
@@ -60,7 +62,8 @@ const appRoutes = [
         AppComponent
     ],
     entryComponents: [
-        ModalComponent
+        ModalComponent,
+        ModalRangosComponent
     ],
 })
 export class AppModule { }

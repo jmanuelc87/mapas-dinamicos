@@ -1,7 +1,6 @@
 import { Anuario } from '../dominio/anuario';
 import { AnuarioAgricola } from '../dominio/anuario-agricola';
 import { Cultivo } from '../dominio/cultivo';
-import { CultivoTerritorio } from '../dominio/cultivo-territorio';
 import { Ddr } from '../dominio/ddr';
 import { Estadistica } from '../dominio/estadistica';
 import { Estado } from '../dominio/estado';
@@ -210,8 +209,8 @@ export class AnuarioAgricolaService {
 
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-        return new Promise<CultivoTerritorio[]>((resolve, reject) => {
-            this.http.post<CultivoTerritorio[]>(path, params, { headers: headers })
+        return new Promise<{ 'territorio': Territorio[], 'cultivo': Cultivo[] }>((resolve, reject) => {
+            this.http.post<{ 'territorio': Territorio[], 'cultivo': Cultivo[] }>(path, params, { headers: headers })
                 .subscribe(response => {
                     resolve(response);
                 }, error => {

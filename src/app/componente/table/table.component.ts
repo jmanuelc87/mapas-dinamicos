@@ -1,21 +1,23 @@
 import {
     AfterViewInit,
     Component,
+    OnDestroy,
     OnInit,
     ViewChild
 } from '@angular/core';
+import { AnuarioAgricola } from '../../dominio/anuario-agricola';
 import { AnuarioAgricolaService } from '../../servicio/anuario-agricola.service';
 import { ClrDatagrid, ClrDatagridComparatorInterface } from '@clr/angular';
-import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { Cultivo } from '../../dominio/cultivo';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Estado } from '../../dominio/estado';
 import { isNull, isUndefined } from 'util';
 import { ModalComponent } from '../modal-color/modal.component';
+import { ModalRangosComponent } from '../modal-rangos/modal-rangos.component';
 import { PicoEvent } from 'picoevent';
 import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
-import { AnuarioAgricola } from '../../dominio/anuario-agricola';
+import { NUMBER_TYPE } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -27,7 +29,7 @@ import { AnuarioAgricola } from '../../dominio/anuario-agricola';
         AnuarioAgricolaService
     ]
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnDestroy {
 
     private show: boolean;
 
@@ -36,6 +38,8 @@ export class TableComponent implements OnInit {
     private color: Array<number> = [0, 100, 0];
 
     private msg: Map<string, any> = new Map();
+
+    private disposable: Array<Subscription> = new Array<Subscription>();
 
     @ViewChild(ClrDatagrid)
     private dataGridView: ClrDatagrid;
@@ -55,12 +59,18 @@ export class TableComponent implements OnInit {
         }, msg01 => this.setData(msg01)));
     }
 
+    ngOnDestroy(): void {
+        for (let d of this.disposable) {
+            d.unsubscribe();
+        }
+    }
+
     private setData(msg) {
         this.msg = msg;
         this.show = true;
     }
 
-    private showDataInWebmap(cultivo: any) {
+    private showDataInWebmap(item: any) {
         this.pico.publish(true, ['show-overlay']);
 
 
@@ -76,12 +86,12 @@ export class TableComponent implements OnInit {
             let mun = consulta.municipio;
 
             if (estado == 0) {
-                this.service.getEstadosByAnuarioAndCultivo(consulta, cultivo).then(value => {
+                this.service.getEstadosByAnuarioAndCultivo(consulta, item).then(value => {
 
                     let map = new Map<string, any>();
                     map.set('anuario', consulta);
-                    map.set('cultivo.id', cultivo.idcultivo);
-                    map.set('variedad.id', cultivo.idvariedad);
+                    map.set('cultivo.id', item.idcultivo);
+                    map.set('variedad.id', item.idvariedad);
                     map.set('estados', value);
                     map.set('color', this.color);
 
@@ -94,14 +104,14 @@ export class TableComponent implements OnInit {
             }
 
             if (estado != 0 && ddr == 0 && mun == 0) {
-                this.service.getMunicipiosByAnuarioAndCultivo(consulta, cultivo).then(value => {
+                this.service.getMunicipiosByAnuarioAndCultivo(consulta, item).then(value => {
                     let estado = value.territorio;
                     let mpios = value.municipios;
 
                     let map = new Map<string, any>();
                     map.set('anuario', consulta);
-                    map.set('cultivo.id', cultivo.idcultivo);
-                    map.set('variedad.id', cultivo.idvariedad);
+                    map.set('cultivo.id', item.idcultivo);
+                    map.set('variedad.id', item.idvariedad);
                     map.set('estado.id', estado.id);
                     map.set('municipios', mpios);
                     map.set('color', this.color);
@@ -114,19 +124,17 @@ export class TableComponent implements OnInit {
             }
 
             if (estado != 0 && ddr != 0 && mun == 0) {
-                this.service.getMunicipiosByAnuarioAndCultivo(consulta, cultivo).then(value => {
+                this.service.getMunicipiosByAnuarioAndCultivo(consulta, item).then(value => {
                     let estado = value.territorio;
                     let mpios = value.municipios;
 
                     let map = new Map<string, any>();
                     map.set('anuario', consulta);
-                    map.set('cultivo.id', cultivo.idcultivo);
-                    map.set('variedad.id', cultivo.idvariedad);
+                    map.set('cultivo.id', item.idcultivo);
+                    map.set('variedad.id', item.idvariedad);
                     map.set('estado.id', estado.id);
                     map.set('municipios', mpios);
                     map.set('color', this.color);
-
-                    console.log(map);
 
                     this.pico.publish(map, ['show-query-map-municipios']);
                     this.show = false;
@@ -134,25 +142,15 @@ export class TableComponent implements OnInit {
             }
         }
 
+
         if (id == 'produccion-estado') {
-            let estado = this.msg.get('estados');
-            let distrito = this.msg.get('distrito.id');
-            let cultivo = this.msg.get('cultivo.id');
-            let variedad = this.msg.get('variedad.id');
 
-
-            let map = new Map();
-            map.set('estados', [cultivo.id]);
-            map.set('cultivo.id', cultivo);
-            map.set('estados.id', estado);
-            map.set('color', this.color);
-
-            this.pico.publish(map, ['show-query-map-estados']);
+            // do nothing...
         }
     }
 
     private showColorModal() {
-        let disposable = this.dialogService
+        this.disposable.push(this.dialogService
             .addDialog(ModalComponent, {})
             .subscribe(value => {
                 let r = value.substr(0, 2);
@@ -166,19 +164,26 @@ export class TableComponent implements OnInit {
                 rgb.push(Number.parseInt(b, 16))
 
                 this.color = rgb;
-            });
+            }));
     }
 
-    private isString(value) {
-        return typeof (value) === 'string';
+    private showRangosModal() {
+        this.disposable.push(this.dialogService
+            .addDialog(ModalRangosComponent, {
+                data: this.msg.get('data'),
+                fields: this.msg.get('fields'),
+            })
+            .subscribe(value => {
+                let obj = JSON.parse(value);
+                console.log(obj);
+            }));
     }
 
     private isNumber(value) {
-        return typeof (value) === 'number';
+        return /[0-9]+/.test(value);
     }
 
 }
-
 
 class StringComparator implements ClrDatagridComparatorInterface<string> {
 

@@ -343,8 +343,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
         this.layerOutput.removeAll();
 
-        console.log(estado);
-
         let estados = this.modelToArray(estado);
 
         let symbol = {

@@ -3,6 +3,9 @@
         <button *ngIf="show" class="btn btn-sm btn-icon" (click)="showColorModal()">
             Color
         </button>
+        <button *ngIf="show" class="btn btn-sm btn-icon" (click)="showRangosModal()">
+            Rangos
+        </button>
         <button class="push-right btn btn-sm btn-icon" (click)="show = true">
             &#9723;
         </button>
@@ -16,14 +19,14 @@
 
             <clr-dg-placeholder>No hay datos que mostrar!</clr-dg-placeholder>
 
-            <clr-dg-column *ngFor="let item of msg.get('printable')" [clrDgField]="item" [clrDgSortBy]="StringComparator">{{ item }}</clr-dg-column>
+            <clr-dg-column *ngFor="let item of msg.get('fields')" [clrDgField]="item" [clrDgSortBy]="StringComparator">{{ item }}</clr-dg-column>
 
             <clr-dg-row *clrDgItems="let item of msg.get('data')" [clrDgItem]="item">
                 <clr-dg-action-overflow>
                     <button class="action-item" (click)="showDataInWebmap(item)">Mostar en Mapa</button>
                 </clr-dg-action-overflow>
                 <clr-dg-cell *ngFor="let key of item | iteratorKeys: msg.get('printable')">
-                    <div *ngIf="isString(item[key])">
+                    <div *ngIf="!isNumber(item[key])">
                         {{ item[key] }}
                     </div>
                     <div *ngIf="isNumber(item[key])">
