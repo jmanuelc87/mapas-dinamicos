@@ -230,6 +230,11 @@ export class WebMapComponent implements OnInit, OnDestroy {
             type: Map,
             targets: ['show-query-map-estados']
         }, msg => this.queryConsultaCultivoOnMapByEstados(msg)));
+
+        this.channels.push(this.pico.listen({
+            type: Map,
+            targets: ['show-query-ranges']
+        }, msg => this.showQueryConsultaRanges(msg)));
     }
 
     ngOnDestroy(): void {
@@ -501,6 +506,33 @@ export class WebMapComponent implements OnInit, OnDestroy {
             }).catch(err => {
                 console.log(err);
             });
+        }
+    }
+
+    showQueryConsultaRanges(msg) {
+        let id = msg.get('filtro-territorio');
+
+        if (id == '1') {
+            let data: Array<any> = msg.get('data');
+            let classBreaks: Array<any> = msg.get('classBreak');
+
+            for (let i = 0; i < data.length; i++) {
+                let idTerritorio = data[i].id;
+
+                let symbol = {
+                    type: 'simple-fill',
+                    color: classBreaks[i].color,
+                    style: 'solid',
+                    outline: {
+                        color: 'black',
+                        width: '1px',
+                        style: 'solid'
+                    }
+                };
+
+                this.service.getGeometryEntidad(idTerritorio)
+                    .then((value: Territorio) => this.buildSymbolLayers(value.features, symbol, this.layerOutput));
+            }
         }
     }
 

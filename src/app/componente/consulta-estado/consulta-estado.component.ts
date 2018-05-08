@@ -144,7 +144,6 @@ export class ConsultaEstadoComponent implements OnInit {
         this.service.getAllCultivo(catalogo).then(cultivos => this.cultivos = cultivos);
     }
 
-
     private getVariedadesByCultivo(id) {
         this.form.get('variedad').enable();
         this.service.getVariedadByCultivo(id).then(variedad => this.variedades = variedad);
@@ -178,29 +177,29 @@ export class ConsultaEstadoComponent implements OnInit {
         this.service.consultaProduccionPorEstado(year, ciclo, modalidad, catalogo, cultivo, variedad, estado, filtroTerritorio, distrito)
             .then((response) => {
 
-                // combine 'data' into table
+                // combine 'data' into table, this method can overwrite equal properties
                 let data = response.territorio.map((value, index, array) => {
                     let elements = {};
+
+                    let element = response.cultivo[index];
 
                     for (let key in value) {
                         elements[key] = value[key];
                     }
-
-                    let element = response.cultivo[index];
 
                     for (let key in element) {
                         elements[key] = element[key];
                     }
 
                     return elements;
-                })
+                });
 
                 let map = new Map();
                 map.set('id', 'produccion-estado');
+                map.set('filtro-territorio', filtroTerritorio);
                 map.set('data', data);
                 map.set('fields', fields);
                 map.set('printable', printable);
-
 
                 // extra parameters
                 map.set('estados', response.territorio);

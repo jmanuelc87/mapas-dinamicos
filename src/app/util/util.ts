@@ -44,9 +44,9 @@ export class ServiceUtil {
     public static buildFieldsConsultaCultivo(obj: AnuarioAgricola): string[] {
 
         if (obj.catalogo !== undefined && obj.catalogo === 'detalle') {
-            return ['Cultivo', 'Tipo/Variedad', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Producción (Ton)', 'Rendimiento (Ton/Ha)', 'PMR ($/Ton)', 'Valor Producción (Miles de pesos)'];
+            return ['Cultivo', 'Tipo/Variedad', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Sup. Siniestrada (Ha)', 'Producción (Ton)', 'Rendimiento (Ton/Ha)', 'PMR ($/Ton)', 'Valor Producción (Miles de pesos)'];
         } else {
-            return ['Cultivo', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Producción (Ton)', 'Rendimiento (Ton/Ha)', 'PMR ($/Ton)', 'Valor Producción (Miles de pesos)'];
+            return ['Cultivo', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Sup. Siniestrada (Ha)', 'Producción (Ton)', 'Rendimiento (Ton/Ha)', 'PMR ($/Ton)', 'Valor Producción (Miles de pesos)'];
         }
     }
 

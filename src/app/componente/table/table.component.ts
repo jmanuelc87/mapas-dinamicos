@@ -14,10 +14,12 @@ import { Estado } from '../../dominio/estado';
 import { isNull, isUndefined } from 'util';
 import { ModalComponent } from '../modal-color/modal.component';
 import { ModalRangosComponent } from '../modal-rangos/modal-rangos.component';
+import { NUMBER_TYPE } from '@angular/compiler/src/output/output_ast';
 import { PicoEvent } from 'picoevent';
 import { Subscription } from 'rxjs/Subscription';
 import { Territorio } from '../../dominio/territorio';
-import { NUMBER_TYPE } from '@angular/compiler/src/output/output_ast';
+import { TerritorioUtil } from '../../util/territorio-util';
+import { DEFAULT_INTERPOLATION_CONFIG } from '@angular/compiler';
 
 
 
@@ -95,9 +97,6 @@ export class TableComponent implements OnInit, OnDestroy {
                     map.set('estados', value);
                     map.set('color', this.color);
 
-
-                    console.log('showDataInWebmap', map);
-
                     this.pico.publish(map, ['show-query-map-estados'])
                     this.show = false;
                 }).catch(err => console.log(err));
@@ -115,8 +114,6 @@ export class TableComponent implements OnInit, OnDestroy {
                     map.set('estado.id', estado.id);
                     map.set('municipios', mpios);
                     map.set('color', this.color);
-
-
 
                     this.pico.publish(map, ['show-query-map-municipios']);
                     this.show = false;
@@ -172,10 +169,26 @@ export class TableComponent implements OnInit, OnDestroy {
             .addDialog(ModalRangosComponent, {
                 data: this.msg.get('data'),
                 fields: this.msg.get('fields'),
+                color: this.color,
             })
             .subscribe(value => {
-                let obj = JSON.parse(value);
-                console.log(obj);
+                if (value !== null && value !== undefined) {
+                    let obj = JSON.parse(value);
+                    let data = this.msg.get('data');
+
+                    let classBreaks = TerritorioUtil.createClassBreaks(obj, data);
+
+                    let filtroTerritorio = this.msg.get('filtro-territorio');
+
+                    console.log('table-id', filtroTerritorio);
+
+                    let map = new Map();
+                    map.set('filtro-territorio', filtroTerritorio);
+                    map.set('data', data);
+                    map.set('classBreak', classBreaks);
+
+                    this.pico.publish(map, ['show-query-ranges']);
+                }
             }));
     }
 
