@@ -143,6 +143,7 @@
                         <div class="col-lg-12">
                             <div id="select-6" class="select">
                                 <select formControlName="distrito" name="distrito" id="select-6">
+                                    <option [value]="0">Todos</option>
                                     <option *ngFor="let distrito of distritos" [value]="distrito.id">{{distrito.nombre}}</option>
                                 </select>
                             </div>

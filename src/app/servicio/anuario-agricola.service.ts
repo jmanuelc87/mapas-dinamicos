@@ -209,8 +209,8 @@ export class AnuarioAgricolaService {
 
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-        return new Promise<{ 'territorio': Territorio[], 'cultivo': Cultivo[] }>((resolve, reject) => {
-            this.http.post<{ 'territorio': Territorio[], 'cultivo': Cultivo[] }>(path, params, { headers: headers })
+        return new Promise<any>((resolve, reject) => {
+            this.http.post<any>(path, params, { headers: headers })
                 .subscribe(response => {
                     resolve(response);
                 }, error => {

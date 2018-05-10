@@ -116,7 +116,6 @@ export class TableComponent implements OnInit, OnDestroy {
                     map.set('color', this.color);
 
                     this.pico.publish(map, ['show-query-map-municipios']);
-                    this.show = false;
                 }).catch(err => console.log(err));
             }
 
@@ -139,10 +138,24 @@ export class TableComponent implements OnInit, OnDestroy {
             }
         }
 
+        console.log(item);
 
         if (id == 'produccion-estado') {
+            if (item['ide'] != undefined) {
+                let map = new Map();
+                map.set('estados', [new Territorio(item['ide'], item['estado'])]);
+                map.set('color', this.color);
 
-            // do nothing...
+                this.pico.publish(map, ['show-query-map-estados']);
+            }
+
+            if (item['idm'] != undefined) {
+                let map = new Map();
+                map.set('estado.id', item['ide']);
+                map.set('municipios', [new Territorio(item['idm'])]);
+
+                this.pico.publish(map, ['show-query-map-municipios']);
+            }
         }
     }
 

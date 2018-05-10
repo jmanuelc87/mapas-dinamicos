@@ -169,6 +169,11 @@ export class ConsultaEstadoComponent implements OnInit {
         let filtroTerritorio = this.form.get('filtroTerritorio').value;
         let distrito = this.form.get('distrito').value;
 
+        if (estado == 0 && filtroTerritorio == 4 && cultivo == 0) {
+            alert('Favor de seleccionar un cultivo para este tipo de consulta');
+            return;
+        }
+
         filtroTerritorio = Number.parseInt(filtroTerritorio);
 
         let fields = ServiceUtil.buildColumnFieldsTerritorioCultivo(filtroTerritorio);
@@ -177,22 +182,32 @@ export class ConsultaEstadoComponent implements OnInit {
         this.service.consultaProduccionPorEstado(year, ciclo, modalidad, catalogo, cultivo, variedad, estado, filtroTerritorio, distrito)
             .then((response) => {
 
-                // combine 'data' into table, this method can overwrite equal properties
-                let data = response.territorio.map((value, index, array) => {
-                    let elements = {};
+                if (response['territorio'].length <= 0) {
+                    // has no response for the especified query
+                    // show alert
+                    alert('No hay datos para la consulta seleccionada');
+                    return;
+                }
 
-                    let element = response.cultivo[index];
+                let distritos = [];
+                let municipios = [];
+                let estados = [];
 
-                    for (let key in value) {
-                        elements[key] = value[key];
-                    }
+                if (response['territorio']['estado']) {
+                    estados = response['territorio']['estado'];
+                }
 
-                    for (let key in element) {
-                        elements[key] = element[key];
-                    }
+                if (response['territorio']['distrito']) {
+                    distritos = response['territorio']['distrito'];
+                }
 
-                    return elements;
-                });
+                if (response['territorio']['municipio']) {
+                    municipios = response['territorio']['municipio'];
+                }
+
+                let data = this.combine(estados, distritos, municipios, response.cultivo);
+
+                console.log(data);
 
                 let map = new Map();
                 map.set('id', 'produccion-estado');
@@ -210,6 +225,56 @@ export class ConsultaEstadoComponent implements OnInit {
                 this.pico.publish(map, ['update-table']);
                 this.collapsed = true;
             });
+    }
+
+    combine(estados, distritos, municipios, cultivo) {
+        let size = 0;
+
+        if (estados.length > 0) {
+            size = estados.length;
+        }
+
+        if (municipios.length > 0) {
+            size = municipios.length;
+        }
+
+        if (distritos.length > 0) {
+            size = distritos.length;
+        }
+
+
+        let el = [];
+        for (let i = 0; i < size; i++) {
+            let ela = {};
+
+            if (estados[i] != undefined) {
+                ela['ide'] = estados[i].id;
+                ela['estado'] = estados[i].nombre;
+            }
+
+            if (distritos[i] != undefined) {
+                ela['idd'] = distritos[i].id;
+                ela['distrito'] = distritos[i].nombre;
+            }
+
+            if (municipios[i] != undefined) {
+                ela['idm'] = municipios[i].id;
+                ela['municipio'] = municipios[i].nombre;
+            }
+
+            ela['nombre'] = cultivo[i].nombre;
+            ela['sembrada'] = cultivo[i].sembrada;
+            ela['cosechada'] = cultivo[i].cosechada;
+            ela['siniestrada'] = cultivo[i].siniestrada;
+            ela['produccion'] = cultivo[i].produccion;
+            ela['rendimiento'] = cultivo[i].rendimiento;
+            ela['pmr'] = cultivo[i].pmr;
+            ela['valor'] = cultivo[i].valor;
+
+            el.push(ela);
+        }
+
+        return el;
     }
 
 }

@@ -85,7 +85,7 @@ export class WebMapComponent implements OnInit, OnDestroy {
 
         this.view = new MapView({
             map: this.map,
-            container: this.mapViewEl.nativeElement
+            container: this.mapViewEl.nativeElement,
         });
 
         this.view.when(event => {
@@ -171,12 +171,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
             });
         });
 
-
-        this.view.on('pointer-leave', event => {
-            this.view.popup.close();
-        });
-
-
         this.observable
             .debounceTime(350)
             .subscribe(value => this.checkPopupOnMap(value));
@@ -256,7 +250,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
     private updateExtentForEntidades(msg) {
         this.service.getExtentByEntidad(msg.id).then(value => this.setExtent(value.extent));
     }
-
 
     private updateExtentForAll(msg) {
         this.service.getFullExtent().then(value => this.setExtent(value.extent));
@@ -421,7 +414,6 @@ export class WebMapComponent implements OnInit, OnDestroy {
         }
 
         let promise;
-
 
         if (estado == 0) {
             ent = Number.parseInt(item.attributes['CVE_ENT']);

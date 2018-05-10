@@ -62,19 +62,19 @@ export class ServiceUtil {
     public static buildPrintableFieldsTerritorioCultivo(obj: number): string[] {
         switch (obj) {
             case 1:
-                return ['nombre', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+                return ['estado', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
 
 
             case 2:
-                return ['nombre', 'distrito', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+                return ['estado', 'distrito', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
 
 
             case 3:
-                return ['nombre', 'municipio', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+                return ['estado', 'municipio', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
 
 
             case 4:
-                return ['nombre', 'distrito', 'municipio', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
+                return ['estado', 'distrito', 'municipio', 'sembrada', 'cosechada', 'siniestrada', 'produccion', 'rendimiento', 'pmr', 'valor'];
 
 
             case 5:
@@ -99,11 +99,11 @@ export class ServiceUtil {
 
 
             case 3:
-                return ['Estado', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
+                return ['Estado', 'Municipio', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
 
 
             case 4:
-                return ['Estado', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
+                return ['Estado', 'Distrito', 'Municipio', 'Sup. Sembrada (Ha)', 'Sup. Cosechada (Ha)', 'Siniestrada (Ha)', 'Produccion (Ton)', 'Rendimiento (Ton / Ha)', 'pmr ($/ Ton)', 'valor (Miles de Pesos)'];
 
 
             case 5:
