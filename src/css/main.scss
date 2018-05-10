@@ -1,0 +1,13 @@
+@import url('https://js.arcgis.com/4.7/esri/css/main.css');
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#webmap {
+    height: 500px;
+    width: 500px;
+}
