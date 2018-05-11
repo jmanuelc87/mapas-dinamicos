@@ -1,17 +1,26 @@
+/**
+ * import configurations for esri workers
+ */
 import './config';
 
+/**
+ * import default styles from node_modules packages
+ */
+import '../node_modules/calcite-maps/dist/css/calcite-maps-bootstrap.min-v0.7.css';
+import '../node_modules/calcite-maps/dist/css/calcite-maps-arcgis-4.x.min-v0.7.css';
+import '../node_modules/arcgis-js-api/css/main.scss';
+
+/**
+ * import custom styles from src packages
+ */
 import './css/main.scss';
 
-import * as Map from "esri/Map";
-import * as MapView from "esri/views/MapView";
-
+/**
+ * dojo plugin to load when dom ready
+ */
+import { App } from './components/app';
 import 'dojo/domReady';
 
-let map: Map = new Map({
-    basemap: 'streets'
-});
 
-let view: MapView = new MapView({
-    map: map,
-    container: document.getElementById('webmap') as HTMLDivElement,
-});
+const app = new App();
+app.start();

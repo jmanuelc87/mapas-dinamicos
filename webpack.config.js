@@ -37,11 +37,18 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+            },
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, "css-loader"]
             }
         ]
     },
     plugins: [
         new ArcGISPlugin(),
+        new CleanWebpackPlugin([
+            'dist'
+        ]),
         new HtmlWebPackPlugin({
             template: "./src/index.html",
             filename: "./index.html",
