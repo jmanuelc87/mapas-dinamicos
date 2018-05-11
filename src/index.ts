@@ -18,9 +18,5 @@ import './css/main.scss';
 /**
  * dojo plugin to load when dom ready
  */
-import { App } from './components/app';
+import './services/geometry-service';
 import 'dojo/domReady';
-
-
-const app = new App();
-app.start();
