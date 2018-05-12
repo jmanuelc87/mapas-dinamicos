@@ -2,9 +2,10 @@ define('js/GeometryService', [
     'require',
     'exports',
     'module',
+    'js/util',
     'esri/tasks/QueryTask',
     'esri/tasks/support/Query'
-], function (require, exports, module, QueryTask, Query) {
+], function (require, exports, module, Util, QueryTask, Query) {
     'use strict';
 
     const baseUrl = 'http://cmgs.gob.mx/gis/rest/services/Infraestructura/InfraestSsector/MapServer';
@@ -20,7 +21,7 @@ define('js/GeometryService', [
                 outFields: ['CVE_ENT', 'NOM_ENT']
             });
 
-            params.where = 'CVE_ENT IN (\'01\', \'02\')';
+            params.where = Util.queryTaskWhere('CVE_ENT', 1, 32, 2);
 
             return queryTask.execute(params);
         }
