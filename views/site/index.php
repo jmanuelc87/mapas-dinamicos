@@ -1,15 +1,9 @@
 <?php
 
-use app\widgets\NavbarWidget;
-
 $this->title = 'Mapas Dinámicos';
+
+\app\assets\EsriAsset::register($this);
 
 ?>
 
-<?php echo NavbarWidget::widget(); ?>
-
-<div class="calcite-map calcite-map-absolute">
-    <div id="mapViewDiv"></div>
-</div>
-
-
+<div id="app"></div>

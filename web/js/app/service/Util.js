@@ -1,9 +1,10 @@
-define('js/util', [
-    'require',
+define([
+    'require'
 ], function (require) {
     'use strict';
 
-    var Util = {
+
+    return declare('app.service.Util', [], {
         getCVEString: function (cve, length) {
             var format = '';
             for (var i = format.length; i < length - cve.toString().length; i++) {
@@ -40,7 +41,5 @@ define('js/util', [
 
             return where;
         }
-    }
-
-    return Util;
+    });
 });

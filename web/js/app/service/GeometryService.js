@@ -2,7 +2,7 @@ define('js/GeometryService', [
     'require',
     'exports',
     'module',
-    'js/util',
+    'app/service/Util',
     'esri/tasks/QueryTask',
     'esri/tasks/support/Query'
 ], function (require, exports, module, Util, QueryTask, Query) {
@@ -10,7 +10,7 @@ define('js/GeometryService', [
 
     const baseUrl = 'http://cmgs.gob.mx/gis/rest/services/Infraestructura/InfraestSsector/MapServer';
 
-    var GeometryService = {
+    var GeometryService = declare('app.service.GeometryService', [], {
         getEntidadesGeometryAll: function () {
             var queryTask = new QueryTask({
                 url: baseUrl + '/6',
@@ -25,7 +25,7 @@ define('js/GeometryService', [
 
             return queryTask.execute(params);
         }
-    }
-
+    });
+    console.log(GeometryService);
     return GeometryService;
 });

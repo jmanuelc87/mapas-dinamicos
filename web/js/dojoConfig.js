@@ -1,17 +1,9 @@
 var dojoConfig = {
-    async: true,
+    parseOnLoad: true,
     packages: [
         {
-            name: "js",
-            location: "/js"
-        },
-        {
-            name: "bootstrap",
-            location: "https://esri.github.io/calcite-maps/dist/vendor/dojo-bootstrap"
-        },
-        {
-            name: "calcite-maps",
-            location: "https://esri.github.io/calcite-maps/dist/js/dojo"
+            name: 'app',
+            location: location.pathname.replace(/\/[^/]*$/, '') + '/js/app'
         }
     ]
 };

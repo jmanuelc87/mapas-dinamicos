@@ -11,9 +11,12 @@ class EsriAsset extends AssetBundle
 
     public $css = [
         'https://js.arcgis.com/4.7/esri/css/main.css',
+        'https://js.arcgis.com/4.7/dijit/themes/tundra/tundra.css',
     ];
 
     public $js = [
+        'js/dojoConfig.js',
         'https://js.arcgis.com/4.7/',
+        'js/index.js'
     ];
 }

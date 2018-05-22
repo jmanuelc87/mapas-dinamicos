@@ -23,7 +23,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="calcite-maps calcite-nav-top">
+<body class="tundra">
 <?php $this->beginBody() ?>
 <?= $content ?>
 <?php $this->endBody() ?>
