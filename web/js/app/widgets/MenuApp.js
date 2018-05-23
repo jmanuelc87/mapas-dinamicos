@@ -14,6 +14,7 @@ define([
     return declare('app.widgets.MenuApp', [], {
 
         constructor: function () {
+            this.start();
         },
 
         start: function () {
@@ -58,8 +59,12 @@ define([
 
         },
 
+        getMenu: function() {
+            return this.pMenuBar;
+        },
+
         clickEvent: function (event) {
-            // TODO: show the respective window.
+            // TODO: show the respective production window.
             console.log(event.srcElement.innerText)
         }
     });

@@ -18,14 +18,12 @@ define([
         start: function () {
             var layout = new LayoutApp();
             var menus = new MenuApp();
-            var map = new Webmap();
-            layout.start();
-            menus.start();
-            map.start();
-
-            layout.addMenu(menus.pMenuBar);
-            layout.addMap(map.esriMapView);
+            var webmap = new Webmap();
             
+
+            layout.addMenu(menus);
+            layout.addMap(webmap.getMapView());
+
         },
 
     });

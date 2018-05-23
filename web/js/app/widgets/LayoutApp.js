@@ -12,6 +12,7 @@ define([
     return declare('app.widgets.LayoutApp', [], {
 
         constructor: function () {
+            this.start();
         },
 
         start: function () {
@@ -33,8 +34,8 @@ define([
             this.bc.startup();
         },
 
-        addMenu: function (menuBar) {
-            this.bc.addChild(menuBar);
+        addMenu: function (menu) {
+            this.bc.addChild(menu.getMenu());
         },
 
         addMap: function (webmap) {
