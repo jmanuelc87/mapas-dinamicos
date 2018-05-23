@@ -3,34 +3,41 @@ define([
     'dojo/_base/declare',
     'dojo/dom',
 
-    'app/service/GeometryService',
-
     'esri/Map',
     'esri/views/MapView',
-    'esri/geometry/Extent'
-], function (require, declare, dom, GeometryService, Map, MapView, Extent) {
+    'esri/geometry/Extent',
+
+    'esri/layers/GraphicsLayer',
+
+    'app/service/GeometryService'
+], function (require, declare, dom, Map, MapView, Extent, GraphicsLayer, GeometryService) {
     'use strict';
 
+
     var geometryService = null;
+    var esriMap = null;
+    var esriMapView;
+    var layer01;
 
     return declare('app.widgets.LayoutApp', [], {
 
         constructor: function () {
-            console.log("geometry", GeometryService);
-            //geometryService = new GeometryService();
+            geometryService = new GeometryService();
+            layer01 = new GraphicsLayer();
+            this.start();
         },
 
         start: function () {
-            this.esriMap = new Map({
+            esriMap = new Map({
                 basemap: 'satellite'
             });
 
-            this.esriMapView = new MapView({
-                region: 'center',
-                map: this.esriMap,
+            esriMapView = new MapView({
+                map: esriMap,
+                layers: [layer01]
             });
 
-            this.esriMapView.extent = new Extent({
+            esriMapView.extent = new Extent({
                 xmin: -1.3181079254E7,
                 ymin: 1635334.4664000012,
                 xmax: -9652558.1611,
@@ -40,9 +47,37 @@ define([
                 }
             });
 
-            //this.esriMap.then(function () {
-                //var promise = geometryService.getEntidadesGeometryAll();
+            //esriMapView.when(function () {
+                var promise = geometryService.getEntidadesGeometryAll();
+
+                promise.then(function (response) {
+
+                    response.features.forEach(graphic => {
+                        var item = graphic.clone();
+
+                        cloned.symbol = {
+                            type: 'simple-fill',
+                            color: [250, 250, 210, 0.3],
+                            style: 'solid',
+                            outline: {
+                                color: [139, 0, 0, 1.0],
+                                width: '1px'
+                            }
+                        };
+
+                        layer01.add(cloned);
+                    });
+                });
+
+                promise.catch(function (err) {
+                    console.log(err);
+                });
             //});
+
+        },
+
+        getMapView: function () {
+            return esriMapView;
         },
     });
 });

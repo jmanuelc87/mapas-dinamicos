@@ -1,6 +1,7 @@
 define([
-    'require'
-], function (require) {
+    'require',
+    'dojo/_base/declare'
+], function (require, declare) {
     'use strict';
 
 
@@ -18,11 +19,11 @@ define([
             var integer;
 
             for (var i = 0; i < array.length - 1; i++) {
-                integer = Util.getCVEString(array[i], length);
+                integer = this.getCVEString(array[i], length);
                 format += "'" + integer.toString() + "',";
             }
 
-            integer = Util.getCVEString(array[array.length - 1], length);
+            integer = this.getCVEString(array[array.length - 1], length);
             format += "'" + integer.toString() + "'";
 
             return format;
@@ -36,7 +37,7 @@ define([
                 array.push(i);
             }
 
-            where += Util.getStringFromArray(array, length);
+            where += this.getStringFromArray(array, length);
             where += ')';
 
             return where;
