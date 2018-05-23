@@ -26,6 +26,10 @@ define([
             params.where = util.queryTaskWhere('CVE_ENT', 1, 32, 2);
 
             return queryTask.execute(params);
+        },
+
+        getEntidadesById: function (id) {
+            console.log(id);
         }
     });
 });
