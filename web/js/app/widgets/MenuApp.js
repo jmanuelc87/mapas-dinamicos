@@ -7,8 +7,10 @@ define([
     'dijit/MenuBar',
     'dijit/PopupMenuBarItem',
     'dijit/DropDownMenu',
-    'dijit/MenuItem'
-], function (require, declare, dom, on, MenuBar, PopupMenuBarItem, DropDownMenu, MenuItem) {
+    'dijit/MenuItem',
+
+    'app/widgets/ProduccionCultivoWindow'
+], function (require, declare, dom, on, MenuBar, PopupMenuBarItem, DropDownMenu, MenuItem, ProduccionCultivoWindow) {
     'use strict';
 
     return declare('app.widgets.MenuApp', [], {
@@ -24,7 +26,7 @@ define([
 
             var pSubMenu = new DropDownMenu({});
             var agricola = new MenuItem({
-                label: "Agícola",
+                label: "Agrícola",
             });
             pSubMenu.addChild(agricola);
 
@@ -59,13 +61,16 @@ define([
 
         },
 
-        getMenu: function() {
+        getMenu: function () {
             return this.pMenuBar;
         },
 
         clickEvent: function (event) {
-            // TODO: show the respective production window.
-            console.log(event.srcElement.innerText)
+            if (event.srcElement.innerText === 'Agrícola') {
+                var prod = new ProduccionCultivoWindow();
+                prod.startup();
+                prod.show(document.body);
+            }
         }
     });
 });

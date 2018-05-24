@@ -18,11 +18,11 @@ define([
         start: function () {
             var layout = new LayoutApp();
             var menus = new MenuApp();
-            var webmap = new Webmap();
+            //var webmap = new Webmap();
             
 
             layout.addMenu(menus);
-            layout.addMap(webmap.getMapView());
+            //layout.addMap(webmap.getMapView());
 
         },
 

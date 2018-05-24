@@ -6,3 +6,55 @@ body,
     padding: 0;
     margin: 0;
 }
+
+/* Modal start */
+
+.modal {
+    position: absolute;
+    z-index: 1024;
+    left: 100px;
+    top: 100px;
+    border: 3px solid green;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 2px 15px;
+    background-color: green;
+    height: 30px;
+}
+
+.modal-header .title {
+    font-size: 20px;
+    margin: 4px 0px;
+    color: whitesmoke;
+}
+
+.modal-body {
+    background-color: whitesmoke;
+    height: 100%;
+}
+
+.winbtn {
+    color: white;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 1px 0px;
+    margin-left: 5px;
+}
+
+.winbtn:hover,
+.winbtn:focus {
+    color: whitesmoke;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button.winbtn {
+    border: 1px solid rgb(129, 110, 0);
+    background-color: rgb(0, 151, 0);
+    border: 0;
+}
+
+/* Modal end */
