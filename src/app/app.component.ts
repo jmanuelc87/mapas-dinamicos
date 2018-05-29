@@ -7,15 +7,19 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = 'app';
 
     /*
     private group: FormGroup = this.fb.group({
-        anio: ['', Validators.required]
+        estado: ['', Validators.required]
     });
 
     constructor(
         private fb: FormBuilder
     ) { }
+
+    private selected(event) {
+        console.log(event);
+    }
     */
+
 }

@@ -1,0 +1,3 @@
+<div [formGroup]="group">
+  <ng-select (change)="onChange($event)" [items]="municipios" bindLabel="name" bindValue="id" formControlName="{{name}}"></ng-select>
+</div>

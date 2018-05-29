@@ -13,6 +13,8 @@ import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EstadoComponent } from './components/form/estado/estado.component';
+import { DistritoComponent } from './components/form/distrito/distrito.component';
+import { MunicipioComponent } from './components/form/municipio/municipio.component';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { EstadoComponent } from './components/form/estado/estado.component';
         CatalogoComponent,
         AnioComponent,
         EstadoComponent,
+        DistritoComponent,
+        MunicipioComponent,
     ],
     imports: [
         BrowserModule,
