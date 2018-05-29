@@ -8,9 +8,9 @@ describe('EsriMapComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EsriMapComponent ]
+      declarations: [EsriMapComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
