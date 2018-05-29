@@ -1,20 +1,20 @@
 <div [formGroup]="group">
   <div class="form-check">
-    <input [formControlName]="name" class="form-check-input" type="radio" name="modalidad" id="riego-${id}" value="1" checked/>
+    <input formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="riego-${id}" value="1" checked/>
     <label class="form-check-label" for="riego-${id}">
       Riego
     </label>
   </div>
 
   <div class="form-check">
-    <input [formControlName]="name" class="form-check-input" type="radio" name="modalidad" id="temporal-${id}" value="2" />
+    <input formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="temporal-${id}" value="2" />
     <label class="form-check-label" for="temporal-${id}">
       Temporal
     </label>
   </div>
 
   <div class="form-check">
-    <input [formControlName]="name" class="form-check-input" type="radio" name="modalidad" id="riego-temporal-${id}" value="3"
+    <input formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="riego-temporal-${id}" value="3"
     />
     <label class="form-check-label" for="riego-temporal-${id}">
       Riego + Temporal
