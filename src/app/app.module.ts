@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EstadoComponent } from './components/form/estado/estado.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         CicloComponent,
         CatalogoComponent,
         AnioComponent,
+        EstadoComponent,
     ],
     imports: [
         BrowserModule,
