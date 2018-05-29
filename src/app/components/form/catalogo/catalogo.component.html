@@ -1,0 +1,16 @@
+<div [formGroup]="group">
+  <div class="form-check">
+    <input [formControlName]="name" class="form-check-input" type="radio" name="catalogo" id="generico-${id}" value="1" checked
+    />
+    <label class="form-check-label" for="generico-${id}">
+      Generico
+    </label>
+  </div>
+
+  <div class="form-check">
+    <input [formControlName]="name" class="form-check-input" type="radio" name="catalogo" id="detalle-${id}" value="2" />
+    <label class="form-check-label" for="detalle-${id}">
+      Detalle
+    </label>
+  </div>
+</div>

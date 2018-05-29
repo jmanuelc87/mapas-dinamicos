@@ -8,6 +8,7 @@ import { ModalidadComponent } from './components/form/modalidad/modalidad.compon
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CatalogoComponent } from './components/form/catalogo/catalogo.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         EsriMapComponent,
         DashboardComponent,
         ModalidadComponent,
-        CicloComponent
+        CicloComponent,
+        CatalogoComponent
     ],
     imports: [
         BrowserModule,
