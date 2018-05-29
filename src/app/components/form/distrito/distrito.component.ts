@@ -15,16 +15,16 @@ export class DistritoComponent implements OnInit {
   ];
 
   @Input()
-  private id;
+  id;
 
   @Input()
-  private group: FormGroup;
+  group: FormGroup;
 
   @Input()
-  private name: string;
+  name: string;
 
   @Output()
-  private selected: EventEmitter<any> = new EventEmitter<any>();
+  selected: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private distritoService: DistritoService

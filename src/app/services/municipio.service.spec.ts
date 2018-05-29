@@ -1,11 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { MunicipioService } from './municipio.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('MunicipioService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MunicipioService]
+      providers: [MunicipioService],
+      imports: [HttpClientModule]
     });
   });
 

@@ -1,11 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DistritoService } from './distrito.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('DistritoService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DistritoService]
+      providers: [DistritoService],
+      imports: [HttpClientModule]
     });
   });
 

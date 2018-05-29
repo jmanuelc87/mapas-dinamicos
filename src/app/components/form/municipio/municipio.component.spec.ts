@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MunicipioComponent } from './municipio.component';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { HttpClientModule } from '@angular/common/http';
+import { MunicipioService } from '../../../services/municipio.service';
 
 describe('MunicipioComponent', () => {
   let component: MunicipioComponent;
@@ -8,18 +12,26 @@ describe('MunicipioComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MunicipioComponent ]
+      declarations: [MunicipioComponent],
+      imports: [ReactiveFormsModule, NgSelectModule, HttpClientModule],
+      providers: [MunicipioService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MunicipioComponent);
     component = fixture.componentInstance;
+    component.group = new FormGroup({
+      'municipio': new FormControl('', Validators.required)
+    })
+    component.name = 'municipio'
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    fixture.whenStable().then(() => {
+      expect(component).toBeTruthy();
+    })
   });
 });

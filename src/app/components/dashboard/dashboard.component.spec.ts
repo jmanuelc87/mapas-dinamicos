@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardComponent } from './dashboard.component';
+import { EsriMapComponent } from '../esri-map/esri-map.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -8,7 +9,7 @@ describe('DashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      declarations: [ DashboardComponent, EsriMapComponent ]
     })
     .compileComponents();
   }));

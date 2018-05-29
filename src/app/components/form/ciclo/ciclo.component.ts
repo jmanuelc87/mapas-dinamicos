@@ -12,13 +12,13 @@ import { FormGroup } from '@angular/forms';
 export class CicloComponent implements OnInit {
 
   @Input()
-  private id;
+  id;
 
   @Input()
-  private group: FormGroup;
+  group: FormGroup;
 
   @Input()
-  private name: string;
+  name: string;
 
   constructor() { }
 

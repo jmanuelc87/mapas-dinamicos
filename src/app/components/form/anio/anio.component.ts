@@ -13,13 +13,13 @@ export class AnioComponent implements OnInit {
   private anios: Anio[];
 
   @Input()
-  private id;
+  id;
 
   @Input()
-  private group: FormGroup;
+  group: FormGroup;
 
   @Input()
-  private name: string;
+  name: string;
 
   constructor(
     private anioService: AnioService,
