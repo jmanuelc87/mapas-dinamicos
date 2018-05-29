@@ -32,6 +32,19 @@ describe('EstadoComponent', () => {
   it('should create', () => {
     fixture.whenStable().then(() => {
       expect(component).toBeTruthy();
-    })
+    });
   });
+
+  it('should fetch states from network', (done) => {
+    fixture.whenStable().then(() => {
+      expect(component.estados.length).toBe(33);
+    });
+  });
+
+  it('should have default state', () => {
+    fixture.whenStable().then(() => {
+      expect(component.estados[0].id).toBe(0);
+      expect(component.estados[0].name).toBe('Resumen Nacional');
+    });
+  })
 });

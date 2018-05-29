@@ -10,7 +10,7 @@ import { DistritoService } from '../../../services/distrito.service';
 })
 export class DistritoComponent implements OnInit {
 
-  private distritos: Estado[] = [
+  distritos: Estado[] = [
     { id: 0, name: 'Todos' }
   ];
 

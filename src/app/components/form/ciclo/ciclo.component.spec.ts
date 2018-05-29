@@ -27,6 +27,41 @@ describe('CicloComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    fixture.whenStable().then(() => {
+      expect(component).toBeTruthy();
+    })
+  });
+
+  it('should have the correct form values', () => {
+    fixture.whenStable().then(() => {
+      const id = component.id;
+      const cicloComponent: HTMLElement = fixture.nativeElement;
+      let input = cicloComponent.querySelector(`input`);
+
+      for (let el in input) {
+        switch (el) {
+          case '0':
+            expect(input[el].getAttribute('value')).toBe('1');
+            break;
+
+          case '1':
+            expect(input[el].getAttribute('value')).toBe('2');
+            break;
+
+          case '2':
+            expect(input[el].getAttribute('value')).toBe('3');
+            break;
+
+          case '3':
+            expect(input[el].getAttribute('value')).toBe('4');
+            break;
+
+          case '4':
+            expect(input[el].getAttribute('value')).toBe('5');
+            break;
+        }
+      }
+
+    })
   });
 });

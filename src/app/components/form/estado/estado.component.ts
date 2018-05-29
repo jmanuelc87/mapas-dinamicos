@@ -10,7 +10,7 @@ import { EstadoService } from '../../../services/estado.service';
 })
 export class EstadoComponent implements OnInit {
 
-  private estados: Estado[] = [
+  estados: Estado[] = [
     { id: 0, name: "Resumen Nacional" }
   ];
 

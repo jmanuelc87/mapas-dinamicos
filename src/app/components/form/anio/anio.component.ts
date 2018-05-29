@@ -10,7 +10,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class AnioComponent implements OnInit {
 
-  private anios: Anio[];
+  anios: Anio[];
 
   @Input()
   id;
@@ -26,6 +26,10 @@ export class AnioComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.fetch();
+  }
+
+  public fetch() {
     this.anioService
       .getAllAnios()
       .subscribe((anios: Anio[]) => {

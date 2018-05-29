@@ -29,6 +29,7 @@ describe('DistritoComponent', () => {
       'distrito': new FormControl('', Validators.required)
     })
     component.name = 'distrito'
+    component.fetch(1);
     fixture.detectChanges();
   });
 
@@ -37,4 +38,17 @@ describe('DistritoComponent', () => {
       expect(component).toBeTruthy();
     })
   });
+
+  it('should fetch states from network', (done) => {
+    fixture.whenStable().then(() => {
+      expect(component.distritos.length).toBe(2);
+    });
+  });
+
+  it('should have default state', () => {
+    fixture.whenStable().then(() => {
+      expect(component.distritos[0].id).toBe(0);
+      expect(component.distritos[0].name).toBe('Todos');
+    });
+  })
 });
