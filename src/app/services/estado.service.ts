@@ -8,7 +8,7 @@ import { Estado } from '../models/Estado';
 })
 export class EstadoService {
 
-  private url = basepath.default + 'r=estados';
+  private url = basepath.default + '?r=estados';
 
   constructor(
     private http: HttpClient,
@@ -17,4 +17,5 @@ export class EstadoService {
   public getAllEstados() {
     return this.http.get<Estado[]>(this.url);
   }
+
 }

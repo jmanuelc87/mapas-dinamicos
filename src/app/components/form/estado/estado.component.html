@@ -1,3 +1,3 @@
 <div [formGroup]="group">
-    <ng-select [items]="estados" bindLabel="name" bindValue="id" formControlName="{{name}}"></ng-select>
+    <ng-select (change)="onChange($event)" [items]="estados" bindLabel="name" bindValue="id" formControlName="{{name}}"></ng-select>
 </div>

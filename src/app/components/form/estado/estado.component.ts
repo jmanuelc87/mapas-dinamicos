@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Estado } from '../../../models/Estado';
 import { EstadoService } from '../../../services/estado.service';
@@ -10,7 +10,9 @@ import { EstadoService } from '../../../services/estado.service';
 })
 export class EstadoComponent implements OnInit {
 
-  private estados: Estado[];
+  private estados: Estado[] = [
+    { id: 0, name: "Resumen Nacional" }
+  ];
 
   @Input()
   private id;
@@ -21,14 +23,25 @@ export class EstadoComponent implements OnInit {
   @Input()
   private name: string;
 
+  @Output()
+  private selected: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(
     private estadoService: EstadoService,
   ) { }
 
   ngOnInit() {
+    this.fetch();
+  }
+
+  private onChange(event) {
+    this.selected.emit(event);
+  }
+
+  public fetch() {
     this.estadoService
       .getAllEstados()
-      .subscribe((estados: Estado[]) => this.estados = estados,
+      .subscribe((estados: Estado[]) => estados.forEach(value => this.estados.push(value)),
         err => console.error(err),
         () => console.debug('get all states completed'));
   }
