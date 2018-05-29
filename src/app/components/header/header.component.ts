@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, ViewChild, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +7,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('toogle')
+  private elementViewEl: ElementRef;
+
+  constructor(
+    private renderer: Renderer2
+  ) { }
 
   ngOnInit() {
+
+  }
+
+  private show(event) {
+    event.stopPropagation();
+    this.renderer.setStyle(this.elementViewEl.nativeElement, 'display', 'block');
+  }
+
+  @HostListener('document:click', ['$event'])
+  private hide(event) {
+    this.renderer.setStyle(this.elementViewEl.nativeElement, 'display', 'none');
   }
 
 }

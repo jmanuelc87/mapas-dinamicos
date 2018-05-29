@@ -1,23 +1,31 @@
-<nav class="navbar">
-    <div class="dropdown">
-        <button class="dropbtn">
-            Estadísticas
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            <div class="sub-dropdown">
-                <button class="sub-dropbtn">
-                    Agrícola
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="sub-dropdown-content">
-                    <a href="#">Producción por Cultivo</a>
-                    <a href="#">Producción por Estado</a>
-                </div>
-            </div>
-            <a href="#">Pecuario</a>
-            <a href="#">Pesquero</a>
-        </div>
-    </div>
-    <a href="#">Capas</a>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Mapas Dinámicos</a>
+    <ul class="navbar-nav">
+        <li ngbDropdown class="nav-item dropdown">
+            <a ngbDropdownToggle class="nav-link" href="#">
+                Estadísticas
+            </a>
+            <ul ngbDropdownMenu class="dropdown-menu">
+                <li class="dropdown-submenu">
+                    <a (click)="show($event)" class="dropdown-item" href="#">
+                        Agrícola
+                    </a>
+                    <ul #toogle class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#">Producción por Cultivo</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Producción por Estado</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="#">Pecuario</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="#">Pesquero</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 </nav>
