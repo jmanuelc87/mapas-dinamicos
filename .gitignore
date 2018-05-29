@@ -2,13 +2,11 @@
 
 # compiled output
 /dist
-/dist-server
 /tmp
 /out-tsc
 
 # dependencies
 /node_modules
-package-lock.json
 
 # IDEs and editors
 /.idea
@@ -21,10 +19,10 @@ package-lock.json
 
 # IDE - VSCode
 .vscode/*
-.vscode/settings.json
-.vscode/tasks.json
-.vscode/launch.json
-.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # misc
 /.sass-cache
@@ -35,10 +33,6 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-
-# e2e
-/e2e/*.js
-/e2e/*.map
 
 # System Files
 .DS_Store

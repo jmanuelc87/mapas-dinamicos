@@ -1,17 +1,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
     "target": "es5",
-    /* Configuracion para convertir el codigo a formato AMD */
-    "module": "amd",
-    /* FIN */
     "typeRoots": [
       "node_modules/@types"
     ],
