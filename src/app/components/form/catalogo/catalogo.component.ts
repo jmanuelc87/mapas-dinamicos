@@ -2,28 +2,26 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { v4 as uuid } from "uuid";
 
-
 @Component({
-  selector: 'app-catalogo',
-  templateUrl: './catalogo.component.html',
-  styleUrls: ['./catalogo.component.css']
+    selector: 'app-catalogo',
+    templateUrl: './catalogo.component.html',
+    styleUrls: ['./catalogo.component.css']
 })
 export class CatalogoComponent implements OnInit {
 
-  @Input()
-  id;
+    id: any;
 
-  @Input()
-  group: FormGroup;
+    @Input()
+    group: FormGroup;
 
-  @Input()
-  name: string;
+    @Input()
+    name: string;
 
 
-  constructor() { }
+    constructor() { }
 
-  ngOnInit() {
-    this.id = uuid();
-  }
+    ngOnInit() {
+        this.id = uuid();
+    }
 
 }

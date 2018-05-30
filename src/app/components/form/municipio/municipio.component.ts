@@ -4,43 +4,43 @@ import { Estado } from '../../../models/Estado';
 import { MunicipioService } from '../../../services/municipio.service';
 
 @Component({
-  selector: 'app-municipio',
-  templateUrl: './municipio.component.html',
-  styleUrls: ['./municipio.component.css']
+    selector: 'app-municipio',
+    templateUrl: './municipio.component.html',
+    styleUrls: ['./municipio.component.css']
 })
 export class MunicipioComponent implements OnInit {
 
-  private municipios: Estado[] = [
-    { id: 0, name: "Todos" }
-  ];
+    municipios: Estado[] = [
+        { id: 0, name: "Todos" }
+    ];
 
-  @Input()
-  id;
+    @Input()
+    id;
 
-  @Input()
-  group: FormGroup;
+    @Input()
+    group: FormGroup;
 
-  @Input()
-  name: string;
+    @Input()
+    name: string;
 
-  @Output()
-  private selected: EventEmitter<any> = new EventEmitter<any>();
+    @Output()
+    selected: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(
-    private municipioService: MunicipioService
-  ) { }
+    constructor(
+        private municipioService: MunicipioService
+    ) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  private onChange(event) {
-    this.selected.emit(event);
-  }
+    onChange(event) {
+        this.selected.emit(event);
+    }
 
-  public fetch(estadoid: number, distritoid: number) {
-    this.municipioService
-      .getMunicipioByEstadoAndDistrito(estadoid, distritoid)
-      .subscribe(municipios => municipios.forEach(value => this.municipios.push(value)));
-  }
+    public fetch(estadoid: number, distritoid: number) {
+        this.municipioService
+            .getMunicipioByEstadoAndDistrito(estadoid, distritoid)
+            .subscribe(municipios => municipios.forEach(value => this.municipios.push(value)));
+    }
 
 }

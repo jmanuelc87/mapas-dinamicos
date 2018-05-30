@@ -4,42 +4,42 @@ import { FormGroup } from '@angular/forms';
 import { DistritoService } from '../../../services/distrito.service';
 
 @Component({
-  selector: 'app-distrito',
-  templateUrl: './distrito.component.html',
-  styleUrls: ['./distrito.component.css']
+    selector: 'app-distrito',
+    templateUrl: './distrito.component.html',
+    styleUrls: ['./distrito.component.css']
 })
 export class DistritoComponent implements OnInit {
 
-  distritos: Estado[] = [
-    { id: 0, name: 'Todos' }
-  ];
+    distritos: Estado[] = [
+        { id: 0, name: 'Todos' }
+    ];
 
-  @Input()
-  id;
+    @Input()
+    id;
 
-  @Input()
-  group: FormGroup;
+    @Input()
+    group: FormGroup;
 
-  @Input()
-  name: string;
+    @Input()
+    name: string;
 
-  @Output()
-  selected: EventEmitter<any> = new EventEmitter<any>();
+    @Output()
+    selected: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(
-    private distritoService: DistritoService
-  ) { }
+    constructor(
+        private distritoService: DistritoService
+    ) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  private onChange(event) {
-    this.selected.emit(event);
-  }
+    onChange(event) {
+        this.selected.emit(event);
+    }
 
-  public fetch(estadoid) {
-    this.distritoService.getDistritoByEstado(estadoid)
-      .subscribe(distritos => distritos.forEach(value => this.distritos.push(value)));
-  }
+    public fetch(estadoid) {
+        this.distritoService.getDistritoByEstado(estadoid)
+            .subscribe(distritos => distritos.forEach(value => this.distritos.push(value)));
+    }
 
 }

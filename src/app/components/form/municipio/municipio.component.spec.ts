@@ -7,31 +7,49 @@ import { HttpClientModule } from '@angular/common/http';
 import { MunicipioService } from '../../../services/municipio.service';
 
 describe('MunicipioComponent', () => {
-  let component: MunicipioComponent;
-  let fixture: ComponentFixture<MunicipioComponent>;
+    let component: MunicipioComponent;
+    let fixture: ComponentFixture<MunicipioComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MunicipioComponent],
-      imports: [ReactiveFormsModule, NgSelectModule, HttpClientModule],
-      providers: [MunicipioService]
-    })
-      .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [MunicipioComponent],
+            imports: [ReactiveFormsModule, NgSelectModule, HttpClientModule],
+            providers: [MunicipioService]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MunicipioComponent);
-    component = fixture.componentInstance;
-    component.group = new FormGroup({
-      'municipio': new FormControl('', Validators.required)
-    })
-    component.name = 'municipio'
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(MunicipioComponent);
+        component = fixture.componentInstance;
+        component.group = new FormGroup({
+            'municipio': new FormControl('', Validators.required)
+        })
+        component.name = 'municipio'
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    fixture.whenStable().then(() => {
-      expect(component).toBeTruthy();
-    })
-  });
+    it('should create', () => {
+        fixture.whenStable().then(() => {
+            expect(component).toBeTruthy();
+        })
+    });
+
+    it('should have default state', () => {
+        fixture.whenStable().then(() => {
+            expect(component.municipios[0].id).toBe(0);
+            expect(component.municipios[0].name).toBe('Todos');
+        });
+    });
+
+    it('should emit selected event', done => {
+        fixture.whenStable().then(() => {
+            const event = component.municipios[0];
+            component.selected.subscribe(data => {
+                expect(data).toBe(event);
+                done();
+            });
+            component.onChange(event);
+        })
+    });
 });

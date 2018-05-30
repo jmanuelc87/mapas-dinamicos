@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EstadoComponent } from './components/form/estado/estado.component';
 import { DistritoComponent } from './components/form/distrito/distrito.component';
 import { MunicipioComponent } from './components/form/municipio/municipio.component';
+import { FiltroEstadoComponent } from './components/form/filtro-estado/filtro-estado.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { MunicipioComponent } from './components/form/municipio/municipio.compon
         EstadoComponent,
         DistritoComponent,
         MunicipioComponent,
+        FiltroEstadoComponent,
     ],
     imports: [
         BrowserModule,

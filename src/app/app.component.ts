@@ -8,9 +8,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AppComponent {
 
+
     /*
     private group: FormGroup = this.fb.group({
-        estado: ['', Validators.required]
+        catalogo: ['', Validators.required]
     });
 
     constructor(
@@ -19,7 +20,6 @@ export class AppComponent {
 
     private selected(event) {
         console.log(event);
-    }
-    */
+    }*/
 
 }
