@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewContainerRef, ViewChild, ComponentRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { WindowComponent } from './components/window/window.component';
 
 @Component({
     selector: 'app-root',
@@ -8,6 +9,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AppComponent {
 
+    @ViewChild('windowContainer')
+    entryPoint: ViewContainerRef;
+
+    constructor(
+        private componentFactoryResolver: ComponentFactoryResolver
+    ) { }
 
     /*
     private group: FormGroup = this.fb.group({
@@ -21,5 +28,23 @@ export class AppComponent {
     private selected(event) {
         console.log(event);
     }*/
+
+    onClick(selected) {
+        if (selected === 'Producción por Cultivo') {
+            console.log(selected);
+            let component = this.createComponent(WindowComponent);
+            (component.instance as WindowComponent).closeEvent.subscribe(() => {
+                component.destroy();
+            });
+        }
+    }
+
+
+    createComponent(component) {
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+        let dynamicComponentRef = this.entryPoint.createComponent(componentFactory);
+        this.entryPoint.insert(dynamicComponentRef.hostView);
+        return dynamicComponentRef;
+    }
 
 }

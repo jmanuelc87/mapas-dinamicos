@@ -16,6 +16,8 @@ import { EstadoComponent } from './components/form/estado/estado.component';
 import { DistritoComponent } from './components/form/distrito/distrito.component';
 import { MunicipioComponent } from './components/form/municipio/municipio.component';
 import { FiltroEstadoComponent } from './components/form/filtro-estado/filtro-estado.component';
+import { WindowComponent } from './components/window/window.component';
+import { DraggableDirective } from './directives/draggable.directive';
 
 
 @NgModule({
@@ -32,6 +34,8 @@ import { FiltroEstadoComponent } from './components/form/filtro-estado/filtro-es
         DistritoComponent,
         MunicipioComponent,
         FiltroEstadoComponent,
+        WindowComponent,
+        DraggableDirective,
     ],
     imports: [
         BrowserModule,
@@ -41,6 +45,9 @@ import { FiltroEstadoComponent } from './components/form/filtro-estado/filtro-es
         HttpClientModule,
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [
+        WindowComponent
+    ],
 })
 export class AppModule { }
