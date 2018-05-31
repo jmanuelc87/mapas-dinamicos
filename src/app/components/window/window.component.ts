@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Renderer2 } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Renderer2, ComponentRef, Input } from '@angular/core';
 import { DraggableDirective } from "../../directives/draggable.directive";
 import { v4 as uuid } from "uuid";
 
@@ -14,8 +14,8 @@ export class WindowComponent implements OnInit {
     @ViewChild("window2")
     el: ElementRef;
 
-    @Output()
-    closeEvent: EventEmitter<void> = new EventEmitter();
+    @Input()
+    componentRef: ComponentRef<WindowComponent>;
 
     constructor(
         private renderer: Renderer2
@@ -26,7 +26,7 @@ export class WindowComponent implements OnInit {
     }
 
     handleClickClose(event) {
-        this.closeEvent.emit();
+        this.componentRef.destroy();
     }
 
     handleClickMinimize(event) {

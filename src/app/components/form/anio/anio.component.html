@@ -1,3 +1,6 @@
 <div [formGroup]="group">
-    <ng-select [items]="anios" bindLabel="anio" bindValue="anio" [formControlName]="name"></ng-select>
+    <fieldset>
+        <legend>Año</legend>
+        <ng-select [items]="anios" bindLabel="anio" bindValue="anio" [formControlName]="name"></ng-select>
+    </fieldset>
 </div>

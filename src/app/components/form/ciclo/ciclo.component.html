@@ -1,37 +1,41 @@
 <div [formGroup]="group">
-  <div class="form-check">
-    <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="oto-inv-{{id}}" value="1" checked/>
-    <label class="form-check-label" for="oto-inv-{{id}}">
-      Oto-Inv
-    </label>
-  </div>
+    <fieldset>
+        <legend>Ciclo</legend>
+        <div class="form-check">
+            <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="oto-inv-{{id}}" value="1" checked/>
+            <label class="form-check-label" for="oto-inv-{{id}}">
+                Oto-Inv
+            </label>
+        </div>
 
-  <div class="form-check">
-    <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="pri-ver-{{id}}" value="2" />
-    <label class="form-check-label" for="pri-ver-{{id}}">
-      Pri-Ver
-    </label>
-  </div>
+        <div class="form-check">
+            <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="pri-ver-{{id}}" value="2" />
+            <label class="form-check-label" for="pri-ver-{{id}}">
+                Pri-Ver
+            </label>
+        </div>
 
-  <div class="form-check">
-    <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="perennes-{{id}}" value="3" />
-    <label class="form-check-label" for="perennes-{{id}}">
-      Perennes
-    </label>
-  </div>
+        <div class="form-check">
+            <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="perennes-{{id}}" value="3" />
+            <label class="form-check-label" for="perennes-{{id}}">
+                Perennes
+            </label>
+        </div>
 
-  <div class="form-check">
-    <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="anio-agricola-{{id}}" value="4" />
-    <label class="form-check-label" for="anio-agricola-{{id}}">
-      Año Agrícola
-    </label>
-  </div>
+        <div class="form-check">
+            <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="anio-agricola-{{id}}" value="4"
+            />
+            <label class="form-check-label" for="anio-agricola-{{id}}">
+                Año Agrícola
+            </label>
+        </div>
 
-  <div class="form-check">
-    <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="ciclos-perennes-{{id}}" value="5"
-    />
-    <label class="form-check-label" for="ciclos-perennes-{{id}}">
-      Ciclos y Perennes
-    </label>
-  </div>
+        <div class="form-check">
+            <input formControlName="{{name}}" class="form-check-input" type="radio" name="ciclo" id="ciclos-perennes-{{id}}" value="5"
+            />
+            <label class="form-check-label" for="ciclos-perennes-{{id}}">
+                Ciclos y Perennes
+            </label>
+        </div>
+    </fieldset>
 </div>

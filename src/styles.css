@@ -9,3 +9,26 @@ body {
     height: 100%;
     padding-top: 27px;
 }
+
+input,
+label,
+select {
+    font-size: 12px;
+}
+
+fieldset {
+    display: block;
+    margin-top: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 0.35em;
+    padding-bottom: 0.625em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border: 2px groove grey;
+}
+
+legend {
+    text-align: center;
+    font-size: 14px;
+}

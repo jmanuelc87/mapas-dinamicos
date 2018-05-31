@@ -1,6 +1,7 @@
 import { Component, ComponentFactoryResolver, ViewContainerRef, ViewChild, ComponentRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { WindowComponent } from './components/window/window.component';
+import { FactoryDirective } from './directives/factory.directive';
+import { ProduccionCultivoComponent } from './windows/produccion-cultivo/produccion-cultivo.component';
+import { WindowComponent } from './components';
 
 @Component({
     selector: 'app-root',
@@ -9,42 +10,35 @@ import { WindowComponent } from './components/window/window.component';
 })
 export class AppComponent {
 
-    @ViewChild('windowContainer')
-    entryPoint: ViewContainerRef;
+    @ViewChild(FactoryDirective)
+    appFactory: FactoryDirective;
 
     constructor(
         private componentFactoryResolver: ComponentFactoryResolver
     ) { }
 
-    /*
-    private group: FormGroup = this.fb.group({
-        catalogo: ['', Validators.required]
-    });
-
-    constructor(
-        private fb: FormBuilder
-    ) { }
-
-    private selected(event) {
-        console.log(event);
-    }*/
-
     onClick(selected) {
         if (selected === 'Producción por Cultivo') {
-            console.log(selected);
-            let component = this.createComponent(WindowComponent);
-            (component.instance as WindowComponent).closeEvent.subscribe(() => {
-                component.destroy();
-            });
+            let component = this.createComponent(ProduccionCultivoComponent);
+            (component.instance as ProduccionCultivoComponent).componentRef = component;
         }
     }
 
 
     createComponent(component) {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-        let dynamicComponentRef = this.entryPoint.createComponent(componentFactory);
-        this.entryPoint.insert(dynamicComponentRef.hostView);
-        return dynamicComponentRef;
+
+        let viewContainerRef = this.appFactory.viewContainerRef;
+        viewContainerRef.clear();
+
+        let componentRef = viewContainerRef.createComponent(componentFactory);
+
+        /*
+        (<WindowComponent>componentRef.instance).component = componentRef;
+        viewContainerRef.insert(componentRef.hostView);
+        */
+
+        return componentRef;
     }
 
 }
