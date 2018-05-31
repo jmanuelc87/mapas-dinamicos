@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DistritoComponent, MunicipioComponent } from '../../components';
 
 @Component({
     selector: 'app-produccion-cultivo',
@@ -12,6 +13,12 @@ export class ProduccionCultivoComponent implements OnInit {
 
     form: FormGroup;
 
+    @ViewChild(DistritoComponent)
+    appDistrito: DistritoComponent;
+
+    @ViewChild(MunicipioComponent)
+    appMunicipio: MunicipioComponent;
+
     constructor(
         private fb: FormBuilder
     ) { }
@@ -22,10 +29,22 @@ export class ProduccionCultivoComponent implements OnInit {
             'modalidad': ['1', Validators.required],
             'catalogo': ['generico', Validators.required],
             'anio': ['2016', Validators.required],
-            'estado': ['Resumen Nacional', Validators.required],
-            'distrito': ['Todos', Validators.required],
-            'municipio': ['Todos', Validators.required],
+            'estado': ['0', Validators.required],
+            'distrito': ['0', Validators.required],
+            'municipio': ['0', Validators.required],
         });
+    }
+
+    onChangeEstadoItem(item) {
+        this.appDistrito.fetch(item.id);
+    }
+
+    onChangeDistritoItem(item) {
+        this.appMunicipio.fetch(this.form.get('estado').value, item.id);
+    }
+
+    onSubmitForm(event) {
+        console.log(this.form.value);
     }
 
 }

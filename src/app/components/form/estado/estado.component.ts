@@ -41,7 +41,7 @@ export class EstadoComponent implements OnInit {
     public fetch() {
         this.estadoService
             .getAllEstados()
-            .subscribe((estados: Estado[]) => estados.forEach(value => this.estados.push(value)),
+            .subscribe((estados: Estado[]) => this.estados = estados,
                 err => console.error(err),
                 () => console.debug('get all states completed'));
     }

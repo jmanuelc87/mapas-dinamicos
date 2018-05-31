@@ -6,25 +6,25 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class MunicipioService {
 
-  private url = basepath.default + '?r=estados';
+    private url = basepath.default + '/catalogo/municipios';
 
-  constructor(
-    private http: HttpClient
-  ) { }
+    constructor(
+        private http: HttpClient
+    ) { }
 
-  public getMunicipioByEstadoAndDistrito(estadoid, distritoid) {
+    public getMunicipioByEstadoAndDistrito(estadoid, distritoid) {
 
-    const params = new HttpParams({
-      fromObject: {
-        estadoid: estadoid,
-        distritoid: distritoid,
-      }
-    });
+        const params = new HttpParams({
+            fromObject: {
+                estadoid: estadoid,
+                distritoid: distritoid,
+            }
+        });
 
-    return this.http.get<Estado[]>(this.url, { params: params });
-  }
+        return this.http.get<Estado[]>(this.url, { params: params });
+    }
 }

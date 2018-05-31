@@ -40,7 +40,7 @@ export class MunicipioComponent implements OnInit {
     public fetch(estadoid: number, distritoid: number) {
         this.municipioService
             .getMunicipioByEstadoAndDistrito(estadoid, distritoid)
-            .subscribe(municipios => municipios.forEach(value => this.municipios.push(value)));
+            .subscribe(municipios => this.municipios = municipios);
     }
 
 }

@@ -4,37 +4,37 @@ import { AnioService } from '../../../services/anio.service';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-anio',
-  templateUrl: './anio.component.html',
-  styleUrls: ['./anio.component.css']
+    selector: 'app-anio',
+    templateUrl: './anio.component.html',
+    styleUrls: ['./anio.component.css']
 })
 export class AnioComponent implements OnInit {
 
-  anios: Anio[];
+    anios: Anio[];
 
-  @Input()
-  id;
+    @Input()
+    id;
 
-  @Input()
-  group: FormGroup;
+    @Input()
+    group: FormGroup;
 
-  @Input()
-  name: string;
+    @Input()
+    name: string;
 
-  constructor(
-    private anioService: AnioService,
-  ) { }
+    constructor(
+        private anioService: AnioService,
+    ) { }
 
-  ngOnInit() {
-    this.fetch();
-  }
+    ngOnInit() {
+        this.fetch();
+    }
 
-  public fetch() {
-    this.anioService
-      .getAllAnios()
-      .subscribe((anios: Anio[]) => {
-        this.anios = anios;
-      }, err => console.error(err), () => console.debug('get all years completed'));
-  }
+    public fetch() {
+        this.anioService
+            .getAllAnios()
+            .subscribe((anios: Anio[]) => {
+                this.anios = anios;
+            }, err => console.error(err), () => console.debug('get all years completed'));
+    }
 
 }

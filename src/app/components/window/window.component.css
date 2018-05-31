@@ -1,5 +1,6 @@
 .window {
     position: absolute;
+    z-index: 1024;
 }
 
 .minimize {

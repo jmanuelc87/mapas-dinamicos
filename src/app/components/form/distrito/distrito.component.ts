@@ -39,7 +39,7 @@ export class DistritoComponent implements OnInit {
 
     public fetch(estadoid) {
         this.distritoService.getDistritoByEstado(estadoid)
-            .subscribe(distritos => distritos.forEach(value => this.distritos.push(value)));
+            .subscribe(distritos => this.distritos = distritos, err => console.error(err), () => console.log('get all ddr completed.'));
     }
 
 }

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class AnioService {
 
-  private url = basepath.default + '?r=years';
+  private url = basepath.default + '/catalogo/years';
 
   constructor(
     private http: HttpClient

@@ -4,18 +4,18 @@ import * as basepath from "./url";
 import { Estado } from '../models/Estado';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class EstadoService {
 
-  private url = basepath.default + '?r=estados';
+    private url = basepath.default + '/catalogo/estados';
 
-  constructor(
-    private http: HttpClient,
-  ) { }
+    constructor(
+        private http: HttpClient,
+    ) { }
 
-  public getAllEstados() {
-    return this.http.get<Estado[]>(this.url);
-  }
+    public getAllEstados() {
+        return this.http.get<Estado[]>(this.url);
+    }
 
 }

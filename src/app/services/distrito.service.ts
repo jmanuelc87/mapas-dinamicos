@@ -5,25 +5,25 @@ import * as basepath from "./url";
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class DistritoService {
 
-  private url = basepath.default + '?r=estados';
+    private url = basepath.default + '/catalogo/distritos';
 
-  constructor(
-    private http: HttpClient,
-  ) { }
+    constructor(
+        private http: HttpClient,
+    ) { }
 
-  public getDistritoByEstado(estadoid) {
+    public getDistritoByEstado(estadoid) {
 
-    const params = new HttpParams({
-      fromObject: {
-        id: estadoid
-      }
-    });
+        const params = new HttpParams({
+            fromObject: {
+                id: estadoid
+            }
+        });
 
-    return this.http.get<Estado[]>(this.url, { params: params });
-  }
+        return this.http.get<Estado[]>(this.url, { params: params });
+    }
 
 }
