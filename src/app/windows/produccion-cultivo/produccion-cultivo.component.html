@@ -1,13 +1,13 @@
 <app-window [componentRef]="componentRef">
-    <p>Producción por Cultivo</p>
-    <div style="width: 650px;">
+    <div title>Producción por Cultivo</div>
+    <div content style="width: 700px;">
 
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
                     <form [formGroup]="form" (ngSubmit)="onSubmitForm($event)">
                         <div class="form-row">
-                            <div class="form-group col-md-3" style="margin-top: 1rem;">
+                            <div class="form-group col-md-3">
                                 <app-ciclo [group]="form" name="ciclo"></app-ciclo>
                             </div>
                             <div class="form-group col-md-4">
@@ -19,11 +19,9 @@
                                 <app-estado [group]="form" name="estado" (selected)="onChangeEstadoItem($event)"></app-estado>
                                 <app-distrito [group]="form" name="distrito" (selected)="onChangeDistritoItem($event)"></app-distrito>
                                 <app-municipio [group]="form" name="municipio" (selected)="onChangeMunicipioItem($event)"></app-municipio>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary float-right">Buscar</button>
+                                <button type="submit" class="button primary float-right">
+                                    <span class="mif-search"></span>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -31,7 +29,7 @@
             </div>
             <div *ngIf="showTable" class="row">
                 <div class="col-lg-12">
-                    <ag-grid-angular style="width: 100%; height: 300px;" class="ag-theme-balham" [pagination]="true" [paginationAutoPageSize]="true"
+                    <ag-grid-angular style="width: 100%; height: 260px;" class="ag-theme-balham" [pagination]="true" [paginationAutoPageSize]="true"
                         (gridReady)="onGridReady($event)" (selectionChanged)="onSelectionChanged($event)" [rowSelection]="'single'"
                         [enableSorting]="true" [enableFilter]="true" [rowData]="rowData" [columnDefs]="columnDefs">
                     </ag-grid-angular>

@@ -1,7 +1,7 @@
 <div #window2 id="{{id}}" appDraggable class="window">
     <div class="window-caption">
         <span class="title">
-            <ng-content select="p"></ng-content>
+            <ng-content select="[title]"></ng-content>
         </span>
         <div class="buttons">
             <span class="btn-min" (click)="handleClickMinimize($event)"></span>
@@ -10,6 +10,6 @@
         </div>
     </div>
     <div class="window-content p-2">
-        <ng-content select="div"></ng-content>
+        <ng-content select="[content]"></ng-content>
     </div>
 </div>

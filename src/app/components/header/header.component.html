@@ -1,3 +1,38 @@
+<div class="app-bar-expand-md fixed-top" data-role="appbar">
+    <a href="#" class="brand no-hover">
+        Mapas Dinámicos
+    </a>
+
+    <div class="app-bar-container">
+        <a href="#" class="dropdown-toggle app-bar-item">Estadísticas</a>
+        <ul class="d-menu" data-role="dropdown">
+            <li>
+                <a href="#">Agrícola</a>
+                <ul class="d-menu" data-role="dropdown">
+                    <li>
+                        <a href="#" (click)="onClick($event)">
+                            Producción por Cultivo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" (click)="onClick($event)">
+                            Producción por Estado
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" (click)="onClick($event)">Pecuario</a>
+            </li>
+            <li>
+                <a href="#" (click)="onClick($event)">Pesquero</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<!--
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Mapas Dinámicos</a>
     <ul class="navbar-nav">
@@ -29,3 +64,4 @@
         </li>
     </ul>
 </nav>
+-->

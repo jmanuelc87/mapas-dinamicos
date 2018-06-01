@@ -1,4 +1,3 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import 'metro4/build/css/metro-all.css';
 @import "~ag-grid/dist/styles/ag-grid.css";
@@ -9,7 +8,10 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    padding-top: 27px;
+}
+
+body {
+    padding-top: 52px;
 }
 
 input,
@@ -21,18 +23,18 @@ select {
 fieldset {
     display: block;
     margin-top: 3px;
-    margin-left: 2px;
-    margin-right: 2px;
-    padding-top: 0.35em;
-    padding-bottom: 0.625em;
+    margin-left: 1px;
+    margin-right: 1px;
+    padding-top: 0.3em;
+    padding-bottom: 0.525em;
     padding-left: 0.75em;
     padding-right: 0.75em;
-    border: 2px groove grey;
+    border: 1px groove grey;
 }
 
 legend {
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 div {

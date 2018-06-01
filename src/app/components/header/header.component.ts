@@ -16,9 +16,6 @@ import {
 })
 export class HeaderComponent implements OnInit {
 
-    @ViewChild('toogle')
-    private elementViewEl: ElementRef;
-
     @Output()
     private menuClick: EventEmitter<string> = new EventEmitter();
 
@@ -28,16 +25,6 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
 
-    }
-
-    private show(event) {
-        event.stopPropagation();
-        this.renderer.setStyle(this.elementViewEl.nativeElement, 'display', 'block');
-    }
-
-    @HostListener('document:click', ['$event'])
-    private hide(event) {
-        this.renderer.setStyle(this.elementViewEl.nativeElement, 'display', 'none');
     }
 
     private onClick(event) {

@@ -1,3 +1,15 @@
-.btn {
-    margin-bottom: 7px;
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+.button {
+    margin: 15px;
+}
+
+.form-group {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.container-fluid {
+    padding-left: 6px;
+    padding-right: 6px;
 }

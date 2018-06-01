@@ -25,6 +25,7 @@ export class DraggableDirective {
     }
 
     windowStart(e) {
+        console.log(e);
         this.pos3 = e.clientX;
         this.pos4 = e.clientY;
 
@@ -33,15 +34,24 @@ export class DraggableDirective {
     }
 
     windowOnDrag(e2) {
-
+        console.log(e2);
         this.pos1 = this.pos3 - e2.clientX;
         this.pos2 = this.pos4 - e2.clientY;
 
         this.pos3 = e2.clientX;
         this.pos4 = e2.clientY;
 
-        let top = Number.parseInt(this.el.nativeElement.offsetTop) - this.pos2;
-        let left = Number.parseInt(this.el.nativeElement.offsetLeft) - this.pos1;
+        let top = this.el.nativeElement.offsetTop - this.pos2;
+        let left = this.el.nativeElement.offsetLeft - this.pos1;
+
+        if (top < 0 || top + this.el.nativeElement.offsetTop >= screen.height) {
+            return;
+        }
+
+        if (left < 0 || left + this.el.nativeElement.offsetLeft >= screen.width) {
+            return;
+        }
+
 
         this.renderer.setStyle(this.el.nativeElement, 'top', `${top}px`);
         this.renderer.setStyle(this.el.nativeElement, 'left', `${left}px`);
