@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { v4 as uuid } from "uuid";
 
@@ -17,11 +17,17 @@ export class CatalogoComponent implements OnInit {
     @Input()
     name: string;
 
+    @Output()
+    selected: EventEmitter<string> = new EventEmitter();
 
     constructor() { }
 
     ngOnInit() {
         this.id = uuid();
+    }
+
+    onClickEvent(event) {
+        this.selected.emit(event.target.value);
     }
 
 }

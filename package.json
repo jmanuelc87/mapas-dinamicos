@@ -23,6 +23,8 @@
         "@ng-bootstrap/ng-bootstrap": "^2.0.0",
         "@ng-select/ng-select": "^2.1.1",
         "@types/arcgis-js-api": "^4.7.0",
+        "ag-grid": "^17.1.1",
+        "ag-grid-angular": "^17.1.0",
         "bootstrap": "^4.1.1",
         "classlist.js": "^1.1.20150312",
         "core-js": "^2.5.4",

@@ -1,6 +1,8 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import 'metro4/build/css/metro-all.css';
+@import "~ag-grid/dist/styles/ag-grid.css";
+@import "~ag-grid/dist/styles/ag-theme-balham.css";
 html,
 body {
     margin: 0;

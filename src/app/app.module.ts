@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { AgGridModule } from "ag-grid-angular";
 import {
     DraggableDirective,
     FactoryDirective
@@ -54,6 +54,7 @@ import { ProduccionCultivoComponent } from './windows/produccion-cultivo/producc
         ReactiveFormsModule,
         NgSelectModule,
         HttpClientModule,
+        AgGridModule.withComponents([]),
     ],
     providers: [],
     bootstrap: [AppComponent],

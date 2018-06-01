@@ -2,16 +2,16 @@
     <fieldset>
         <legend>Catálogo</legend>
         <div class="form-check">
-            <input formControlName="{{name}}" class="form-check-input" type="radio" name="catalogo" id="generico-{{id}}" value="generico"
-                checked />
+            <input (click)="onClickEvent($event)" formControlName="{{name}}" class="form-check-input" type="radio" name="catalogo" id="generico-{{id}}"
+                value="generico" checked />
             <label class="form-check-label" for="generico-{{id}}">
                 Generico
             </label>
         </div>
 
         <div class="form-check">
-            <input formControlName="{{name}}" class="form-check-input" type="radio" name="catalogo" id="detalle-{{id}}" value="detalle"
-            />
+            <input (click)="onClickEvent($event)" formControlName="{{name}}" class="form-check-input" type="radio" name="catalogo" id="detalle-{{id}}"
+                value="detalle" />
             <label class="form-check-label" for="detalle-{{id}}">
                 Detalle
             </label>

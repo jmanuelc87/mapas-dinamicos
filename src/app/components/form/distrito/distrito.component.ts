@@ -38,6 +38,7 @@ export class DistritoComponent implements OnInit {
     }
 
     public fetch(estadoid) {
+
         this.distritoService.getDistritoByEstado(estadoid)
             .subscribe((distritos: Estado[]) => {
                 distritos.push({ id: 0, name: 'Todos' });
