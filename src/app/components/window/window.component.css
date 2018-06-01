@@ -3,7 +3,12 @@
     z-index: 1024;
 }
 
+.window-content {
+    overflow: unset;
+}
+
 .minimize {
     height: 54px;
     width: 106px;
+    overflow: hidden;
 }

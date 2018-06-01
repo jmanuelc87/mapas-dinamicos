@@ -29,9 +29,9 @@ export class ProduccionCultivoComponent implements OnInit {
             'modalidad': ['1', Validators.required],
             'catalogo': ['generico', Validators.required],
             'anio': ['2016', Validators.required],
-            'estado': ['0', Validators.required],
-            'distrito': ['0', Validators.required],
-            'municipio': ['0', Validators.required],
+            'estado': [0, Validators.required],
+            'distrito': [0, Validators.required],
+            'municipio': [0, Validators.required],
         });
     }
 

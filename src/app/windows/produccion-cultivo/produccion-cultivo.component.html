@@ -9,9 +9,9 @@
                 <div class="form-group col-md-4">
                     <app-modalidad [group]="form" name="modalidad"></app-modalidad>
                     <app-catalogo [group]="form" name="catalogo"></app-catalogo>
+                    <app-anio [group]="form" name="anio"></app-anio>
                 </div>
                 <div class="form-group col-md-5">
-                    <app-anio [group]="form" name="anio"></app-anio>
                     <app-estado [group]="form" name="estado" (selected)="onChangeEstadoItem($event)"></app-estado>
                     <app-distrito [group]="form" name="distrito" (selected)="onChangeDistritoItem($event)"></app-distrito>
                     <app-municipio [group]="form" name="municipio"></app-municipio>
