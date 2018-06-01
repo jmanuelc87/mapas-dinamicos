@@ -9,7 +9,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class DistritoService {
 
-    private url = basepath.default + '/catalogo/distritos';
+    private url = basepath.default.baseUrl + '/catalogo/distritos';
 
     constructor(
         private http: HttpClient,

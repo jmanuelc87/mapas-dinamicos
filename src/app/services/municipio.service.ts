@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class MunicipioService {
 
-    private url = basepath.default + '/catalogo/municipios';
+    private url = basepath.default.baseUrl + '/catalogo/municipios';
 
     constructor(
         private http: HttpClient

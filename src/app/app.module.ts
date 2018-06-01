@@ -27,7 +27,7 @@ import {
 } from './components/index';
 
 import { ProduccionCultivoComponent } from './windows/produccion-cultivo/produccion-cultivo.component';
-
+import { EsriExtentService } from './services/esri-extent.service';
 
 @NgModule({
     declarations: [
@@ -56,10 +56,12 @@ import { ProduccionCultivoComponent } from './windows/produccion-cultivo/producc
         HttpClientModule,
         AgGridModule.withComponents([]),
     ],
-    providers: [],
+    providers: [
+        EsriExtentService
+    ],
     bootstrap: [AppComponent],
     entryComponents: [
-        ProduccionCultivoComponent
+        ProduccionCultivoComponent,
     ],
 })
 export class AppModule { }

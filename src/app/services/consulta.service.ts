@@ -10,7 +10,7 @@ import { BodyDropPivotTarget } from 'ag-grid';
 })
 export class ConsultaService {
 
-    private url = basepath.default + '/consultas/prod-cultivo';
+    private url = basepath.default.baseUrl + '/consultas/prod-cultivo';
 
     constructor(
         private http: HttpClient

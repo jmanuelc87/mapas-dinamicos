@@ -18,7 +18,7 @@
                             <div class="form-group col-md-5">
                                 <app-estado [group]="form" name="estado" (selected)="onChangeEstadoItem($event)"></app-estado>
                                 <app-distrito [group]="form" name="distrito" (selected)="onChangeDistritoItem($event)"></app-distrito>
-                                <app-municipio [group]="form" name="municipio"></app-municipio>
+                                <app-municipio [group]="form" name="municipio" (selected)="onChangeMunicipioItem($event)"></app-municipio>
                             </div>
                         </div>
                         <div class="form-row">

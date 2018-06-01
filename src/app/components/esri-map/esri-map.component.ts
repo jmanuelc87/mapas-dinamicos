@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { loadModules } from "esri-loader";
+import { EsriExtentService } from '../../services/esri-extent.service';
 
 @Component({
     selector: 'app-esri-map',
@@ -20,6 +21,9 @@ export class EsriMapComponent implements OnInit {
             wkid: 102100
         }
     };
+    private panRequestSubscription: any;
+
+    public moveToExtent;
 
     @ViewChild('mapViewNode')
     private mapViewEl: ElementRef;
@@ -27,10 +31,16 @@ export class EsriMapComponent implements OnInit {
     @Output()
     private mapLoaded: EventEmitter<void> = new EventEmitter();
 
-    constructor() { }
+    constructor(
+        private serviceExtent: EsriExtentService,
+    ) { }
 
     ngOnInit() {
         console.log('start map');
+
+        this.panRequestSubscription = this.serviceExtent.panRequest.subscribe((value) => {
+            this.moveToExtent(value);
+        });
 
         loadModules([
             'esri/Map',
@@ -43,12 +53,18 @@ export class EsriMapComponent implements OnInit {
 
             const mapView = new EsriMapView({
                 container: this.mapViewEl.nativeElement,
-                center: this._extent,
                 map: map,
                 zoom: this._zoom,
             });
 
             mapView.extent = new Extent(this._extent);
+
+            this.moveToExtent = (extent) => {
+                mapView.extent = extent;
+                setTimeout(() => {
+                    this.serviceExtent.complete();
+                }, 2000);
+            };
 
             mapView.when(() => {
                 this.mapLoaded.emit();
@@ -82,14 +98,5 @@ export class EsriMapComponent implements OnInit {
 
     get zoom(): number {
         return this._zoom;
-    }
-
-    @Input()
-    set extent(extent: any) {
-        this._extent = extent;
-    }
-
-    get extent(): any {
-        return this._extent;
     }
 }

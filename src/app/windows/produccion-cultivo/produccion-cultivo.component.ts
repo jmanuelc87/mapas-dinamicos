@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DistritoComponent, MunicipioComponent } from '../../components';
+import { DistritoComponent, MunicipioComponent, WindowComponent } from '../../components';
 import { ConsultaService } from '../../services/consulta.service';
+import { EsriExtentService } from '../../services/esri-extent.service';
 
 @Component({
     selector: 'app-produccion-cultivo',
@@ -17,6 +18,8 @@ export class ProduccionCultivoComponent implements OnInit {
     gridColumnApi;
 
     showTable: boolean;
+
+    panCompleteSubscription;
 
     columnDefs = [
         {
@@ -69,9 +72,13 @@ export class ProduccionCultivoComponent implements OnInit {
     @ViewChild(MunicipioComponent)
     appMunicipio: MunicipioComponent;
 
+    @ViewChild(WindowComponent)
+    appWindow: WindowComponent;
+
     constructor(
         private fb: FormBuilder,
         private consulta: ConsultaService,
+        private extentService: EsriExtentService,
     ) { }
 
     ngOnInit() {
@@ -84,17 +91,37 @@ export class ProduccionCultivoComponent implements OnInit {
             'distrito': [0, Validators.required],
             'municipio': [0, Validators.required],
         });
+
+        this.panCompleteSubscription = this.extentService.panComplete.subscribe(() => {
+            this.appWindow.handleClickMaximize(null);
+        })
     }
 
     onChangeEstadoItem(item) {
         if (item !== undefined) {
             this.appDistrito.fetch(item.id);
+            console.log(item.id);
+            if (item.id == 0) {
+                this.extentService.fetchExtentAll();
+            } else {
+                this.extentService.fetchExtentEstado(item.id);
+            }
+            this.appWindow.handleClickMinimize(null);
         }
     }
 
     onChangeDistritoItem(item) {
         if (item !== undefined) {
             this.appMunicipio.fetch(this.form.get('estado').value, item.id);
+            this.extentService.fetchExtentDistrito(item.id);
+            this.appWindow.handleClickMinimize(null);
+        }
+    }
+
+    onChangeMunicipioItem(item) {
+        if (item !== undefined) {
+            this.extentService.fetchExtentMunicipio(this.form.get('estado').value, item.id);
+            this.appWindow.handleClickMinimize(null);
         }
     }
 

@@ -8,7 +8,7 @@ import { Estado } from '../models/Estado';
 })
 export class EstadoService {
 
-    private url = basepath.default + '/catalogo/estados';
+    private url = basepath.default.baseUrl + '/catalogo/estados';
 
     constructor(
         private http: HttpClient,
