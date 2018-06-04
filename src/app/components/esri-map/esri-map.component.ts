@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { loadModules } from "esri-loader";
 import { EsriExtentService } from '../../services/esri-extent.service';
+import { EsriMapService } from '../../services/esri-map.service';
 
 @Component({
     selector: 'app-esri-map',
@@ -9,7 +10,7 @@ import { EsriExtentService } from '../../services/esri-extent.service';
 })
 export class EsriMapComponent implements OnInit {
 
-    private _basemap: string = 'hybrid';
+    private _basemap: string = 'satellite';
     private _center: Array<number> = [-99.133209, 19.432608];
     private _zoom: number = 4;
     private _extent: any = {
@@ -23,8 +24,6 @@ export class EsriMapComponent implements OnInit {
     };
     private panRequestSubscription: any;
 
-    public moveToExtent;
-
     @ViewChild('mapViewNode')
     private mapViewEl: ElementRef;
 
@@ -32,45 +31,46 @@ export class EsriMapComponent implements OnInit {
     private mapLoaded: EventEmitter<void> = new EventEmitter();
 
     constructor(
-        private serviceExtent: EsriExtentService,
+        private extentService: EsriExtentService,
+        private mapService: EsriMapService,
     ) { }
 
     ngOnInit() {
-        console.log('start map');
 
-        this.panRequestSubscription = this.serviceExtent.panRequest.subscribe((value) => {
+        this.panRequestSubscription = this.extentService.extentRequest.subscribe((value) => {
             this.moveToExtent(value);
         });
 
-        loadModules([
-            'esri/Map',
-            'esri/views/MapView',
-            'esri/geometry/Extent',
-        ]).then(([EsriMap, EsriMapView, Extent]) => {
-            const map = new EsriMap({
-                basemap: 'hybrid'
-            });
+        this.loadMap();
+    }
 
-            const mapView = new EsriMapView({
-                container: this.mapViewEl.nativeElement,
-                map: map,
-                zoom: this._zoom,
-            });
+    loadMap() {
+        let promise: Promise<any> = this.mapService.loadMap(this._basemap, this._center, this._zoom, this._extent, this.mapViewEl);
 
-            mapView.extent = new Extent(this._extent);
-
-            this.moveToExtent = (extent) => {
-                mapView.extent = extent;
-                setTimeout(() => {
-                    this.serviceExtent.complete();
-                }, 2000);
-            };
-
+        promise.then((mapInfo) => {
+            let mapView = mapInfo.mapview;
             mapView.when(() => {
                 this.mapLoaded.emit();
             }, err => console.error(err));
+        });
+    }
 
-        }).catch(err => console.error(err))
+    public moveToExtent(params) {
+
+        let props: __esri.ExtentProperties = {
+            xmin: params.xmin,
+            ymin: params.ymin,
+            xmax: params.xmax,
+            ymax: params.ymax,
+            spatialReference: {
+                wkid : params.spatialReference.wkid,
+            }
+        }
+
+        this.mapService.moveToExentParams(props);
+        setTimeout(() => {
+            this.extentService.complete();
+        }, 2000);
     }
 
     @Input()

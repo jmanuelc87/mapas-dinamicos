@@ -10,7 +10,7 @@ export class EsriMapService {
 
     private mapview: __esri.MapView;
 
-    public moveToExtent: () => void;
+    private moveToExtent: (extent: __esri.ExtentProperties) => void;
 
     constructor(
         private esriProvider: EsriProviderService,
@@ -35,8 +35,20 @@ export class EsriMapService {
                 container: el.nativeElement
             });
 
-        });
+            this.moveToExtent = (extent) => {
+                this.mapview.extent = new EsriExtent(extent);
+            }
+
+            return {
+                map: this.map,
+                mapview: this.mapview,
+            }
+        }).catch(err => console.error(err));
     }
 
+
+    public moveToExentParams(params) {
+        this.moveToExtent(params);
+    }
 
 }

@@ -100,7 +100,7 @@ export class ProduccionCultivoComponent implements OnInit {
             'municipio': [0, Validators.required],
         });
 
-        this.panCompleteSubscription = this.extentService.panComplete.subscribe(() => {
+        this.panCompleteSubscription = this.extentService.extentComplete.subscribe(() => {
             this.appWindow.handleClickMaximize(null);
         })
     }
@@ -151,10 +151,8 @@ export class ProduccionCultivoComponent implements OnInit {
 
     onSelectedChanged(event) {
         if (this.gridColumnApi != null && event === 'detalle') {
-            console.log('show column variedad');
             this.gridColumnApi.setColumnVisible('variedad', true);
         } else if (this.gridColumnApi != null && event === 'generico') {
-            console.log('hide column variedad');
             this.gridColumnApi.setColumnVisible('variedad', false);
         }
     }

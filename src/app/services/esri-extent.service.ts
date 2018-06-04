@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Subject } from 'rxjs';
 import { UtilService } from './util.service';
+import { EsriProviderService } from './esri-provider.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,9 +12,9 @@ export class EsriExtentService {
 
     private url = basepath.default.webServiceUrl;
 
-    public panRequest = new Subject<any>();
+    public extentRequest = new Subject<any>();
 
-    public panComplete = new Subject<void>();
+    public extentComplete = new Subject<void>();
 
     private defaultExtent: any = {
         xmin: -1.3181079254E7,
@@ -27,14 +28,15 @@ export class EsriExtentService {
 
     constructor(
         private util: UtilService,
+        private esriProvider: EsriProviderService,
     ) { }
 
     public moveTo(extent) {
-        this.panRequest.next(extent);
+        this.extentRequest.next(extent);
     }
 
     public complete() {
-        this.panComplete.next();
+        this.extentComplete.next();
     }
 
     public fetchExtentEstado(id) {
@@ -46,7 +48,7 @@ export class EsriExtentService {
     }
 
     public fetchExtentMunicipio(idestado, idmunicipio) {
-        loadModules([
+        this.esriProvider.require([
             'esri/tasks/QueryTask',
             'esri/tasks/support/Query'])
             .then(([QueryTask, Query]) => {
@@ -70,19 +72,19 @@ export class EsriExtentService {
     }
 
     public fetchExtentAll() {
-        loadModules([
+        this.esriProvider.require([
             'esri/geometry/Extent',
-        ])
-            .then(([Extent]) => {
-                this.moveTo(new Extent(this.defaultExtent));
-            });
+        ]).then(([Extent]) => {
+            this.moveTo(new Extent(this.defaultExtent));
+        });
     }
 
     private fetchExtent(field, id, service: string, lenght: number) {
-        loadModules([
+        this.esriProvider.require([
             'esri/tasks/QueryTask',
             'esri/tasks/support/Query'])
             .then(([QueryTask, Query]) => {
+
                 let queryTask = new QueryTask({
                     url: this.url + service,
                 });
