@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DistritoComponent, MunicipioComponent, WindowComponent } from '../../components';
 import { ConsultaService } from '../../services/consulta.service';
 import { EsriExtentService } from '../../services/esri-extent.service';
+import { FormatterService } from '../../services/formatter.service';
 
 @Component({
     selector: 'app-produccion-cultivo',
@@ -25,42 +26,48 @@ export class ProduccionCultivoComponent implements OnInit {
         {
             headerName: "Cultivo",
             field: "cultivo",
-            width: 100,
+            width: 150,
         },
         {
             headerName: "Variedad",
             field: "variedad",
-            width: 100,
+            width: 150,
         },
         {
-            headerName: "Sup. Sembrada",
+            headerName: "Sup. Sembrada(Ha)",
             field: "sembrada",
-            width: 100,
+            width: 150,
+            valueFormatter: this.formatterService.formatNumber,
         },
         {
-            headerName: "Sup. Cosechada",
+            headerName: "Sup. Cosechada(Ha)",
             field: "cosechada",
-            width: 100,
+            width: 150,
+            valueFormatter: this.formatterService.formatNumber,
         },
         {
-            headerName: "Produción",
+            headerName: "Produción(Ton)",
             field: "produccion",
-            width: 100,
+            width: 150,
+            valueFormatter: this.formatterService.formatNumber,
         },
         {
-            headerName: "Rendimiento",
+            headerName: "Rendimiento(Ton/Ha)",
             field: "rendimiento",
-            width: 100,
+            width: 150,
+            valueFormatter: this.formatterService.formatNumber,
         },
         {
-            headerName: "PMR",
+            headerName: "PMR($/Ton)",
             field: "pmr",
-            width: 100,
+            width: 150,
+            valueFormatter: this.formatterService.formatNumber,
         },
         {
-            headerName: "Valor",
+            headerName: "Valor(Miles de Pesos)",
             field: "valor",
-            width: 100,
+            width: 150,
+            valueFormatter: this.formatterService.formatNumberDivideThousands,
         }
     ];
 
@@ -79,6 +86,7 @@ export class ProduccionCultivoComponent implements OnInit {
         private fb: FormBuilder,
         private consulta: ConsultaService,
         private extentService: EsriExtentService,
+        private formatterService: FormatterService,
     ) { }
 
     ngOnInit() {

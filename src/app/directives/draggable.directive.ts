@@ -25,7 +25,6 @@ export class DraggableDirective {
     }
 
     windowStart(e) {
-        console.log(e);
         this.pos3 = e.clientX;
         this.pos4 = e.clientY;
 
@@ -34,7 +33,6 @@ export class DraggableDirective {
     }
 
     windowOnDrag(e2) {
-        console.log(e2);
         this.pos1 = this.pos3 - e2.clientX;
         this.pos2 = this.pos4 - e2.clientY;
 
