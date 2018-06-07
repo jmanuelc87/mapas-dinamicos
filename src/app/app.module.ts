@@ -28,6 +28,8 @@ import {
 
 import { ProduccionCultivoComponent } from './windows/produccion-cultivo/produccion-cultivo.component';
 import { EsriExtentService } from './services/esri-extent.service';
+import { EsriWidgetDirective } from './directives/esri-widget.directive';
+import { EsriLayerToggleComponent } from './components/esri-layer-toggle/esri-layer-toggle.component';
 
 @NgModule({
     declarations: [
@@ -47,6 +49,8 @@ import { EsriExtentService } from './services/esri-extent.service';
         DraggableDirective,
         FactoryDirective,
         ProduccionCultivoComponent,
+        EsriWidgetDirective,
+        EsriLayerToggleComponent,
     ],
     imports: [
         BrowserModule,

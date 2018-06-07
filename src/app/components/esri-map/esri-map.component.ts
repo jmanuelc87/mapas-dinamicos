@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Input, EventEmitter, Output }
 import { loadModules } from "esri-loader";
 import { EsriExtentService } from '../../services/esri-extent.service';
 import { EsriMapService } from '../../services/esri-map.service';
+import { GeometryService } from '../../services/geometry.service';
 
 @Component({
     selector: 'app-esri-map',
@@ -24,6 +25,10 @@ export class EsriMapComponent implements OnInit {
     };
     private panRequestSubscription: any;
 
+    private drawRequestSubscription: any;
+
+    private cleanRequestSubscription: any;
+
     @ViewChild('mapViewNode')
     private mapViewEl: ElementRef;
 
@@ -32,6 +37,7 @@ export class EsriMapComponent implements OnInit {
 
     constructor(
         private extentService: EsriExtentService,
+        private geometryService: GeometryService,
         private mapService: EsriMapService,
     ) { }
 
@@ -39,6 +45,14 @@ export class EsriMapComponent implements OnInit {
 
         this.panRequestSubscription = this.extentService.extentRequest.subscribe((value) => {
             this.moveToExtent(value);
+        });
+
+        this.drawRequestSubscription = this.geometryService.drawOn.subscribe(value => {
+            this.drawOnMap(value.geometries, value.color);
+        });
+
+        this.cleanRequestSubscription = this.geometryService.clean.subscribe(value => {
+            this.mapService.cleanMap();
         });
 
         this.loadMap();
@@ -63,7 +77,7 @@ export class EsriMapComponent implements OnInit {
             xmax: params.xmax,
             ymax: params.ymax,
             spatialReference: {
-                wkid : params.spatialReference.wkid,
+                wkid: params.spatialReference.wkid,
             }
         }
 
@@ -71,6 +85,10 @@ export class EsriMapComponent implements OnInit {
         setTimeout(() => {
             this.extentService.complete();
         }, 2000);
+    }
+
+    public drawOnMap(params, color) {
+        this.mapService.drawOnMap(params, color);
     }
 
     @Input()

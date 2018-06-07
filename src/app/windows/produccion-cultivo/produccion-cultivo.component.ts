@@ -4,6 +4,7 @@ import { DistritoComponent, MunicipioComponent, WindowComponent } from '../../co
 import { ConsultaService } from '../../services/consulta.service';
 import { EsriExtentService } from '../../services/esri-extent.service';
 import { FormatterService } from '../../services/formatter.service';
+import { GeometryService } from '../../services/geometry.service';
 
 @Component({
     selector: 'app-produccion-cultivo',
@@ -87,6 +88,7 @@ export class ProduccionCultivoComponent implements OnInit {
         private consulta: ConsultaService,
         private extentService: EsriExtentService,
         private formatterService: FormatterService,
+        private geometryService: GeometryService,
     ) { }
 
     ngOnInit() {
@@ -142,6 +144,19 @@ export class ProduccionCultivoComponent implements OnInit {
 
     onSelectionChanged(event) {
         let selectedRow = event.api.getSelectedRows();
+        let anuario = this.form.value;
+        anuario['cultivo'] = parseInt(selectedRow[selectedRow.length - 1].id);
+        anuario['variedad'] = selectedRow[selectedRow.length - 1].idvariedad != undefined ? parseInt(selectedRow[selectedRow.length - 1].idvariedad) : 0;
+
+        this.consulta.getEstados(anuario).subscribe((response: any) => {
+            let obj = {
+                regions: response,
+                color: [0, 255, 0]
+            }
+            this.geometryService.cleanMap();
+            this.geometryService.getGeometry(obj);
+            this.appWindow.handleClickMinimize(null);
+        });
     }
 
     onGridReady(event) {

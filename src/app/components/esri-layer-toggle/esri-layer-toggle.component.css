@@ -1,0 +1,18 @@
+.toggle {
+    background-color: white;
+    border-radius: 25px;
+    margin: 5px;
+    padding: 15px;
+}
+
+.toggle div {
+    display: inline;
+}
+
+.toggle input {
+    margin-left: 10px;
+}
+
+.toggle label {
+    padding-bottom: 10px;
+}

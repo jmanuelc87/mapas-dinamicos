@@ -17,8 +17,10 @@ export class AppComponent {
         private componentFactoryResolver: ComponentFactoryResolver
     ) { }
 
-    onClick(selected) {
-        if (selected === 'Producción por Cultivo') {
+    onClick(selected: string) {
+        console.log(selected.trim())
+        if (selected.trim() == 'Producción por Cultivo') {
+            console.log('creando ventana');
             let component = this.createComponent(ProduccionCultivoComponent);
             (component.instance as ProduccionCultivoComponent).componentRef = component;
         }

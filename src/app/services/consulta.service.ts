@@ -10,7 +10,7 @@ import { BodyDropPivotTarget } from 'ag-grid';
 })
 export class ConsultaService {
 
-    private url = basepath.default.baseUrl + '/consultas/prod-cultivo';
+    private url = basepath.default.baseUrl;
 
     constructor(
         private http: HttpClient
@@ -24,7 +24,20 @@ export class ConsultaService {
             }
         });
 
-        return this.http.post(this.url, '', {
+        return this.http.post(this.url + '/consultas/prod-cultivo', '', {
+            params: params
+        });
+    }
+
+
+    getEstados(consulta) {
+        let params = new HttpParams({
+            fromObject: {
+                anuario: JSON.stringify(consulta)
+            }
+        });
+
+        return this.http.post(this.url + '/consultas/estados', '', {
             params: params
         });
     }
