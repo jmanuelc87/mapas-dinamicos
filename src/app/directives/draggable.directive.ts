@@ -42,11 +42,11 @@ export class DraggableDirective {
         let top = this.el.nativeElement.offsetTop - this.pos2;
         let left = this.el.nativeElement.offsetLeft - this.pos1;
 
-        if (top < 0 || top + this.el.nativeElement.offsetTop >= screen.height) {
+        if (top < 0 || top >= screen.height) {
             return;
         }
 
-        if (left < 0 || left + this.el.nativeElement.offsetLeft >= screen.width) {
+        if (left < 0 || left >= screen.width) {
             return;
         }
 

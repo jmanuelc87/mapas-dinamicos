@@ -5,6 +5,8 @@ import { ConsultaService } from '../../services/consulta.service';
 import { EsriExtentService } from '../../services/esri-extent.service';
 import { FormatterService } from '../../services/formatter.service';
 import { GeometryService } from '../../services/geometry.service';
+import { ColorPickerComponent } from '../../components/color-picker/color-picker.component';
+import { ScannerService } from '../../services/scanner.service';
 
 @Component({
     selector: 'app-produccion-cultivo',
@@ -74,6 +76,10 @@ export class ProduccionCultivoComponent implements OnInit {
 
     rowData;
 
+    color;
+
+    background_color;
+
     @ViewChild(DistritoComponent)
     appDistrito: DistritoComponent;
 
@@ -83,12 +89,16 @@ export class ProduccionCultivoComponent implements OnInit {
     @ViewChild(WindowComponent)
     appWindow: WindowComponent;
 
+    @ViewChild(ColorPickerComponent)
+    colorPicker: ColorPickerComponent;
+
     constructor(
         private fb: FormBuilder,
         private consulta: ConsultaService,
         private extentService: EsriExtentService,
         private formatterService: FormatterService,
         private geometryService: GeometryService,
+        private scanner: ScannerService,
     ) { }
 
     ngOnInit() {
@@ -104,7 +114,9 @@ export class ProduccionCultivoComponent implements OnInit {
 
         this.panCompleteSubscription = this.extentService.extentComplete.subscribe(() => {
             this.appWindow.handleClickMaximize(null);
-        })
+        });
+
+        this.background_color = this.scanner.rgbToHex(this.colorPicker.getSelectedColor());
     }
 
     onChangeEstadoItem(item) {
@@ -149,9 +161,10 @@ export class ProduccionCultivoComponent implements OnInit {
         anuario['variedad'] = selectedRow[selectedRow.length - 1].idvariedad != undefined ? parseInt(selectedRow[selectedRow.length - 1].idvariedad) : 0;
 
         this.consulta.getEstados(anuario).subscribe((response: any) => {
+
             let obj = {
                 regions: response,
-                color: [0, 255, 0]
+                color: this.color ? this.color : this.colorPicker.getSelectedColor(),
             }
             this.geometryService.cleanMap();
             this.geometryService.getGeometry(obj);
@@ -160,6 +173,7 @@ export class ProduccionCultivoComponent implements OnInit {
     }
 
     onGridReady(event) {
+        event.api.sizeColumnsToFit();
         this.gridColumnApi = event.columnApi;
         this.gridColumnApi.setColumnVisible('variedad', false);
     }
@@ -171,4 +185,22 @@ export class ProduccionCultivoComponent implements OnInit {
             this.gridColumnApi.setColumnVisible('variedad', false);
         }
     }
+
+    showed = false;
+
+    onHandleClick() {
+        if (!this.showed) {
+            this.colorPicker.show();
+        } else {
+            this.colorPicker.hide();
+        }
+        this.showed = !this.showed;
+    }
+
+    onColorSelected(color) {
+        this.color = color;
+        this.background_color = this.scanner.rgbToHex(color);
+        this.showed = false;
+    }
+
 }

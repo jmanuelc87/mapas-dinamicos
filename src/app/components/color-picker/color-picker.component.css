@@ -1,0 +1,21 @@
+.relative {
+    position: relative;
+    left: 150px;
+    z-index: 2050;
+}
+
+ul.color-display {
+    list-style: none;
+    margin: 0px;
+    width: 300px;
+}
+
+ul.color-display li {
+    display: inline;
+}
+
+.button {
+    margin: 2px;
+    width: 26px;
+    height: 26px;
+}

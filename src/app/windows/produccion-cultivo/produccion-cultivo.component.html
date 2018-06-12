@@ -22,6 +22,13 @@
                                 <button type="submit" class="button primary float-right">
                                     <span class="mif-search"></span>
                                 </button>
+
+                                <button type="button" class="button float-right" (click)="onHandleClick()">
+                                    <div class="color-picker" [ngStyle]="{'background-color': background_color}"></div>
+                                </button>
+                                <div class="absolute">
+                                    <app-color-picker (colorSelect)="onColorSelected($event)"></app-color-picker>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -31,7 +38,7 @@
                 <div class="col-lg-12">
                     <ag-grid-angular style="width: 100%; height: 260px;" class="ag-theme-balham" [pagination]="true" [paginationAutoPageSize]="true"
                         (gridReady)="onGridReady($event)" (selectionChanged)="onSelectionChanged($event)" [rowSelection]="'single'"
-                        [enableSorting]="true" [enableFilter]="true" [rowData]="rowData" [columnDefs]="columnDefs">
+                        [enableSorting]="true" [enableFilter]="true" [rowData]="rowData" [columnDefs]="columnDefs" [enableColResize]="true">
                     </ag-grid-angular>
                 </div>
             </div>

@@ -30,6 +30,7 @@ import { ProduccionCultivoComponent } from './windows/produccion-cultivo/producc
 import { EsriExtentService } from './services/esri-extent.service';
 import { EsriWidgetDirective } from './directives/esri-widget.directive';
 import { EsriLayerToggleComponent } from './components/esri-layer-toggle/esri-layer-toggle.component';
+import { ColorPickerComponent } from './components/color-picker/color-picker.component';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { EsriLayerToggleComponent } from './components/esri-layer-toggle/esri-la
         ProduccionCultivoComponent,
         EsriWidgetDirective,
         EsriLayerToggleComponent,
+        ColorPickerComponent,
     ],
     imports: [
         BrowserModule,

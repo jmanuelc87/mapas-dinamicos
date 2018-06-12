@@ -1,7 +1,16 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
-
 .button {
-    margin: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 7px;
+}
+
+.color-picker {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    border: 2px solid black;
+    padding: 2px;
 }
 
 .form-group {
@@ -12,4 +21,9 @@
 .container-fluid {
     padding-left: 6px;
     padding-right: 6px;
+}
+
+.absolute {
+    position: absolute;
+    top: 265px;
 }
