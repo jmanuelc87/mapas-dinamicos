@@ -31,6 +31,7 @@ import { EsriExtentService } from './services/esri-extent.service';
 import { EsriWidgetDirective } from './directives/esri-widget.directive';
 import { EsriLayerToggleComponent } from './components/esri-layer-toggle/esri-layer-toggle.component';
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
+import { LegendComponent } from './components/legend/legend.component';
 
 @NgModule({
     declarations: [
@@ -53,6 +54,7 @@ import { ColorPickerComponent } from './components/color-picker/color-picker.com
         EsriWidgetDirective,
         EsriLayerToggleComponent,
         ColorPickerComponent,
+        LegendComponent,
     ],
     imports: [
         BrowserModule,

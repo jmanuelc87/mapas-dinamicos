@@ -26,6 +26,8 @@ export class MunicipioComponent implements OnInit {
     @Output()
     selected: EventEmitter<any> = new EventEmitter<any>();
 
+    default = this.municipios[0];
+
     constructor(
         private municipioService: MunicipioService
     ) { }
@@ -34,7 +36,12 @@ export class MunicipioComponent implements OnInit {
     }
 
     onChange(event) {
+        this.default = event;
         this.selected.emit(event);
+    }
+
+    public getMunicipio() {
+        return this.default;
     }
 
     public fetch(estadoid: number, distritoid: number) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, ViewChild } from '@angular/core';
 import { v4 as uuid } from "uuid";
 import { EsriMapService } from '../../services/esri-map.service';
 
@@ -14,16 +14,24 @@ export class EsriLayerToggleComponent implements OnInit {
 
     private position = 'top-right';
 
+    @ViewChild('root')
+    root: ElementRef;
+
     private basemaps: Array<string> = [
-         'topo', 'streets', 'satellite',
+        'topo', 'streets', 'satellite',
     ]
 
     constructor(
-        private mapService: EsriMapService
+        private mapService: EsriMapService,
+        private renderer: Renderer2,
     ) { }
 
     ngOnInit() {
         this.id = uuid();
+
+        setTimeout(() => {
+            this.renderer.removeClass(this.root.nativeElement, 'hidden');
+        }, 2000);
     }
 
     onChangeBaseMap(event) {

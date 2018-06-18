@@ -26,6 +26,8 @@ export class EstadoComponent implements OnInit {
     @Output()
     selected: EventEmitter<any> = new EventEmitter<any>();
 
+    default = this.estados[0];
+
     constructor(
         private estadoService: EstadoService,
     ) { }
@@ -35,7 +37,12 @@ export class EstadoComponent implements OnInit {
     }
 
     onChange(event) {
+        this.default = event;
         this.selected.emit(event);
+    }
+
+    public getEstado() {
+        return this.default;
     }
 
     public fetch() {

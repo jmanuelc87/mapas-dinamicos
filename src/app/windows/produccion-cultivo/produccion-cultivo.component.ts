@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DistritoComponent, MunicipioComponent, WindowComponent } from '../../components';
+import { DistritoComponent, MunicipioComponent, WindowComponent, EstadoComponent, AnioComponent } from '../../components';
 import { ConsultaService } from '../../services/consulta.service';
 import { EsriExtentService } from '../../services/esri-extent.service';
 import { FormatterService } from '../../services/formatter.service';
 import { GeometryService } from '../../services/geometry.service';
 import { ColorPickerComponent } from '../../components/color-picker/color-picker.component';
 import { ScannerService } from '../../services/scanner.service';
+import { LegendService } from '../../services/legend.service';
 
 @Component({
     selector: 'app-produccion-cultivo',
@@ -80,6 +81,12 @@ export class ProduccionCultivoComponent implements OnInit {
 
     background_color;
 
+    @ViewChild(AnioComponent)
+    appAnio: AnioComponent;
+
+    @ViewChild(EstadoComponent)
+    appEstado: EstadoComponent;
+
     @ViewChild(DistritoComponent)
     appDistrito: DistritoComponent;
 
@@ -98,6 +105,7 @@ export class ProduccionCultivoComponent implements OnInit {
         private extentService: EsriExtentService,
         private formatterService: FormatterService,
         private geometryService: GeometryService,
+        private legendService: LegendService,
         private scanner: ScannerService,
     ) { }
 
@@ -149,10 +157,16 @@ export class ProduccionCultivoComponent implements OnInit {
 
     onSubmitForm(event) {
         this.showTable = true;
-        let catalogo = this.form.get('catalogo').value;
+        this.rowData = [];
 
-        this.consulta.getAnuario(this.form.value).subscribe(response => this.rowData = response);
+        let datosConsulta = this.form.value;
+        let estado = this.appEstado.getEstado();
+        let distrito = this.appDistrito.getDistrito();
+        let municipio = this.appMunicipio.getMunicipio();
+        this.legendService.addLegendConsultaCultivo(datosConsulta, estado, distrito, municipio);
+        this.consulta.getAnuario(datosConsulta).subscribe(response => this.rowData = response);
     }
+
 
     onSelectionChanged(event) {
         let selectedRow = event.api.getSelectedRows();
@@ -166,8 +180,10 @@ export class ProduccionCultivoComponent implements OnInit {
                 regions: response,
                 color: this.color ? this.color : this.colorPicker.getSelectedColor(),
             }
+
             this.geometryService.cleanMap();
             this.geometryService.getGeometry(obj);
+            this.legendService.addLegend();
             this.appWindow.handleClickMinimize(null);
         });
     }
@@ -201,6 +217,11 @@ export class ProduccionCultivoComponent implements OnInit {
         this.color = color;
         this.background_color = this.scanner.rgbToHex(color);
         this.showed = false;
+    }
+
+
+    onHandleClose() {
+        this.legendService.removeLegend();
     }
 
 }

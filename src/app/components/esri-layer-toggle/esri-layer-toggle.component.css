@@ -16,3 +16,7 @@
 .toggle label {
     padding-bottom: 10px;
 }
+
+.hidden {
+    visibility: hidden;
+}

@@ -5,7 +5,7 @@
 
     <div class="app-bar-container">
         <a href="#" class="dropdown-toggle app-bar-item">Estadísticas</a>
-        <ul class="d-menu" data-role="dropdown">
+        <ul class="d-menu" data-role="dropdown" [ngStyle]="leftMenu">
             <li>
                 <a href="#" class="dropdown-toggle">Agrícola</a>
                 <ul class="d-menu" data-role="dropdown">
@@ -30,38 +30,3 @@
         </ul>
     </div>
 </div>
-
-
-<!--
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Mapas Dinámicos</a>
-    <ul class="navbar-nav">
-        <li ngbDropdown class="nav-item dropdown">
-            <a ngbDropdownToggle class="nav-link" href="#">
-                Estadísticas
-            </a>
-            <ul ngbDropdownMenu class="dropdown-menu">
-                <li class="dropdown-submenu">
-                    <a (click)="show($event)" class="dropdown-item" href="#">
-                        Agrícola
-                    </a>
-                    <ul #toogle class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="#" (click)="onClick($event)">Producción por Cultivo</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#" (click)="onClick($event)">Producción por Estado</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#" (click)="onClick($event)">Pecuario</a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#" (click)="onClick($event)">Pesquero</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-</nav>
--->

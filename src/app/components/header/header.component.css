@@ -7,3 +7,7 @@
     left: 100%;
     margin-top: -1px;
 }
+
+.app-bar .app-bar-container > .d-menu, .app-bar .app-bar-container > .v-menu {
+    margin-left: -110px;
+}

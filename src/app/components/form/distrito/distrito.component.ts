@@ -26,6 +26,8 @@ export class DistritoComponent implements OnInit {
     @Output()
     selected: EventEmitter<any> = new EventEmitter<any>();
 
+    default = this.distritos[0];
+
     constructor(
         private distritoService: DistritoService
     ) { }
@@ -34,7 +36,12 @@ export class DistritoComponent implements OnInit {
     }
 
     onChange(event) {
+        this.default = event;
         this.selected.emit(event);
+    }
+
+    getDistrito() {
+        return this.default;
     }
 
     public fetch(estadoid) {

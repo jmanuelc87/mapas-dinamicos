@@ -21,12 +21,22 @@ export class AnioComponent implements OnInit {
     @Input()
     name: string;
 
+    default;
+
     constructor(
         private anioService: AnioService,
     ) { }
 
     ngOnInit() {
         this.fetch();
+    }
+
+    onChange(event) {
+        this.default = event;
+    }
+
+    public getAnio() {
+        return this.default;
     }
 
     public fetch() {

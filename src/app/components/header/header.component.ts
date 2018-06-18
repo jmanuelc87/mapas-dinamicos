@@ -16,6 +16,12 @@ import {
 })
 export class HeaderComponent implements OnInit {
 
+    private isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
+
+    private leftMenu = {
+        'marginLeft': '0',
+    };
+
     @Output()
     private menuClick: EventEmitter<string> = new EventEmitter();
 
@@ -25,6 +31,13 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
 
+        console.log(this.isIEOrEdge);
+
+        if (this.isIEOrEdge) {
+            this.leftMenu = {
+                'marginLeft': '-110px',
+            };
+        }
     }
 
     private onClick(event) {

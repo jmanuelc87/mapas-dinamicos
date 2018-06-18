@@ -17,6 +17,9 @@ export class WindowComponent implements OnInit {
     @Input()
     componentRef: ComponentRef<WindowComponent>;
 
+    @Output()
+    close: EventEmitter<void> = new EventEmitter();
+
     constructor(
         private renderer: Renderer2
     ) { }
@@ -26,6 +29,7 @@ export class WindowComponent implements OnInit {
     }
 
     handleClickClose(event) {
+        this.close.emit();
         this.componentRef.destroy();
     }
 

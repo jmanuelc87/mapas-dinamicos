@@ -1,4 +1,4 @@
-<div appEsriWidget [position]="position" class="toggle">
+<div appEsriWidget #root [position]="position" class="toggle hidden">
     <div *ngFor="let basemap of basemaps">
         <input type="radio" name="toggle" id="toggle-{{basemap}}-{{id}}" [value]="basemap" checked (click)="onChangeBaseMap($event)" />
         <label for="toggle-{{basemap}}-{{id}}">
