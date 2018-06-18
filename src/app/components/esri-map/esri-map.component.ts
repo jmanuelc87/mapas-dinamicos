@@ -3,6 +3,7 @@ import { loadModules } from "esri-loader";
 import { EsriExtentService } from '../../services/esri-extent.service';
 import { EsriMapService } from '../../services/esri-map.service';
 import { GeometryService } from '../../services/geometry.service';
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
     selector: 'app-esri-map',
@@ -32,8 +33,8 @@ export class EsriMapComponent implements OnInit {
     @ViewChild('mapViewNode')
     private mapViewEl: ElementRef;
 
-    @Output()
-    private mapLoaded: EventEmitter<void> = new EventEmitter();
+    //@ViewChild('popup')
+    //private popupComponent: ElementRef;
 
     constructor(
         private extentService: EsriExtentService,
@@ -61,12 +62,9 @@ export class EsriMapComponent implements OnInit {
     loadMap() {
         let promise: Promise<any> = this.mapService.loadMap(this._basemap, this._center, this._zoom, this._extent, this.mapViewEl);
 
-        promise.then((mapInfo) => {
-            let mapView = mapInfo.mapview;
-            mapView.when(() => {
-                this.mapLoaded.emit();
-            }, err => console.error(err));
-        });
+        /*this.mapService.mapLoaded.subscribe(() => {
+            this.mapService.showPopupOnMap(this.popupComponent.nativeElement);
+        }, err => console.error(err));*/
     }
 
     public moveToExtent(params) {

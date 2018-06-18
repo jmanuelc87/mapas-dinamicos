@@ -32,6 +32,8 @@ import { EsriWidgetDirective } from './directives/esri-widget.directive';
 import { EsriLayerToggleComponent } from './components/esri-layer-toggle/esri-layer-toggle.component';
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
 import { LegendComponent } from './components/legend/legend.component';
+import { InfoComponent } from './components/info/info.component';
+import { PopupComponent } from './components/popup/popup.component';
 
 @NgModule({
     declarations: [
@@ -55,6 +57,8 @@ import { LegendComponent } from './components/legend/legend.component';
         EsriLayerToggleComponent,
         ColorPickerComponent,
         LegendComponent,
+        InfoComponent,
+        PopupComponent,
     ],
     imports: [
         BrowserModule,

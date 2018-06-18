@@ -10,6 +10,8 @@ export class EsriMapService {
 
     private mapview: __esri.MapView;
 
+    private popup: __esri.Popup;
+
     public mapLoaded: EventEmitter<void> = new EventEmitter()
 
     private moveToExtent: (extent: __esri.ExtentProperties) => void;
@@ -17,6 +19,8 @@ export class EsriMapService {
     private changeBasemap: (basemap) => void;
 
     private showRegionsMap: (regions, color) => void;
+
+    private showPopup: (container) => void;
 
     constructor(
         private esriProvider: EsriProviderService,
@@ -27,59 +31,84 @@ export class EsriMapService {
             'esri/Map',
             'esri/views/MapView',
             'esri/geometry/Extent',
-            'esri/Graphic',
-        ]).then(([EsriMap, EsriMapView, EsriExtent, EsriGraphic]: [__esri.MapConstructor, __esri.MapViewConstructor, __esri.ExtentConstructor, __esri.GraphicConstructor]) => {
+            'esri/widgets/Popup',
+        ]).then(
+            ([EsriMap, EsriMapView, EsriExtent, Popup]:
+                [__esri.MapConstructor, __esri.MapViewConstructor, __esri.ExtentConstructor, __esri.PopupConstructor]) => {
 
-            this.map = new EsriMap({
-                basemap: basemap
-            });
+                this.map = new EsriMap({
+                    basemap: basemap
+                });
 
-            this.mapview = new EsriMapView({
-                center: center,
-                zoom: zoom,
-                extent: extent,
-                map: this.map,
-                container: el.nativeElement
-            });
+                this.mapview = new EsriMapView({
+                    center: center,
+                    zoom: zoom,
+                    extent: extent,
+                    map: this.map,
+                    container: el.nativeElement
+                });
 
-            this.moveToExtent = (extent) => {
-                this.mapview.extent = new EsriExtent(extent);
-            }
+                this.moveToExtent = (extent) => {
+                    this.mapview.extent = new EsriExtent(extent);
+                }
 
-            this.changeBasemap = (basemap) => {
-                this.map.basemap = basemap;
-            }
+                this.changeBasemap = (basemap) => {
+                    this.map.basemap = basemap;
+                }
 
-            this.showRegionsMap = (regions, color) => {
+                this.showRegionsMap = (regions, color) => {
+                    let symbol = {
+                        type: 'simple-fill',
+                        color: color,
+                        style: 'solid',
+                        outline: {
+                            color: 'black',
+                            width: '1px',
+                            style: 'solid'
+                        }
+                    };
 
-                let symbol = {
-                    type: 'simple-fill',
-                    color: color,
-                    style: 'solid',
-                    outline: {
-                        color: 'black',
-                        width: '1px',
-                        style: 'solid'
+                    for (let item of regions) {
+                        item.symbol = symbol;
                     }
-                };
 
-                for (let item of regions) {
-                    item.symbol = symbol;
+                    this.mapview.graphics.addMany(regions);
                 }
 
 
-                this.mapview.graphics.addMany(regions);
-            }
+                this.showPopup = (container) => {
+                    this.mapview.when(() => {
+                        this.mapview.on('click', (event) => {
+                            event.stopPropagation();
 
-            this.mapview.when(() => {
-                this.mapLoaded.emit();
-            }, err => console.error(err))
+                            if (event && event.mapPoint) {
 
-            return {
-                map: this.map,
-                mapview: this.mapview,
-            }
-        }).catch(err => console.error(err));
+                                this.popup = new Popup({
+                                    container: container,
+                                    location: event.mapPoint,
+                                });
+
+                                this.popup.set('dockOptions', {
+                                    position: 'bottom-center',
+                                });
+
+                                this.mapview.popup = this.popup;
+
+                                this.popup.open();
+                            }
+                        });
+                    }, err => console.error(err));
+                }
+
+                this.mapview.when(() => {
+                    this.mapLoaded.emit();
+                }, err => console.error(err))
+
+                return {
+                    map: this.map,
+                    mapview: this.mapview,
+                }
+            }).catch(err => console.error(err));
     }
 
 
@@ -101,6 +130,10 @@ export class EsriMapService {
 
     public cleanMap() {
         this.mapview.graphics.removeAll();
+    }
+
+    public showPopupOnMap(container) {
+        this.showPopup(container);
     }
 
 }
