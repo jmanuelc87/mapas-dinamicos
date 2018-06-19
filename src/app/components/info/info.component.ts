@@ -7,7 +7,7 @@ import { Component, OnInit, Renderer2, ElementRef, ViewChild } from '@angular/co
 })
 export class InfoComponent implements OnInit {
 
-    private position = 'top-left';
+    private position = '';
 
     @ViewChild('info')
     private elementRef: ElementRef;
@@ -17,9 +17,13 @@ export class InfoComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        let width = window.innerHeight
-        let center = (width) - 400;
+        let width = window.innerWidth;
+        let center = (width / 2) - 270;
         this.renderer.setStyle(this.elementRef.nativeElement, 'left', center + 'px');
+
+        setTimeout(() => {
+            this.renderer.removeClass(this.elementRef.nativeElement, 'hidden');
+        }, 2000);
     }
 
 }

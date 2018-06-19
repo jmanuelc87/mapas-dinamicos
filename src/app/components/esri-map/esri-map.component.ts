@@ -1,9 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, EventEmitter, Output } from '@angular/core';
-import { loadModules } from "esri-loader";
 import { EsriExtentService } from '../../services/esri-extent.service';
 import { EsriMapService } from '../../services/esri-map.service';
 import { GeometryService } from '../../services/geometry.service';
-import { PopupComponent } from '../popup/popup.component';
 
 @Component({
     selector: 'app-esri-map',

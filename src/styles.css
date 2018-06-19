@@ -1,7 +1,7 @@
-@import "~@ng-select/ng-select/themes/default.theme.css";
 @import 'metro4/build/css/metro-all.css';
-@import "~ag-grid/dist/styles/ag-grid.css";
-@import "~ag-grid/dist/styles/ag-theme-balham.css";
+@import "ag-grid/dist/styles/ag-grid.css";
+@import "ag-grid/dist/styles/ag-theme-balham.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 html,
 body {
     margin: 0;
@@ -39,4 +39,17 @@ legend {
 
 div {
     position: initial;
+}
+
+.container,
+.container-fluid,
+section,
+header,
+aside {
+    margin: 0;
+}
+
+.esri-popup__header-title {
+    background-color: black;
+    color: white;
 }

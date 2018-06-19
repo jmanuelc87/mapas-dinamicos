@@ -1,5 +1,6 @@
 import { Injectable, ElementRef, EventEmitter } from '@angular/core';
 import { EsriProviderService } from './esri-provider.service';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -13,6 +14,8 @@ export class EsriMapService {
     private popup: __esri.Popup;
 
     public mapLoaded: EventEmitter<void> = new EventEmitter()
+
+    public popupSubject: Subject<any> = new Subject();
 
     private moveToExtent: (extent: __esri.ExtentProperties) => void;
 
@@ -32,9 +35,11 @@ export class EsriMapService {
             'esri/views/MapView',
             'esri/geometry/Extent',
             'esri/widgets/Popup',
+            'esri/geometry/geometryEngine',
+            'esri/geometry/Point',
         ]).then(
-            ([EsriMap, EsriMapView, EsriExtent, Popup]:
-                [__esri.MapConstructor, __esri.MapViewConstructor, __esri.ExtentConstructor, __esri.PopupConstructor]) => {
+            ([EsriMap, EsriMapView, EsriExtent, Popup, geometryEngine, Point]:
+                [__esri.MapConstructor, __esri.MapViewConstructor, __esri.ExtentConstructor, __esri.PopupConstructor, __esri.geometryEngine, __esri.PointConstructor]) => {
 
                 this.map = new EsriMap({
                     basemap: basemap
@@ -76,29 +81,43 @@ export class EsriMapService {
                 }
 
 
-                this.showPopup = (container) => {
-                    this.mapview.when(() => {
-                        this.mapview.on('click', (event) => {
-                            event.stopPropagation();
+                this.mapview.when(() => {
+                    this.mapview.on('pointer-move', (event) => {
+                        event.stopPropagation();
 
-                            if (event && event.mapPoint) {
+                        if (this.mapview.graphics.length > 0) {
+                            let count = this.mapview.graphics.length;
+                            this.mapview.graphics.forEach((graphic) => {
+                                let point = this.mapview.toMap(new Point({
+                                    x: event.x,
+                                    y: event.y,
+                                }));
 
-                                this.popup = new Popup({
-                                    container: container,
-                                    location: event.mapPoint,
-                                });
+                                if (geometryEngine.distance(point, graphic.geometry, 'meters') == 0) {
+                                    count -= 1;
+                                    // show popup
+                                    this.popupSubject.next({
+                                        x: event.x,
+                                        y: event.y,
+                                        show: true,
+                                    });
 
-                                this.popup.set('dockOptions', {
-                                    position: 'bottom-center',
-                                });
+                                    return;
+                                }
 
-                                this.mapview.popup = this.popup;
+                                if (count == this.mapview.graphics.length) {
+                                    // hide popup
+                                    this.popupSubject.next({
+                                        x: 0,
+                                        y: 0,
+                                        show: false,
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }, err => console.error(err));
 
-                                this.popup.open();
-                            }
-                        });
-                    }, err => console.error(err));
-                }
 
                 this.mapview.when(() => {
                     this.mapLoaded.emit();
