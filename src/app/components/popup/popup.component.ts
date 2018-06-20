@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Renderer2 } from '
 import { EsriMapService } from '../../services/esri-map.service';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { PopupService } from '../../services/popup.service';
 
 
 @Component({
@@ -11,23 +12,47 @@ import { Subscription } from 'rxjs';
 })
 export class PopupComponent implements OnInit, OnDestroy {
 
-    private subs: Subscription;
+    private subs1: Subscription;
+
+    private subs2: Subscription;
+
+    private consulta: any;
+
+    private value: any = {
+        cultivo: '',
+        estado: '',
+        distrito: '',
+        municipio: '',
+        sembrada: '',
+        cosechada: '',
+        produccion: '',
+        valor: '',
+    };
 
     @ViewChild('popup')
     private el: ElementRef;
 
     constructor(
         private mapService: EsriMapService,
+        private popupService: PopupService,
         private renderer: Renderer2,
     ) { }
 
     ngOnInit() {
-        this.subs = this.mapService.popupSubject.pipe(debounceTime(350)).subscribe((point) => {
+        this.subs1 = this.mapService.popupSubject.pipe(debounceTime(350)).subscribe((point) => {
+
             if (!point.show) {
                 this.renderer.addClass(this.el.nativeElement, 'hidden');
                 return;
             } else {
-                this.renderer.removeClass(this.el.nativeElement, 'hidden');
+                this.consulta.attributes = point.graphic.attributes;
+
+                // search for values in db to fill the popup
+                this.popupService.getCierreByAnuario(this.consulta).subscribe((values) => {
+                    console.log(values);
+                    this.value = values.pop();
+                    this.renderer.removeClass(this.el.nativeElement, 'hidden');
+                }, err => console.error(err));
             }
 
             let top = this.el.nativeElement.offsetTop;
@@ -39,10 +64,15 @@ export class PopupComponent implements OnInit, OnDestroy {
             this.renderer.setStyle(this.el.nativeElement, 'top', `${top - diffy - 150}px`);
             this.renderer.setStyle(this.el.nativeElement, 'left', `${left - diffx}px`);
         });
+
+        this.subs2 = this.popupService.queryConsultaSubject.subscribe((consulta) => {
+            this.consulta = consulta;
+        });
     }
 
     ngOnDestroy(): void {
-        this.subs.unsubscribe();
+        this.subs1.unsubscribe();
+        this.subs2.unsubscribe();
     }
 
 }

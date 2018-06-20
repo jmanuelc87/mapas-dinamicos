@@ -34,6 +34,7 @@ import { ColorPickerComponent } from './components/color-picker/color-picker.com
 import { LegendComponent } from './components/legend/legend.component';
 import { InfoComponent } from './components/info/info.component';
 import { PopupComponent } from './components/popup/popup.component';
+import { ProduccionEstadoComponent } from './windows/produccion-estado/produccion-estado.component';
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import { PopupComponent } from './components/popup/popup.component';
         LegendComponent,
         InfoComponent,
         PopupComponent,
+        ProduccionEstadoComponent,
     ],
     imports: [
         BrowserModule,

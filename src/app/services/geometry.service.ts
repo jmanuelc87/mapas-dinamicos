@@ -40,6 +40,7 @@ export class GeometryService {
                     queryTask.execute(params).then((response) => {
 
                         let obj = {
+                            query: objResponse.query,
                             geometries: response.features,
                             color: objResponse.color,
                         }

@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Input, EventEmitter, Output }
 import { EsriExtentService } from '../../services/esri-extent.service';
 import { EsriMapService } from '../../services/esri-map.service';
 import { GeometryService } from '../../services/geometry.service';
+import { PopupService } from '../../services/popup.service';
 
 @Component({
     selector: 'app-esri-map',
@@ -38,15 +39,16 @@ export class EsriMapComponent implements OnInit {
         private extentService: EsriExtentService,
         private geometryService: GeometryService,
         private mapService: EsriMapService,
+        private popupService: PopupService,
     ) { }
 
     ngOnInit() {
-
         this.panRequestSubscription = this.extentService.extentRequest.subscribe((value) => {
             this.moveToExtent(value);
         });
 
         this.drawRequestSubscription = this.geometryService.drawOn.subscribe(value => {
+            this.popupService.addConsultaParameters(value.query);
             this.drawOnMap(value.geometries, value.color);
         });
 
@@ -59,14 +61,9 @@ export class EsriMapComponent implements OnInit {
 
     loadMap() {
         let promise: Promise<any> = this.mapService.loadMap(this._basemap, this._center, this._zoom, this._extent, this.mapViewEl);
-
-        /*this.mapService.mapLoaded.subscribe(() => {
-            this.mapService.showPopupOnMap(this.popupComponent.nativeElement);
-        }, err => console.error(err));*/
     }
 
     public moveToExtent(params) {
-
         let props: __esri.ExtentProperties = {
             xmin: params.xmin,
             ymin: params.ymin,

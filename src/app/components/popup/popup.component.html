@@ -2,27 +2,35 @@
     <div class="popup-content">
         <div class="popup-item">
             Cultivo:
-            <b>Acelga</b>
+            <b>{{value.cultivo}}</b>
         </div>
         <div class="popup-item">
             Estado:
-            <b>Chihuahua</b>
+            <b>{{value.estado}}</b>
+        </div>
+        <div class="popup-item">
+            Distrito:
+            <b>{{value.distrito}}</b>
+        </div>
+        <div class="popup-item">
+            Municipio:
+            <b>{{value.municipio}}</b>
         </div>
         <div class="popup-item">
             Sup. Sembrada (Ha):
-            <b>3.00</b>
+            <b>{{value.sembrada}}</b>
         </div>
         <div class="popup-item">
             Sup. Cosechada (Ha):
-            <b>3.00</b>
+            <b>{{value.cosechada}}</b>
         </div>
         <div class="popup-item">
             Producción (Ton):
-            <b>26.40</b>
+            <b>{{value.produccion}}</b>
         </div>
         <div class="popup-item">
             Valor (Miles de pesos):
-            <b>108.24</b>
+            <b>{{ (value.valor / 1000) | number:'1.2' }}</b>
         </div>
     </div>
 </div>

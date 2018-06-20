@@ -13,6 +13,8 @@ export class EsriMapService {
 
     private popup: __esri.Popup;
 
+    public query;
+
     public mapLoaded: EventEmitter<void> = new EventEmitter()
 
     public popupSubject: Subject<any> = new Subject();
@@ -100,6 +102,7 @@ export class EsriMapService {
                                         x: event.x,
                                         y: event.y,
                                         show: true,
+                                        graphic: graphic,
                                     });
 
                                     return;

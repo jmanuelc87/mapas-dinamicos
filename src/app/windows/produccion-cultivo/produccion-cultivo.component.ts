@@ -177,6 +177,7 @@ export class ProduccionCultivoComponent implements OnInit {
         this.consulta.getEstados(anuario).subscribe((response: any) => {
 
             let obj = {
+                query: anuario,
                 regions: response,
                 color: this.color ? this.color : this.colorPicker.getSelectedColor(),
             }
