@@ -127,10 +127,16 @@ export class ProduccionCultivoComponent implements OnInit {
         this.background_color = this.scanner.rgbToHex(this.colorPicker.getSelectedColor());
     }
 
+    /**
+     * Funcion callback llamada cuando cambia la seleccion del estado.
+     *  - Cambia el extent del componente EsriMapComponent
+     *  - Actualiza la información del componente DistritoComponent
+     *
+     * @param item objeto con las propiedades id y name del estado seleccionado
+     */
     onChangeEstadoItem(item) {
         if (item !== undefined) {
             this.appDistrito.fetch(item.id);
-            console.log(item.id);
             if (item.id == 0) {
                 this.extentService.fetchExtentAll();
             } else {
@@ -166,7 +172,6 @@ export class ProduccionCultivoComponent implements OnInit {
         this.legendService.addLegendConsultaCultivo(datosConsulta, estado, distrito, municipio);
         this.consulta.getAnuario(datosConsulta).subscribe(response => this.rowData = response);
     }
-
 
     onSelectionChanged(event) {
         let selectedRow = event.api.getSelectedRows();
@@ -219,7 +224,6 @@ export class ProduccionCultivoComponent implements OnInit {
         this.background_color = this.scanner.rgbToHex(color);
         this.showed = false;
     }
-
 
     onHandleClose() {
         this.legendService.removeLegend();

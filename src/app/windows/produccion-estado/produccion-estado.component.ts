@@ -17,7 +17,7 @@ export class ProduccionEstadoComponent implements OnInit {
     }
 
     onHandleClose() {
-        console.log('Hola Mundo!');
+
     }
 
 }

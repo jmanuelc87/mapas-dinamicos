@@ -11,6 +11,7 @@ export class DraggableDirective {
     pos3: number = 0;
     pos4: number = 0;
     removeMouseDownListener;
+    removeMouseDownListener2;
     removeMouseMoveListener;
     removeMouseUpListener;
 
@@ -22,6 +23,7 @@ export class DraggableDirective {
     ngAfterViewInit() {
         let target = this.el.nativeElement.querySelector('div.window-caption');
         this.removeMouseDownListener = this.renderer.listen(target, 'mousedown', (e) => this.windowStart(e));
+        this.removeMouseDownListener2 = this.renderer.listen(target, 'mousedown', (e) => { e.stopPropagation(); });
     }
 
     windowStart(e) {
@@ -33,6 +35,7 @@ export class DraggableDirective {
     }
 
     windowOnDrag(e2) {
+        e2.stopPropagation();
         this.pos1 = this.pos3 - e2.clientX;
         this.pos2 = this.pos4 - e2.clientY;
 
@@ -58,5 +61,6 @@ export class DraggableDirective {
     windowCloseDragElement() {
         this.removeMouseUpListener();
         this.removeMouseMoveListener();
+        this.removeMouseDownListener2();
     }
 }

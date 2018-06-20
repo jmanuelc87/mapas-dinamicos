@@ -40,4 +40,16 @@ describe('ProduccionCultivoComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should update distritos upon estado change selection', () => {
+        component.onChangeEstadoItem({ id: 1, name: 'Aguascalientes' });
+        fixture.detectChanges();
+
+        fixture.whenStable().then(() => {
+            setTimeout(() => {
+                let size = component.appDistrito.distritos.length;
+                expect(size).toBe(2);
+            }, 250);
+        });
+    });
 });
