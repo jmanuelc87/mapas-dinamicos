@@ -1,10 +1,10 @@
 <div [formGroup]="group">
     <fieldset>
         <legend>Cultivo</legend>
-        <ng-select (change)="onChangeCultivo($event)" [items]="cultivos" bindLabel="name" bindValue="id" formControlName="{{nameFormCultivo}}"></ng-select>
+        <ng-select (change)="onChangeCultivo($event)" [items]="cultivos" bindLabel="nombre" bindValue="id" formControlName="{{nameFormCultivo}}"></ng-select>
     </fieldset>
     <fieldset>
         <legend>Variedad</legend>
-        <ng-select (change)="onChangeVariedades($event)" [items]="variedades" bindLabel="name" bindValue="id" formControlName="{{nameFormVariedad}}"></ng-select>
+        <ng-select (change)="onChangeVariedades($event)" [items]="variedades" bindLabel="nombre" bindValue="id" formControlName="{{nameFormVariedad}}"></ng-select>
     </fieldset>
 </div>
