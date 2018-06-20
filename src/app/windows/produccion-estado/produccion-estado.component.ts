@@ -37,20 +37,8 @@ export class ProduccionEstadoComponent implements OnInit {
             valueFormatter: this.formatterService.formatNumber,
         },
         {
-            headerName: "Produción(Ton)",
-            field: "produccion",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "Rendimiento(Ton/Ha)",
-            field: "rendimiento",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "PMR($/Ton)",
-            field: "pmr",
+            headerName: "Sup. Siniestrada(Ha)",
+            field: "siniestrada",
             width: 150,
             valueFormatter: this.formatterService.formatNumber,
         },
@@ -76,7 +64,6 @@ export class ProduccionEstadoComponent implements OnInit {
 
     onSubmitForm(event) {
 
-        return false;
     }
 
 }

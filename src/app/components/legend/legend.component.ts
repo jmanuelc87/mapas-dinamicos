@@ -38,9 +38,6 @@ export class LegendComponent implements OnInit {
         });
 
         this.removeLegendServiceSubscription = this.legendService.removeLegendRequest.subscribe(() => {
-            this.title = '';
-            this.query = '';
-            this.props = [];
             this.renderer.addClass(this.root.nativeElement, 'hidden');
         });
     }

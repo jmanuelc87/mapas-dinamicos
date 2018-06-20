@@ -31,6 +31,11 @@ export class LegendService {
     }
 
     addLegendConsultaCultivo(datosConsulta, estado, distrito, municipio) {
+        this.legend = {
+            title: '',
+            query: '',
+            props: [],
+        };
         this.addTitle('Consulta anuario agrícola por cultivo');
         this.addQuery2(datosConsulta, estado, distrito, municipio);
         this.addProps(datosConsulta);
