@@ -49,7 +49,6 @@ export class EstadoComponent implements OnInit {
         this.estadoService
             .getAllEstados()
             .subscribe((estados: Estado[]) => {
-                estados.push({ id: 0, name: "Resumen Nacional" });
                 this.estados = estados;
             },
                 err => console.error(err),

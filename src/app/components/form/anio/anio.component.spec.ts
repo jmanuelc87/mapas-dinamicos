@@ -37,7 +37,8 @@ describe('AnioComponent', () => {
         })
     }));
 
-    xit('should fetch all year from network', (done) => {
+    it('should fetch all year from network', () => {
+        component.fetch();
         fixture.whenStable().then(() => {
             expect(component.anios.length).toBeGreaterThan(0);
         });

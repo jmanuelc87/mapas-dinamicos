@@ -19,9 +19,9 @@ describe('FiltroEstadoComponent', () => {
         fixture = TestBed.createComponent(FiltroEstadoComponent);
         component = fixture.componentInstance;
         component.group = new FormGroup({
-            'filtro': new FormControl('')
+            'filtro-estado': new FormControl('estado', Validators.required),
         }, Validators.required);
-        component.name = 'filtro'
+        component.name = 'filtro-estado'
         component.show = false;
         fixture.detectChanges();
     });
@@ -32,16 +32,33 @@ describe('FiltroEstadoComponent', () => {
         });
     });
 
-    it('should hide or show the respective inputs', (done) => {
+    it('should show the respective inputs', () => {
+        component.show = false;
+        fixture.detectChanges();
         fixture.whenRenderingDone().then(() => {
             const id = component.id;
             const filtroElement: HTMLElement = fixture.nativeElement;
 
-            let input = filtroElement.querySelector(`input[id=${id}]`);
-            expect(input).not.toBe(jasmine.any(null));
-            expect(input).not.toBe(jasmine.any(undefined));
+            let input = filtroElement.querySelector(`input[id=estado-${id}]`);
+            expect(input).not.toBe(null);
 
-            done();
+            input = filtroElement.querySelector(`input[id=ddr-mun-${id}]`);
+            expect(input).not.toBe(null);
+        });
+    });
+
+    it('should hide the respective inputs', () => {
+        component.show = true;
+        fixture.detectChanges();
+        fixture.whenRenderingDone().then(() => {
+            const id = component.id;
+            const filtroElement: HTMLElement = fixture.nativeElement;
+
+            let input = filtroElement.querySelector(`input[id=estado-${id}]`);
+            expect(input).toBe(null);
+
+            input = filtroElement.querySelector(`input[id=ddr-mun-${id}]`);
+            expect(input).toBe(null);
         });
     });
 });

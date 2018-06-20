@@ -27,9 +27,8 @@ describe('DistritoComponent', () => {
         component = fixture.componentInstance;
         component.group = new FormGroup({
             'distrito': new FormControl('', Validators.required)
-        })
-        component.name = 'distrito'
-        component.fetch(1);
+        });
+        component.name = 'distrito';
         fixture.detectChanges();
     });
 
@@ -39,22 +38,25 @@ describe('DistritoComponent', () => {
         })
     });
 
-    xit('should fetch states from network', (done) => {
-        fixture.whenStable().then(() => {
-            expect(component.distritos.length).toBe(2);
-            done();
-        });
-    });
-
-    it('should have default state', (done) => {
+    it('should have default state', () => {
         fixture.whenStable().then(() => {
             expect(component.distritos[0].id).toBe(0);
             expect(component.distritos[0].name).toBe('Todos');
-            done();
         });
     });
 
-    it('should emit selected event', done => {
+    it('should fetch states from network', (done) => {
+        component.fetch(1);
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+            setTimeout(() => {
+                expect(component.distritos.length).toBe(2);
+                done();
+            }, 250);
+        });
+    });
+
+    it('should emit selected event', (done) => {
         fixture.whenStable().then(() => {
             const event = component.distritos[0];
             component.selected.subscribe(data => {

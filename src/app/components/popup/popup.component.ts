@@ -61,7 +61,7 @@ export class PopupComponent implements OnInit, OnDestroy {
             let diffy = this.el.nativeElement.offsetTop - point.y;
             let diffx = this.el.nativeElement.offsetLeft - point.x;
 
-            this.renderer.setStyle(this.el.nativeElement, 'top', `${top - diffy - 150}px`);
+            this.renderer.setStyle(this.el.nativeElement, 'top', `${top - diffy - 200}px`);
             this.renderer.setStyle(this.el.nativeElement, 'left', `${left - diffx}px`);
         });
 
@@ -71,8 +71,8 @@ export class PopupComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subs1.unsubscribe();
-        this.subs2.unsubscribe();
+        //this.subs1.unsubscribe();
+        //this.subs2.unsubscribe();
     }
 
 }

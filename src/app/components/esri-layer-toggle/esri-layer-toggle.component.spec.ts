@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EsriLayerToggleComponent } from './esri-layer-toggle.component';
+import { EsriWidgetDirective } from '../../directives/esri-widget.directive';
 
 describe('EsriLayerToggleComponent', () => {
   let component: EsriLayerToggleComponent;
@@ -8,7 +9,7 @@ describe('EsriLayerToggleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EsriLayerToggleComponent ]
+      declarations: [ EsriLayerToggleComponent, EsriWidgetDirective ]
     })
     .compileComponents();
   }));
