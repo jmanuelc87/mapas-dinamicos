@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChildren, QueryList, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CultivoService } from '../../../services/cultivo.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-cultivo',
@@ -9,11 +10,11 @@ import { CultivoService } from '../../../services/cultivo.service';
 })
 export class CultivoComponent implements OnInit {
 
-    cultivos = [
+    private cultivos = [
         { id: 0, name: "Resumen Cultivos" }
     ];
 
-    variedades = [
+    private variedades = [
         { id: 0, name: "Resumen Variedades" }
     ];
 
@@ -29,10 +30,17 @@ export class CultivoComponent implements OnInit {
     @Output()
     selectedCultivo: EventEmitter<any> = new EventEmitter<any>();
 
+    @ViewChild('variedad')
+    private ngSelect: NgSelectComponent
+
+    private _catalogo: string;
+
     defaultCultivo = this.cultivos[0];
 
+    defaultVariedad = this.variedades[0];
+
     constructor(
-        private cultivoService: CultivoService
+        private cultivoService: CultivoService,
     ) { }
 
     ngOnInit() {
@@ -41,15 +49,35 @@ export class CultivoComponent implements OnInit {
 
     onChangeCultivo(event) {
         this.defaultCultivo = event;
+        if (this._catalogo == 'detalle' && event.id) {
+            this.fetchVariedad(event.id);
+        }
         this.selectedCultivo.emit(event);
     }
 
     onChangeVariedades(event) {
-        console.log(event);
+        this.defaultVariedad = event;
     }
 
     getCultivo() {
         return this.defaultCultivo;
+    }
+
+    getVariedad() {
+        return this.defaultVariedad;
+    }
+
+    @Input()
+    set catalogo(catalogo: string) {
+        this._catalogo = catalogo;
+        this.fetchCultivo(catalogo);
+        if (catalogo == 'detalle') {
+            // enable variedades
+            this.ngSelect.setDisabledState(false);
+        } else {
+            // disable variedades
+            this.ngSelect.setDisabledState(true);
+        }
     }
 
     public fetchCultivo(catalogo) {
@@ -59,5 +87,13 @@ export class CultivoComponent implements OnInit {
                 data.push({ id: 0, name: "Resumen Cultivos" });
                 this.cultivos = data;
             }, err => console.error(err), () => console.log('get all cultivos completed'));
+    }
+
+    public fetchVariedad(id) {
+        this.cultivoService.getVariedadesByCultivo(id)
+            .subscribe((data: Array<any>) => {
+                data.push({ id: 0, name: "Resumen Variedades" });
+                this.variedades = data;
+            }, err => console.error(err), () => console.log('get all variedades completed'));
     }
 }

@@ -18,16 +18,10 @@
                                 <app-estado [group]="form" name="estado" (selected)="onChangeEstadoItem($event)"></app-estado>
                                 <app-distrito [group]="form" name="distrito" (selected)="onChangeDistritoItem($event)"></app-distrito>
                                 <app-municipio [group]="form" name="municipio" (selected)="onChangeMunicipioItem($event)"></app-municipio>
-                                <button type="submit" class="button primary float-right">
+                                <button type="submit" class="button primary">
                                     <span class="mif-search"></span>
                                 </button>
-
-                                <button type="button" class="button float-right" (click)="onHandleClick()">
-                                    <div class="color-picker" [ngStyle]="{'background-color': background_color}"></div>
-                                </button>
-                                <div class="absolute">
-                                    <app-color-picker (colorSelect)="onColorSelected($event)"></app-color-picker>
-                                </div>
+                                <app-color-picker></app-color-picker>
                             </div>
                         </div>
                     </form>

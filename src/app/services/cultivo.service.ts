@@ -21,7 +21,7 @@ export class CultivoService {
     }
 
     public getVariedadesByCultivo(cultivoid) {
-        let url = this.url + '/catalogo/variedad/' + cultivoid;
+        let url = this.url + '/catalogo/variedades/' + cultivoid;
 
         return this.http.get<Array<any>>(url);
     }

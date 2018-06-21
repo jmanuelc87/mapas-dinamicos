@@ -1,35 +1,33 @@
 <app-window [componentRef]="windowRef" (close)="onHandleClose()">
     <div title>Producción por Estado</div>
-    <div content style="width: 750px;">
+    <div content style="width: 800px;">
         <div class="container-fluid">
             <form [formGroup]="form" (ngSubmit)="onSubmitForm($event)">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <app-ciclo [group]="form" name="ciclo"></app-ciclo>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <app-modalidad [group]="form" name="modalidad"></app-modalidad>
                         <app-catalogo [group]="form" name="catalogo" (selected)="onSelectedChanged($event)"></app-catalogo>
                         <app-anio [group]="form" name="anio"></app-anio>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
                         <div class="row">
-                            <div class="col-lg-6">
-                                <app-cultivo [group]="form" nameFormCultivo="cultivo"></app-cultivo>
+                            <div class="col-lg-7">
+                                <app-cultivo [group]="form" nameFormCultivo="cultivo" nameFormVariedad="variedad" [catalogo]="catalogo"></app-cultivo>
                                 <app-estado [group]="form" name="estado"></app-estado>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <app-filtro-estado [group]="form" name="filtro-estado"></app-filtro-estado>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="button" class="button primary float-right">
+                                <button type="submit" class="button primary">
                                     <span class="mif-search"></span>
                                 </button>
-                                <button type="button" class="button float-right">
-                                    <div class="color-picker"></div>
-                                </button>
+                                <app-color-picker></app-color-picker>
                             </div>
                         </div>
                     </div>
@@ -37,8 +35,8 @@
             </form>
             <div class="row">
                 <div class="col-lg-12">
-                    <ag-grid-angular style="width: 100%; height: 260px;" class="ag-theme-balham" [columnDefs]="columnDefs" [enableColResize]="true"
-                        [enableSorting]="true" [enableFilter]="true" [pagination]="true" [paginationAutoPageSize]="true"></ag-grid-angular>
+                    <ag-grid-angular style="width: 100%; height: 260px;" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="columnDefs"
+                        [enableColResize]="true" [enableSorting]="true" [enableFilter]="true" [pagination]="true" [paginationAutoPageSize]="true"></ag-grid-angular>
                 </div>
             </div>
         </div>

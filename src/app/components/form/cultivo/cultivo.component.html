@@ -5,6 +5,6 @@
     </fieldset>
     <fieldset>
         <legend>Variedad</legend>
-        <ng-select (change)="onChangeVariedades($event)" [items]="variedades" bindLabel="nombre" bindValue="id" formControlName="{{nameFormVariedad}}"></ng-select>
+        <ng-select #variedad (change)="onChangeVariedades($event)" [items]="variedades" bindLabel="variedad" bindValue="id" formControlName="{{nameFormVariedad}}"></ng-select>
     </fieldset>
 </div>

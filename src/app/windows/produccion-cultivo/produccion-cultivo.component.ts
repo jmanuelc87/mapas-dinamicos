@@ -77,10 +77,6 @@ export class ProduccionCultivoComponent implements OnInit {
 
     rowData;
 
-    color;
-
-    background_color;
-
     @ViewChild(AnioComponent)
     appAnio: AnioComponent;
 
@@ -106,7 +102,6 @@ export class ProduccionCultivoComponent implements OnInit {
         private formatterService: FormatterService,
         private geometryService: GeometryService,
         private legendService: LegendService,
-        private scanner: ScannerService,
     ) { }
 
     ngOnInit() {
@@ -123,8 +118,6 @@ export class ProduccionCultivoComponent implements OnInit {
         this.panCompleteSubscription = this.extentService.extentComplete.subscribe(() => {
             this.appWindow.handleClickMaximize(null);
         });
-
-        this.background_color = this.scanner.rgbToHex(this.colorPicker.getSelectedColor());
     }
 
     /**
@@ -184,7 +177,7 @@ export class ProduccionCultivoComponent implements OnInit {
             let obj = {
                 query: anuario,
                 regions: response,
-                color: this.color ? this.color : this.colorPicker.getSelectedColor(),
+                color: this.colorPicker.getSelectedColor(),
             }
 
             this.geometryService.cleanMap();
@@ -206,23 +199,6 @@ export class ProduccionCultivoComponent implements OnInit {
         } else if (this.gridColumnApi != null && event === 'generico') {
             this.gridColumnApi.setColumnVisible('variedad', false);
         }
-    }
-
-    showed = false;
-
-    onHandleClick() {
-        if (!this.showed) {
-            this.colorPicker.show();
-        } else {
-            this.colorPicker.hide();
-        }
-        this.showed = !this.showed;
-    }
-
-    onColorSelected(color) {
-        this.color = color;
-        this.background_color = this.scanner.rgbToHex(color);
-        this.showed = false;
     }
 
     onHandleClose() {

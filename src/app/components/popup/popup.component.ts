@@ -49,7 +49,6 @@ export class PopupComponent implements OnInit, OnDestroy {
 
                 // search for values in db to fill the popup
                 this.popupService.getCierreByAnuario(this.consulta).subscribe((values) => {
-                    console.log(values);
                     this.value = values.pop();
                     this.renderer.removeClass(this.el.nativeElement, 'hidden');
                 }, err => console.error(err));
@@ -71,8 +70,8 @@ export class PopupComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        //this.subs1.unsubscribe();
-        //this.subs2.unsubscribe();
+        this.subs1.unsubscribe();
+        this.subs2.unsubscribe();
     }
 
 }

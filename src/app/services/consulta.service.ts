@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import * as basepath from "./url";
 import { BodyDropPivotTarget } from 'ag-grid';
@@ -29,7 +29,6 @@ export class ConsultaService {
         });
     }
 
-
     getEstados(consulta) {
         let params = new HttpParams({
             fromObject: {
@@ -39,6 +38,14 @@ export class ConsultaService {
 
         return this.http.post(this.url + '/consultas/estados', '', {
             params: params
+        });
+    }
+
+    getAnuarioByEstado(consulta) {
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+        return this.http.post(this.url + '/consultas/prod-estado', consulta, {
+            headers: headers,
         });
     }
 }

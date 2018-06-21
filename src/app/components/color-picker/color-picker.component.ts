@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Renderer2, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Renderer2, OnDestroy } from '@angular/core';
 import { ScannerService } from '../../services/scanner.service';
 
 @Component({
@@ -6,11 +6,17 @@ import { ScannerService } from '../../services/scanner.service';
     templateUrl: './color-picker.component.html',
     styleUrls: ['./color-picker.component.css']
 })
-export class ColorPickerComponent implements OnInit {
+export class ColorPickerComponent implements OnInit, OnDestroy {
 
     private defaultColor = [0, 176, 80];
 
-    visibility = false;
+    private background_color = '#00B050';
+
+    private visibility = false;
+
+    private showed = false;
+
+    private listener;
 
     @Output()
     colorSelect: EventEmitter<any> = new EventEmitter();
@@ -21,10 +27,23 @@ export class ColorPickerComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.listener = this.renderer.listen(document, 'click', (ev) => {
+            if (!(ev.target.classList.contains('button') || ev.target.classList.contains('color-picker'))) {
+                ev.stopPropagation();
+                this.hide();
+                this.showed = false;
+            }
+        })
+    }
+
+    ngOnDestroy(): void {
+        if (this.listener) {
+            this.listener();
+        }
     }
 
     onColorSelect(event) {
-        this.defaultColor = event.target.style.backgroundColor;
+        this.defaultColor = this.background_color = event.target.style.backgroundColor;
         let RGBColor = this.convertColorStringToArray(this.defaultColor);
         this.colorSelect.emit(RGBColor);
         this.hide();
@@ -49,6 +68,15 @@ export class ColorPickerComponent implements OnInit {
         let b = this.scanner.parseNext();
 
         return [r, g, b];
+    }
+
+    onHandleClick() {
+        if (!this.showed) {
+            this.show();
+        } else {
+            this.hide();
+        }
+        this.showed = !this.showed;
     }
 
 }
