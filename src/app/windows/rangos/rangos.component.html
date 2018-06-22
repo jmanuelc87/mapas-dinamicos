@@ -1,0 +1,46 @@
+<app-window #window [componentRef]="componentRef">
+    <div title>Rangos</div>
+    <div content style="width: 400px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                    <select name="variable">
+                        <option value="0" disabled selected>Selecciona una variable</option>
+                        <option value="1">Superficie Sembrada</option>
+                        <option value="2">Superficie Cosechada</option>
+                        <option value="3">Superficie Siniestrada</option>
+                        <option value="4">Producción</option>
+                        <option value="5">Rendimiento</option>
+                        <option value="6">PMR</option>
+                        <option value="7">Valor de la Producción</option>
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <input type="number" min="3" max="5" value="3" (click)="onSelecteRange($event)" />
+                </div>
+            </div>
+            <div class="margin">
+                <div class="row" *ngFor="let n of countRows">
+                    <div class="col-lg-3">
+                        Rango {{n}}
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="text" disabled value="230.00" />
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="text" disabled value="164,479.18" />
+                    </div>
+                    <div class="col-lg-1">
+                        20%
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <app-color-picker></app-color-picker>
+                <button type="button" class="button primary" (click)="onHandleClick($event)">
+                    <span class="mif-search"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</app-window>

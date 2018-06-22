@@ -36,6 +36,7 @@ import { InfoComponent } from './components/info/info.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { ProduccionEstadoComponent } from './windows/produccion-estado/produccion-estado.component';
 import { CultivoComponent } from './components/form/cultivo/cultivo.component';
+import { RangosComponent } from './windows/rangos/rangos.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import { CultivoComponent } from './components/form/cultivo/cultivo.component';
         PopupComponent,
         ProduccionEstadoComponent,
         CultivoComponent,
+        RangosComponent,
     ],
     imports: [
         BrowserModule,
@@ -79,6 +81,7 @@ import { CultivoComponent } from './components/form/cultivo/cultivo.component';
     entryComponents: [
         ProduccionCultivoComponent,
         ProduccionEstadoComponent,
+        RangosComponent,
     ],
 })
 export class AppModule { }

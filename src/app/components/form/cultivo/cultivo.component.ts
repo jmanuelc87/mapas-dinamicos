@@ -11,11 +11,11 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 export class CultivoComponent implements OnInit {
 
     private cultivos = [
-        { id: 0, name: "Resumen Cultivos" }
+        { id: 0, nombre: "Resumen Cultivos" }
     ];
 
     private variedades = [
-        { id: 0, name: "Resumen Variedades" }
+        { id: 0, variedad: "Resumen Variedades" }
     ];
 
     @Input()
@@ -83,8 +83,8 @@ export class CultivoComponent implements OnInit {
     public fetchCultivo(catalogo) {
         this.cultivoService
             .getCultivos(catalogo)
-            .subscribe((data: Array<any>) => {
-                data.push({ id: 0, name: "Resumen Cultivos" });
+            .subscribe(data => {
+                data.unshift({ id: 0, nombre: "Resumen Cultivos" });
                 this.cultivos = data;
             }, err => console.error(err), () => console.log('get all cultivos completed'));
     }
@@ -92,7 +92,7 @@ export class CultivoComponent implements OnInit {
     public fetchVariedad(id) {
         this.cultivoService.getVariedadesByCultivo(id)
             .subscribe((data: Array<any>) => {
-                data.push({ id: 0, name: "Resumen Variedades" });
+                data.unshift({ id: 0, variedad: "Resumen Variedades" });
                 this.variedades = data;
             }, err => console.error(err), () => console.log('get all variedades completed'));
     }

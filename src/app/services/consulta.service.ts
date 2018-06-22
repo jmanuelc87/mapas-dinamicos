@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import * as basepath from "./url";
-import { BodyDropPivotTarget } from 'ag-grid';
 
 
 @Injectable({
@@ -44,7 +43,7 @@ export class ConsultaService {
     getAnuarioByEstado(consulta) {
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-        return this.http.post(this.url + '/consultas/prod-estado', consulta, {
+        return this.http.post(this.url + '/consultas/prod-estado', JSON.stringify(consulta), {
             headers: headers,
         });
     }

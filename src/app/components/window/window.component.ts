@@ -41,4 +41,20 @@ export class WindowComponent implements OnInit {
         this.renderer.removeClass(this.el.nativeElement, 'minimize');
     }
 
+    set position(pos: any) {
+        this.renderer.setStyle(this.el.nativeElement, 'top', `${pos.top}px`);
+        this.renderer.setStyle(this.el.nativeElement, 'left', `${pos.left}px`);
+    }
+
+    get position() {
+        let pos = {
+            top: +this.el.nativeElement.offsetTop,
+            left: +this.el.nativeElement.offsetLeft,
+            height: +this.el.nativeElement.offsetHeight,
+            width: + this.el.nativeElement.offsetWidth,
+        };
+
+        return pos;
+    }
+
 }

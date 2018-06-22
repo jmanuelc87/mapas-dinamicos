@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FormatterService } from '../../services/formatter.service';
 import { ConsultaService } from '../../services/consulta.service';
+import { ServiceService } from '../../services/service.service';
+import { FactoryDirective } from '../../directives';
+import { RangosComponent } from '../rangos/rangos.component';
+import { WindowComponent } from '../../components';
 
 @Component({
     selector: 'app-produccion-estado',
@@ -11,6 +15,12 @@ import { ConsultaService } from '../../services/consulta.service';
 export class ProduccionEstadoComponent implements OnInit {
 
     public windowRef: any;
+
+    @ViewChild(FactoryDirective)
+    private appFactory: FactoryDirective;
+
+    @ViewChild(WindowComponent)
+    private windowComponent: WindowComponent;
 
     private catalogo: string = 'generico';
 
@@ -76,6 +86,7 @@ export class ProduccionEstadoComponent implements OnInit {
         private formatterService: FormatterService,
         private fb: FormBuilder,
         private consultaService: ConsultaService,
+        private constructor: ServiceService,
     ) { }
 
     ngOnInit() {
@@ -105,7 +116,18 @@ export class ProduccionEstadoComponent implements OnInit {
 
         this.consultaService
             .getAnuarioByEstado(datosConsulta)
-            .subscribe((response: any) => this.rowData = response);
+            .subscribe((response: any) => this.rowData = response, err => console.error(err), () => console.log('get consulta completed!'));
+    }
+
+    onClickRanges(event) {
+        // show modal rangos
+        let component = this.constructor.createComponent(RangosComponent, this.appFactory);
+
+        let pos = this.windowComponent.position;
+
+        (component.instance as RangosComponent).location = pos;
+
+        (component.instance as RangosComponent).componentRef = component;
     }
 
 }
