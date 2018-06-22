@@ -4,15 +4,14 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-8">
-                    <select name="variable">
-                        <option value="0" disabled selected>Selecciona una variable</option>
-                        <option value="1">Superficie Sembrada</option>
-                        <option value="2">Superficie Cosechada</option>
-                        <option value="3">Superficie Siniestrada</option>
-                        <option value="4">Producción</option>
-                        <option value="5">Rendimiento</option>
-                        <option value="6">PMR</option>
-                        <option value="7">Valor de la Producción</option>
+                    <select name="variable" (click)="onSelectElement($event)">
+                        <option value="sembrada" selected>Superficie Sembrada</option>
+                        <option value="cosechada">Superficie Cosechada</option>
+                        <option value="siniestrada">Superficie Siniestrada</option>
+                        <option value="produccion">Producción</option>
+                        <option value="rendimiento">Rendimiento</option>
+                        <option value="pmr">PMR</option>
+                        <option value="valor">Valor de la Producción</option>
                     </select>
                 </div>
                 <div class="col-lg-4">
@@ -22,16 +21,16 @@
             <div class="margin">
                 <div class="row" *ngFor="let n of countRows">
                     <div class="col-lg-3">
-                        Rango {{n}}
+                        Rango {{n.idx}}
                     </div>
                     <div class="col-lg-4">
-                        <input type="text" disabled value="230.00" />
+                        <input type="text" disabled value="{{n.min}}" />
                     </div>
                     <div class="col-lg-4">
-                        <input type="text" disabled value="164,479.18" />
+                        <input type="text" disabled value="{{n.max}}" />
                     </div>
                     <div class="col-lg-1">
-                        20%
+                        {{n.per * 100}}%
                     </div>
                 </div>
             </div>

@@ -120,14 +120,16 @@ export class ProduccionEstadoComponent implements OnInit {
     }
 
     onClickRanges(event) {
-        // show modal rangos
-        let component = this.constructor.createComponent(RangosComponent, this.appFactory);
-
-        let pos = this.windowComponent.position;
-
-        (component.instance as RangosComponent).location = pos;
-
-        (component.instance as RangosComponent).componentRef = component;
+        //if (this.rowData.length > 0) {
+            // show modal rangos
+            let component = this.constructor.createComponent(RangosComponent, this.appFactory);
+            let pos = this.windowComponent.position;
+            (component.instance as RangosComponent).location = pos;
+            (component.instance as RangosComponent).componentRef = component;
+            (component.instance as RangosComponent).columnValues = this.rowData;
+        //} else {
+            /* mostrar error 'Por favor de realizar una búsqueda' */
+        //}
     }
 
 }
