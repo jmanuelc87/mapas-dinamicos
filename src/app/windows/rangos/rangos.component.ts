@@ -6,22 +6,29 @@ import { WindowComponent } from '../../components';
     templateUrl: './rangos.component.html',
     styleUrls: ['./rangos.component.css']
 })
-export class RangosComponent {
+export class RangosComponent implements OnInit {
 
     componentRef: ComponentRef<any>;
 
     @ViewChild(WindowComponent)
-    private window: WindowComponent;
+    window: WindowComponent;
 
-    private countRows = [];
+    @ViewChild('variables')
+    selectVariablesComponent: ElementRef;
 
-    private selectedVariable;
+    countRows = [];
 
-    public columnValues;
+    selectedVariable;
+
+    columnValues;
 
     constructor(
         private renderer: Renderer2,
     ) { }
+
+    ngOnInit(): void {
+        this.selectedVariable = this.selectVariablesComponent.nativeElement.value;
+    }
 
     @Input()
     set location(position) {
@@ -45,6 +52,8 @@ export class RangosComponent {
      */
     onSelecteRange($event) {
         let n = $event.target.value;
+        let item = this.columnValues[0];
+        console.log(this.selectedVariable);
         // obtener el valor maximo de la variable elegida
         let max = this.getMaximumFromValues(this.selectedVariable);
         let min = this.getMinimiumFromValues(this.selectedVariable);

@@ -50,7 +50,7 @@ describe('EstadoComponent', () => {
     });
 
     it('should show all elements in the markup', fakeAsync(() => {
-        spyOn(service, 'getAllEstados').and.returnValue(of([{ id: 1, name: 'Aguascalientes' }]));
+        spyOn(service, 'getAllEstados').and.returnValue(of([{ id: 0, name: 'Resumen Nacional' },{ id: 1, name: 'Aguascalientes' }]));
         component.fetch();
         tick();
         fixture.detectChanges();
@@ -74,7 +74,7 @@ describe('EstadoComponent', () => {
         let option = de.queryAll(By.css('option'));
 
         select.triggerEventHandler('change', {
-            target: option[1].nativeElement
+            target: option[0].nativeElement
         });
     }));
 

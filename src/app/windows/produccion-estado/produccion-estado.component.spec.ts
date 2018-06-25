@@ -37,10 +37,14 @@ describe('ProduccionEstadoComponent', () => {
 
     it('should change filtros on change estado', () => {
         component.onHandleSelectedEstado({ id: 1, name: 'Aguascalientes' });
-        expect(component.appFiltroComponent.show).toBeFalsy();
+        expect(component.appFiltroComponent.show).toBeTruthy();
 
         component.onHandleSelectedEstado({ id: 0, name: 'Resumen Nacional' });
-        expect(component.appFiltroComponent.show).toBeTruthy();
+        expect(component.appFiltroComponent.show).toBeFalsy();
+    });
+
+    it('should submit', () => {
+
     });
 
 });

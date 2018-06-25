@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-8">
-                    <select name="variable" (click)="onSelectElement($event)">
+                    <select #variables name="variable" (click)="onSelectElement($event)">
                         <option value="sembrada" selected>Superficie Sembrada</option>
                         <option value="cosechada">Superficie Cosechada</option>
                         <option value="siniestrada">Superficie Siniestrada</option>
@@ -24,10 +24,10 @@
                         Rango {{n.idx}}
                     </div>
                     <div class="col-lg-4">
-                        <input type="text" disabled value="{{n.min}}" />
+                        <input type="text" disabled value="{{n.min | number:'1.2'}}" />
                     </div>
                     <div class="col-lg-4">
-                        <input type="text" disabled value="{{n.max}}" />
+                        <input type="text" disabled value="{{n.max | number:'1.2'}}" />
                     </div>
                     <div class="col-lg-1">
                         {{n.per * 100}}%

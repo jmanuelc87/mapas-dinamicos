@@ -19,7 +19,7 @@
                                 <app-estado (selected)="onHandleSelectedEstado($event)" [group]="form" name="estado"></app-estado>
                             </div>
                             <div class="col-lg-5">
-                                <app-filtro-estado [group]="form" name="filtro-estado"></app-filtro-estado>
+                                <app-filtro-estado (selected)="onHandleSelectFiltro($event)" [group]="form" name="filtro-estado"></app-filtro-estado>
                             </div>
                         </div>
                         <div class="row">

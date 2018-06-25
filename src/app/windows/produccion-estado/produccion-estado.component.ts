@@ -115,32 +115,43 @@ export class ProduccionEstadoComponent implements OnInit {
 
     onSubmitForm(event) {
         this.rowData = [];
+
         let datosConsulta = this.form.value;
 
         this.consultaService
             .getAnuarioByEstado(datosConsulta)
-            .subscribe((response: any) => this.rowData = response, err => console.error(err), () => console.log('get consulta completed!'));
+            .subscribe((response: any) => {
+                this.rowData = response
+            }, err => console.error(err), () => console.log('get consulta completed!'));
     }
 
     onHandleSelectedEstado($event) {
         if ($event.id != 0) {
-            this.appFiltroComponent.show = false;
-        } else {
             this.appFiltroComponent.show = true;
+            this.form.get('filtro-estado').setValue('distrito');
+        } else {
+            this.appFiltroComponent.show = false;
+            this.form.get('filtro-estado').setValue('estado');
         }
     }
 
+    onHandleSelectFiltro($event) {
+
+    }
+
     onClickRanges(event) {
-        //if (this.rowData.length > 0) {
-        // show modal rangos
-        let component = this.constructor.createComponent(RangosComponent, this.appFactory);
-        let pos = this.windowComponent.position;
-        (component.instance as RangosComponent).location = pos;
-        (component.instance as RangosComponent).componentRef = component;
-        (component.instance as RangosComponent).columnValues = this.rowData;
-        //} else {
-        /* mostrar error 'Por favor de realizar una búsqueda' */
-        //}
+        if (this.rowData.length > 0) {
+            // show modal rangos
+
+            let component = this.constructor.createComponent(RangosComponent, this.appFactory);
+            let pos = this.windowComponent.position;
+            (component.instance as RangosComponent).location = pos;
+            (component.instance as RangosComponent).componentRef = component;
+            (component.instance as RangosComponent).columnValues = this.rowData;
+        } else {
+            /* mostrar error 'Por favor de realizar una búsqueda' */
+            alert('Por favor de realizar una búsqueda');
+        }
     }
 
 }
