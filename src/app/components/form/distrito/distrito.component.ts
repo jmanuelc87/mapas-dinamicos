@@ -36,8 +36,11 @@ export class DistritoComponent implements OnInit {
     }
 
     onChange(event) {
-        this.default = event;
-        this.selected.emit(event);
+        this.default = {
+            id: +event.target.value,
+            name: event.target.textContent,
+        };
+        this.selected.emit(this.default);
     }
 
     getDistrito() {
@@ -47,7 +50,7 @@ export class DistritoComponent implements OnInit {
     public fetch(estadoid) {
         this.distritoService.getDistritoByEstado(estadoid)
             .subscribe((distritos: Estado[]) => {
-                distritos.push({ id: 0, name: 'Todos' });
+                distritos.unshift({ id: 0, name: 'Todos' });
                 this.distritos = distritos;
             }, err => console.error(err), () => console.log('get all ddr completed.'));
     }

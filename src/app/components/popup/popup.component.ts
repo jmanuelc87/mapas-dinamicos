@@ -10,11 +10,7 @@ import { PopupService } from '../../services/popup.service';
     templateUrl: './popup.component.html',
     styleUrls: ['./popup.component.css']
 })
-export class PopupComponent implements OnInit, OnDestroy {
-
-    private subs1: Subscription;
-
-    private subs2: Subscription;
+export class PopupComponent implements OnInit {
 
     private consulta: any;
 
@@ -39,7 +35,7 @@ export class PopupComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.subs1 = this.mapService.popupSubject.pipe(debounceTime(350)).subscribe((point) => {
+        this.mapService.popupSubject.pipe(debounceTime(350)).subscribe((point) => {
 
             if (!point.show) {
                 this.renderer.addClass(this.el.nativeElement, 'hidden');
@@ -64,14 +60,9 @@ export class PopupComponent implements OnInit, OnDestroy {
             this.renderer.setStyle(this.el.nativeElement, 'left', `${left - diffx}px`);
         });
 
-        this.subs2 = this.popupService.queryConsultaSubject.subscribe((consulta) => {
+        this.popupService.queryConsultaSubject.subscribe((consulta) => {
             this.consulta = consulta;
         });
-    }
-
-    ngOnDestroy(): void {
-        this.subs1.unsubscribe();
-        this.subs2.unsubscribe();
     }
 
 }

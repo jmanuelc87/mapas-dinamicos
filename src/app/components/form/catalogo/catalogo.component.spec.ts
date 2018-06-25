@@ -1,11 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { CatalogoComponent } from './catalogo.component';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 describe('CatalogoComponent', () => {
     let component: CatalogoComponent;
     let fixture: ComponentFixture<CatalogoComponent>;
+    let de: DebugElement;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -18,36 +21,46 @@ describe('CatalogoComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(CatalogoComponent);
         component = fixture.componentInstance;
+        de = fixture.debugElement;
         component.group = new FormGroup({
-            'catalogo': new FormControl('')
+            'catalogo': new FormControl('generico', Validators.required)
         }, Validators.required)
         component.name = 'catalogo';
         fixture.detectChanges();
     });
 
     it('should create', () => {
-        fixture.whenStable().then(() => {
-            expect(component).toBeTruthy();
-        })
+        expect(component).toBeTruthy();
     });
 
-    it('should have the correct input values', () => {
-        fixture.whenStable().then(() => {
-            const id = component.id
-            const catalogoElement: HTMLElement = fixture.nativeElement;
+    it('should have the value generico when clicked', () => {
+        let content;
+        const id = component.id;
+        let label = de.query(By.css(`input[id=generico-${id}]`));
 
-            let input = catalogoElement.querySelectorAll(`input`);
+        expect(label).toBeTruthy();
 
-            for (let el in input) {
-                switch (el) {
-                    case '0':
-                        expect(input[el].getAttribute('value')).toBe('generico');
-                        break;
-                    case '1':
-                        expect(input[el].getAttribute('value')).toBe('detalle');
-                        break;
-                }
-            }
+        component.selected.subscribe(value => {
+            content = value;
         });
-    })
+
+        label.nativeElement.click();
+
+        expect(content).toBe('generico');
+
+    });
+
+    it('should have the value detalle when clicked', () => {
+        let content;
+        const id = component.id;
+        let label = de.query(By.css(`input[id=detalle-${id}]`));
+
+        expect(label).toBeTruthy();
+
+        component.selected.subscribe(value => content = value);
+
+        label.nativeElement.click();
+
+        expect(content).toBe('detalle');
+    });
 });

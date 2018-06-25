@@ -37,8 +37,11 @@ export class EstadoComponent implements OnInit {
     }
 
     onChange(event) {
-        this.default = event;
-        this.selected.emit(event);
+        this.default = {
+            id: +event.target.value,
+            name: event.target.textContent,
+        };
+        this.selected.emit(this.default);
     }
 
     public getEstado() {
@@ -49,6 +52,7 @@ export class EstadoComponent implements OnInit {
         this.estadoService
             .getAllEstados()
             .subscribe((estados: Estado[]) => {
+                estados.unshift({ id: 0, name: "Resumen Nacional" });
                 this.estados = estados;
             },
                 err => console.error(err),

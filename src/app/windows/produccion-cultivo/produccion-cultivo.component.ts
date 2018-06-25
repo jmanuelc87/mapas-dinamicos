@@ -118,6 +118,8 @@ export class ProduccionCultivoComponent implements OnInit {
         this.panCompleteSubscription = this.extentService.extentComplete.subscribe(() => {
             this.appWindow.handleClickMaximize(null);
         });
+
+        this.appAnio.fetch();
     }
 
     /**
@@ -163,7 +165,7 @@ export class ProduccionCultivoComponent implements OnInit {
         let distrito = this.appDistrito.getDistrito();
         let municipio = this.appMunicipio.getMunicipio();
         this.legendService.addLegendConsultaCultivo(datosConsulta, estado, distrito, municipio);
-        this.consulta.getAnuario(datosConsulta).subscribe(response => this.rowData = response);
+        this.consulta.getAnuarioByCultivo(datosConsulta).subscribe(response => this.rowData = response);
     }
 
     onSelectionChanged(event) {

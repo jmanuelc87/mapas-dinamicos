@@ -35,30 +35,26 @@ describe('FiltroEstadoComponent', () => {
     it('should show the respective inputs', () => {
         component.show = false;
         fixture.detectChanges();
-        fixture.whenRenderingDone().then(() => {
-            const id = component.id;
-            const filtroElement: HTMLElement = fixture.nativeElement;
+        const id = component.id;
+        const filtroElement: HTMLElement = fixture.nativeElement;
 
-            let input = filtroElement.querySelector(`input[id=estado-${id}]`);
-            expect(input).not.toBe(null);
+        let input = filtroElement.querySelector(`input[id=estado-${id}]`);
+        expect(input).toBeTruthy();
 
-            input = filtroElement.querySelector(`input[id=ddr-mun-${id}]`);
-            expect(input).not.toBe(null);
-        });
+        input = filtroElement.querySelector(`input[id=ddr-mun-${id}]`);
+        expect(input).toBeTruthy();
     });
 
     it('should hide the respective inputs', () => {
         component.show = true;
         fixture.detectChanges();
-        fixture.whenRenderingDone().then(() => {
-            const id = component.id;
-            const filtroElement: HTMLElement = fixture.nativeElement;
+        const id = component.id;
+        const filtroElement: HTMLElement = fixture.nativeElement;
 
-            let input = filtroElement.querySelector(`input[id=estado-${id}]`);
-            expect(input).toBe(null);
+        let input = filtroElement.querySelector(`input[id=estado-${id}]`);
+        expect(input).toBeFalsy();
 
-            input = filtroElement.querySelector(`input[id=ddr-mun-${id}]`);
-            expect(input).toBe(null);
-        });
+        input = filtroElement.querySelector(`input[id=ddr-mun-${id}]`);
+        expect(input).toBeFalsy();
     });
 });

@@ -48,7 +48,7 @@ export class MunicipioComponent implements OnInit {
         this.municipioService
             .getMunicipioByEstadoAndDistrito(estadoid, distritoid)
             .subscribe((municipios: Estado[]) => {
-                municipios.push({ id: 0, name: "Todos" });
+                municipios.unshift({ id: 0, name: "Todos" });
                 this.municipios = municipios;
             }, err => console.error(err), () => console.log('get municipios completed.'));
     }

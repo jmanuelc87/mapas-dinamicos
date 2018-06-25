@@ -1,6 +1,8 @@
 <div [formGroup]="group">
     <fieldset>
         <legend>Municipio:</legend>
-        <ng-select (change)="onChange($event)" [items]="municipios" bindLabel="name" bindValue="id" formControlName="{{name}}"></ng-select>
+        <select id="municipios" (change)="onChange($event)" formControlName="{{name}}">
+            <option *ngFor="let item of municipios" [value]="item.id">{{item.name}}</option>
+        </select>
     </fieldset>
 </div>

@@ -5,7 +5,7 @@ import { ConsultaService } from '../../services/consulta.service';
 import { ServiceService } from '../../services/service.service';
 import { FactoryDirective } from '../../directives';
 import { RangosComponent } from '../rangos/rangos.component';
-import { WindowComponent } from '../../components';
+import { WindowComponent, EstadoComponent, FiltroEstadoComponent } from '../../components';
 
 @Component({
     selector: 'app-produccion-estado',
@@ -17,18 +17,21 @@ export class ProduccionEstadoComponent implements OnInit {
     public windowRef: any;
 
     @ViewChild(FactoryDirective)
-    private appFactory: FactoryDirective;
+    appFactory: FactoryDirective;
 
     @ViewChild(WindowComponent)
-    private windowComponent: WindowComponent;
+    windowComponent: WindowComponent;
 
-    private catalogo: string = 'generico';
+    @ViewChild(FiltroEstadoComponent)
+    appFiltroComponent: FiltroEstadoComponent;
 
-    private form: FormGroup;
+    catalogo: string = 'generico';
 
-    private rowData = [];
+    form: FormGroup;
 
-    private columnDefs = [
+    rowData = [];
+
+    columnDefs = [
         {
             headerName: "Estado",
             field: "estado",
@@ -119,16 +122,24 @@ export class ProduccionEstadoComponent implements OnInit {
             .subscribe((response: any) => this.rowData = response, err => console.error(err), () => console.log('get consulta completed!'));
     }
 
+    onHandleSelectedEstado($event) {
+        if ($event.id != 0) {
+            this.appFiltroComponent.show = false;
+        } else {
+            this.appFiltroComponent.show = true;
+        }
+    }
+
     onClickRanges(event) {
         //if (this.rowData.length > 0) {
-            // show modal rangos
-            let component = this.constructor.createComponent(RangosComponent, this.appFactory);
-            let pos = this.windowComponent.position;
-            (component.instance as RangosComponent).location = pos;
-            (component.instance as RangosComponent).componentRef = component;
-            (component.instance as RangosComponent).columnValues = this.rowData;
+        // show modal rangos
+        let component = this.constructor.createComponent(RangosComponent, this.appFactory);
+        let pos = this.windowComponent.position;
+        (component.instance as RangosComponent).location = pos;
+        (component.instance as RangosComponent).componentRef = component;
+        (component.instance as RangosComponent).columnValues = this.rowData;
         //} else {
-            /* mostrar error 'Por favor de realizar una búsqueda' */
+        /* mostrar error 'Por favor de realizar una búsqueda' */
         //}
     }
 

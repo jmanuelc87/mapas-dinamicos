@@ -16,7 +16,7 @@
                         <div class="row">
                             <div class="col-lg-7">
                                 <app-cultivo [group]="form" nameFormCultivo="cultivo" nameFormVariedad="variedad" [catalogo]="catalogo"></app-cultivo>
-                                <app-estado [group]="form" name="estado"></app-estado>
+                                <app-estado (selected)="onHandleSelectedEstado($event)" [group]="form" name="estado"></app-estado>
                             </div>
                             <div class="col-lg-5">
                                 <app-filtro-estado [group]="form" name="filtro-estado"></app-filtro-estado>

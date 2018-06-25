@@ -1,66 +1,81 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { EstadoComponent } from './estado.component';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HttpClientModule } from '@angular/common/http';
 import { EstadoService } from '../../../services/estado.service';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 
 describe('EstadoComponent', () => {
     let component: EstadoComponent;
     let fixture: ComponentFixture<EstadoComponent>;
+    let de: DebugElement;
+    let service: EstadoService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [EstadoComponent],
             imports: [ReactiveFormsModule, NgSelectModule, HttpClientModule],
             providers: [EstadoService]
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(EstadoComponent);
         component = fixture.componentInstance;
+        de = fixture.debugElement;
+        service = TestBed.get(EstadoService);
+
         component.group = new FormGroup({
-            'estado': new FormControl('', Validators.required)
-        })
+            'estado': new FormControl('0', Validators.required)
+        });
         component.name = 'estado';
+
         fixture.detectChanges();
     });
 
     it('should create', () => {
-        fixture.whenStable().then(() => {
-            expect(component).toBeTruthy();
-        });
+        expect(component).toBeTruthy();
     });
 
-    it('should have default state', () => {
-        fixture.whenStable().then(() => {
-            expect(component.estados[0].id).toBe(0);
-            expect(component.estados[0].name).toBe('Resumen Nacional');
-        });
+    it('should have default option', () => {
+        let option = de.query(By.css('select[id=estados] > option'));
+        expect(option).toBeTruthy();
+        expect(option.nativeElement.selected).toBeTruthy();
+        expect(option.nativeElement.textContent).toContain('Resumen Nacional');
+        expect(option.nativeElement.value).toContain('0');
     });
 
-    it('should fetch states from network', (done) => {
+    it('should show all elements in the markup', fakeAsync(() => {
+        spyOn(service, 'getAllEstados').and.returnValue(of([{ id: 1, name: 'Aguascalientes' }]));
         component.fetch();
+        tick();
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-            setTimeout(() => {
-                expect(component.estados.length).toBe(33);
-                done();
-            }, 250)
-        });
-    });
+        let option = de.queryAll(By.css('select[id=estados] > option'));
+        expect(option.length).toBeGreaterThan(0);
+        expect(option[0].nativeElement.textContent).toContain('Resumen Nacional');
+        expect(option[1].nativeElement.textContent).toContain('Aguascalientes');
+    }));
 
-    it('should emit selected event', (done) => {
-        fixture.whenStable().then(() => {
-            const event = component.estados[0];
-            component.selected.subscribe(data => {
-                expect(data).toBe(event);
-                done();
-            });
-            component.onChange(event);
-        })
-    });
+    it('should emit change event on selection', fakeAsync(() => {
+        spyOn(service, 'getAllEstados').and.returnValue(of([{ id: 1, name: 'Aguascalientes' }]));
+        component.fetch();
+        tick();
+        fixture.detectChanges();
+
+        component.selected.subscribe(value => {
+            expect(value).toEqual({ id: 1, name: 'Aguascalientes' });
+        });
+
+        let select = de.query(By.css('select[id=estados]'));
+        let option = de.queryAll(By.css('option'));
+
+        select.triggerEventHandler('change', {
+            target: option[1].nativeElement
+        });
+    }));
+
 });

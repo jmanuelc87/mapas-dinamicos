@@ -39,6 +39,9 @@ export class AnioComponent implements OnInit {
         return this.default;
     }
 
+    /**
+     * Fetches from the server to fill the select in the html component
+     */
     public fetch() {
         this.anioService
             .getAllAnios()

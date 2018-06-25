@@ -15,31 +15,58 @@ export class ConsultaService {
         private http: HttpClient
     ) { }
 
+    /**
+     * Obtiene las los cultivos con las siguietes variables:
+     *  - Cultivo
+     *  - Sup. Sembrada
+     *  - Sup. Cosechada
+     *  - Producción
+     *  - Rendimiento
+     *  - PMR (Precio medio rural)
+     *  - Valor
+     *
+     * @param consulta ver la definicion en las pruebas
+     * @returns ver la defincion en las pruebas
+     */
+    getAnuarioByCultivo(consulta) {
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    getAnuario(consulta) {
-        let params = new HttpParams({
-            fromObject: {
-                anuario: JSON.stringify(consulta)
-            }
-        });
-
-        return this.http.post(this.url + '/consultas/prod-cultivo', '', {
-            params: params
+        return this.http.post(this.url + '/consultas/prod-cultivo', JSON.stringify(consulta), {
+            headers: headers
         });
     }
 
+    /**
+     * Obtiene los estados por cultivo especificio, ajustando el nivel de granularidad
+     * por Estado / Distrito (DDR) / Municipio de acuerdo a los parametros seleccionados
+     *
+     * @param consulta ver la definicion en las pruebas
+     * @returns ver la defincion de en las pruebas
+     */
     getEstados(consulta) {
-        let params = new HttpParams({
-            fromObject: {
-                anuario: JSON.stringify(consulta)
-            }
-        });
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-        return this.http.post(this.url + '/consultas/estados', '', {
-            params: params
+        return this.http.post(this.url + '/consultas/estados', JSON.stringify(consulta), {
+            headers: headers,
         });
     }
 
+
+    /**
+     * Obtiene los estados por cultivo especifico, ajustando el nivel de granularidad
+     * por Estado / Distrito (DDR) / Municipio de acuerdo a los parametros seleccionados
+     * con las variables:
+     *  - Cultivo
+     *  - Sup. Sembrada
+     *  - Sup. Cosechada
+     *  - Producción
+     *  - Rendimiento
+     *  - PMR (Precio medio rural)
+     *  - Valor
+     *
+     * @param consulta ver la defincion en las pruebas
+     * @returns ver la defincion en las pruebas
+     */
     getAnuarioByEstado(consulta) {
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
