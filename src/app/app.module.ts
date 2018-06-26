@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AgGridModule } from "ag-grid-angular";
 import {
     DraggableDirective,
@@ -69,6 +69,7 @@ import { RangosComponent } from './windows/rangos/rangos.component';
     imports: [
         BrowserModule,
         NgbModule.forRoot(),
+        FormsModule,
         ReactiveFormsModule,
         NgSelectModule,
         HttpClientModule,

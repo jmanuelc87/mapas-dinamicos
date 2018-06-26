@@ -130,7 +130,8 @@ export class ProduccionCultivoComponent implements OnInit {
      * @param item objeto con las propiedades id y name del estado seleccionado
      */
     onChangeEstadoItem(item) {
-        if (item !== undefined) {
+        if (item != undefined && item.id != undefined) {
+            console.log('entra');
             this.appDistrito.fetch(item.id);
             if (item.id == 0) {
                 this.extentService.fetchExtentAll();
@@ -142,16 +143,16 @@ export class ProduccionCultivoComponent implements OnInit {
     }
 
     onChangeDistritoItem(item) {
-        if (item !== undefined) {
-            this.appMunicipio.fetch(this.form.get('estado').value, item.id);
+        if (item !== undefined && item.id != undefined) {
+            this.appMunicipio.fetch(this.form.get('estado').value.id, item.id);
             this.extentService.fetchExtentDistrito(item.id);
             this.appWindow.handleClickMinimize(null);
         }
     }
 
     onChangeMunicipioItem(item) {
-        if (item !== undefined) {
-            this.extentService.fetchExtentMunicipio(this.form.get('estado').value, item.id);
+        if (item !== undefined && item.id != undefined) {
+            this.extentService.fetchExtentMunicipio(this.form.get('estado').value.id, item.id);
             this.appWindow.handleClickMinimize(null);
         }
     }

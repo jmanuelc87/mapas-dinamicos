@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { EstadoComponent } from './estado.component';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HttpClientModule } from '@angular/common/http';
 import { EstadoService } from '../../../services/estado.service';
@@ -18,7 +18,7 @@ describe('EstadoComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [EstadoComponent],
-            imports: [ReactiveFormsModule, NgSelectModule, HttpClientModule],
+            imports: [FormsModule, ReactiveFormsModule, NgSelectModule, HttpClientModule],
             providers: [EstadoService]
         }).compileComponents();
     }));
@@ -30,7 +30,7 @@ describe('EstadoComponent', () => {
         service = TestBed.get(EstadoService);
 
         component.group = new FormGroup({
-            'estado': new FormControl('0', Validators.required)
+            'estado': new FormControl({ id: 0 }, Validators.required)
         });
         component.name = 'estado';
 
@@ -50,7 +50,7 @@ describe('EstadoComponent', () => {
     });
 
     it('should show all elements in the markup', fakeAsync(() => {
-        spyOn(service, 'getAllEstados').and.returnValue(of([{ id: 0, name: 'Resumen Nacional' },{ id: 1, name: 'Aguascalientes' }]));
+        spyOn(service, 'getAllEstados').and.returnValue(of([{ id: 0, name: 'Resumen Nacional' }, { id: 1, name: 'Aguascalientes' }]));
         component.fetch();
         tick();
         fixture.detectChanges();
@@ -71,11 +71,8 @@ describe('EstadoComponent', () => {
         });
 
         let select = de.query(By.css('select[id=estados]'));
-        let option = de.queryAll(By.css('option'));
 
-        select.triggerEventHandler('change', {
-            target: option[0].nativeElement
-        });
+        select.triggerEventHandler('change', select);
     }));
 
 });

@@ -37,10 +37,7 @@ export class EstadoComponent implements OnInit {
     }
 
     onChange(event) {
-        this.default = {
-            id: +event.target.value,
-            name: event.target.textContent,
-        };
+        this.default = event;
         this.selected.emit(this.default);
     }
 
