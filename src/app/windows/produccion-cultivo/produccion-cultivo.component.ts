@@ -19,8 +19,6 @@ export class ProduccionCultivoComponent implements OnInit {
 
     form: FormGroup;
 
-    gridColumnApi;
-
     showTable: boolean;
 
     panCompleteSubscription;
@@ -147,8 +145,6 @@ export class ProduccionCultivoComponent implements OnInit {
 
     onGridReady(event) {
         event.api.sizeColumnsToFit();
-        this.gridColumnApi = event.columnApi;
-        this.gridColumnApi.setColumnVisible('variedad', false);
     }
 
     onHandleClose() {

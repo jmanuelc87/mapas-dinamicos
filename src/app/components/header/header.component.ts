@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
 
     private isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
 
-    private leftMenu = {
+    leftMenu = {
         'marginLeft': '0',
     };
 
@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
         }
     }
 
-    private onClick(event) {
+    onClick(event) {
         this.menuClick.emit(event.target.innerText);
     }
 }

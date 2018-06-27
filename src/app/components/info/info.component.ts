@@ -7,7 +7,7 @@ import { Component, OnInit, Renderer2, ElementRef, ViewChild } from '@angular/co
 })
 export class InfoComponent implements OnInit {
 
-    private position = '';
+    position = '';
 
     @ViewChild('info')
     private elementRef: ElementRef;

@@ -11,9 +11,9 @@ import { PopupService } from '../../services/popup.service';
 })
 export class PopupComponent implements OnInit {
 
-    private consulta: any;
+    consulta: any;
 
-    private value: any = {
+    value: any = {
         cultivo: '',
         estado: '',
         distrito: '',
@@ -25,7 +25,7 @@ export class PopupComponent implements OnInit {
     };
 
     @ViewChild('popup')
-    private el: ElementRef;
+    el: ElementRef;
 
     constructor(
         private mapService: EsriMapService,

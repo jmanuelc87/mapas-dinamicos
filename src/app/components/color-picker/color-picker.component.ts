@@ -8,15 +8,15 @@ import { ScannerService } from '../../services/scanner.service';
 })
 export class ColorPickerComponent implements OnInit, OnDestroy {
 
-    private defaultColor = [0, 176, 80];
+    defaultColor = [0, 176, 80];
 
-    private background_color = '#00B050';
+    background_color = '#00B050';
 
-    private visibility = false;
+    visibility = false;
 
-    private showed = false;
+    showed = false;
 
-    private listener;
+    listener;
 
     @Output()
     colorSelect: EventEmitter<any> = new EventEmitter();

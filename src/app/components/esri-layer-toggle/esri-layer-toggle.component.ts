@@ -10,14 +10,14 @@ import { EsriMapService } from '../../services/esri-map.service';
 })
 export class EsriLayerToggleComponent implements OnInit {
 
-    private id: any;
+    id: any;
 
-    private position = 'top-right';
+    position = 'top-right';
 
     @ViewChild('root')
     root: ElementRef;
 
-    private basemaps: Array<string> = [
+    basemaps: Array<string> = [
         'topo', 'streets', 'satellite',
     ]
 
