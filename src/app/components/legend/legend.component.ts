@@ -31,6 +31,7 @@ export class LegendComponent implements OnInit {
 
     ngOnInit() {
         this.legendServiceSubscription = this.legendService.legendRequest.subscribe((legend) => {
+            console.log('added properties');
             this.title = legend.title;
             this.query = legend.query;
             this.props = legend.props;

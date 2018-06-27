@@ -5,17 +5,16 @@
             <div class="row">
                 <div class="col-lg-8">
                     <select #variables name="variable" (click)="onSelectElement($event)">
-                        <option value="sembrada" selected>Superficie Sembrada</option>
-                        <option value="cosechada">Superficie Cosechada</option>
-                        <option value="siniestrada">Superficie Siniestrada</option>
-                        <option value="produccion">Producción</option>
-                        <option value="rendimiento">Rendimiento</option>
-                        <option value="pmr">PMR</option>
-                        <option value="valor">Valor de la Producción</option>
+                        <option value="sembrada" selected [disabled]="columnValues[0].sembrada == undefined">Superficie Sembrada</option>
+                        <option value="cosechada" [disabled]="columnValues[0].cosechada == undefined">Superficie Cosechada</option>
+                        <option value="produccion" [disabled]="columnValues[0].produccion == undefined">Producción</option>
+                        <option value="rendimiento" [disabled]="columnValues[0].rendimiento == undefined">Rendimiento</option>
+                        <option value="pmr" [disabled]="columnValues[0].pmr == undefined">PMR</option>
+                        <option value="valor" [disabled]="columnValues[0].valor == undefined">Valor de la Producción</option>
                     </select>
                 </div>
                 <div class="col-lg-4">
-                    <input type="number" min="3" max="5" value="3" (click)="onSelecteRange($event)" />
+                    <input type="number" min="3" max="5" value="0" (click)="onSelecteRange($event)" />
                 </div>
             </div>
             <div class="margin">
@@ -35,7 +34,7 @@
                 </div>
             </div>
             <div class="row">
-                <app-color-picker></app-color-picker>
+                <app-color-picker (selected)="getSelectedColor($event)"></app-color-picker>
                 <button type="button" class="button primary" (click)="onHandleClick($event)">
                     <span class="mif-search"></span>
                 </button>

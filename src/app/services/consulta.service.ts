@@ -29,13 +29,6 @@ export class ConsultaService {
      * @returns ver la defincion en las pruebas
      */
     getAnuarioByCultivo(consulta) {
-
-        consulta.estado = consulta.estado.id;
-        consulta.distrito = consulta.distrito.id;
-        consulta.municipio = consulta.municipio.id;
-
-        console.log(consulta);
-
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
         return this.http.post(this.url + '/consultas/prod-cultivo', JSON.stringify(consulta), {

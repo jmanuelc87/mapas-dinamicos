@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Renderer2 } from '@angular/core';
 import { EsriMapService } from '../../services/esri-map.service';
 import { debounceTime } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 import { PopupService } from '../../services/popup.service';
 
 

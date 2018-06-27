@@ -27,6 +27,8 @@ export class EsriMapService {
 
     private showPopup: (container) => void;
 
+    private showRanges: (regions, classBreaks) => void;
+
     constructor(
         private esriProvider: EsriProviderService,
     ) { }
@@ -82,6 +84,27 @@ export class EsriMapService {
                     this.mapview.graphics.addMany(regions);
                 }
 
+                this.showRanges = (regions, classBreaks) => {
+                    for (let i = 0; i < regions.length; i++) {
+                        let item = regions[i];
+                        let classBreak = classBreaks[i]
+
+                        let symbol = {
+                            type: 'simple-fill',
+                            color: classBreak,
+                            style: 'solid',
+                            outline: {
+                                color: 'black',
+                                width: '1px',
+                                style: 'solid'
+                            }
+                        };
+
+                        item.symbol = symbol;
+                    }
+
+                    this.mapview.graphics.addMany(regions);
+                }
 
                 this.mapview.when(() => {
                     this.mapview.on('pointer-move', (event) => {
@@ -156,6 +179,10 @@ export class EsriMapService {
 
     public showPopupOnMap(container) {
         this.showPopup(container);
+    }
+
+    public showRangesOnMap(regions, classBreaks) {
+        this.showRanges(regions, classBreaks)
     }
 
 }

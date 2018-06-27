@@ -1,14 +1,10 @@
 <div [formGroup]="group">
     <fieldset>
         <legend>Cultivo</legend>
-        <select id="cultivos" (change)="onChangeCultivo($event)" formControlName="{{nameFormCultivo}}">
-            <option *ngFor="let item of cultivos" [value]="item.id">{{item.nombre}}</option>
-        </select>
+        <ng-select (change)="onChangeCultivo($event)" [items]="cultivos" bindLabel="nombre" bindValue="id" formControlName="{{nameFormCultivo}}"></ng-select>
     </fieldset>
     <fieldset>
         <legend>Variedad</legend>
-        <select id="variedades" #variedad (change)="onChangeVariedades($event)" formControlName="{{nameFormVariedad}}">
-            <option *ngFor="let item of variedades" [value]="item.id">{{item.variedad}}</option>
-        </select>
+        <ng-select #variedad (change)="onChangeVariedades($event)" [items]="variedades" bindLabel="variedad" bindValue="id" formControlName="{{nameFormVariedad}}"></ng-select>
     </fieldset>
 </div>

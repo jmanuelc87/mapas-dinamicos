@@ -46,6 +46,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy {
         this.defaultColor = this.background_color = event.target.style.backgroundColor;
         let RGBColor = this.convertColorStringToArray(this.defaultColor);
         this.colorSelect.emit(RGBColor);
+        this.defaultColor = RGBColor;
         this.showed = false;
         this.hide();
     }

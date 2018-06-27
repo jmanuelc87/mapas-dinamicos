@@ -2,7 +2,7 @@ import * as basepath from './url';
 import { Injectable, Query } from '@angular/core';
 import { EsriProviderService } from './esri-provider.service';
 import { UtilService } from './util.service';
-import { Subject, Subscriber } from 'rxjs';
+import { Subject } from 'rxjs';
 
 
 @Injectable({
@@ -15,6 +15,8 @@ export class GeometryService {
     public clean = new Subject<any>();
 
     private url = basepath.default.webServiceUrl;
+
+    getQueryGeometry: (service, where) => void;
 
     constructor(
         private esriProvider: EsriProviderService,
@@ -51,7 +53,6 @@ export class GeometryService {
 
                 if (objResponse.regions.length > 0) {
                     if (!this.isEmpty(objResponse.regions, 'cvempio')) {
-                        console.log('draw mun');
                         for (let item of objResponse.regions) {
                             let id_ent = this.utilService.getCVEString(item['idestado'], 2);
                             let cve = this.utilService.getCVEString(item['cvempio'], 3);
@@ -82,6 +83,145 @@ export class GeometryService {
                     }
                 }
             });
+    }
+
+    public getGeometryWithColumnsAsync(columns, filtro): Array<Promise<any>> {
+
+        let query;
+        let fields;
+        let stringSize;
+        let service;
+
+        if (filtro == 'estado') {
+            query = ['CVE_ENT'];
+            fields = ['idestado'];
+            stringSize = [2];
+            service = '/6';
+        }
+
+        if (filtro == 'distrito') {
+            query = ['CVE_DDR'];
+            fields = ['iddistrito'];
+            stringSize = [3];
+            service = '/4'
+        }
+
+        if (filtro == 'municipio') {
+            query = ['CVE_ENT', 'CVE_MUN'];
+            fields = ['idestado', 'idmunicipio'];
+            stringSize = [2, 3];
+            service = '/2'
+        }
+
+        if (filtro == 'ddr-mun') {
+            query = ['CVE_ENT', 'CVE_MUN'];
+            fields = ['idestado', 'idmunicipio'];
+            stringSize = [2, 3];
+            service = '/2';
+        }
+
+        let obj = this.parseQuery(columns, fields);
+        let parsed = this.createParameters(obj, query, fields, stringSize);
+
+        let promises = [];
+        for (let where of parsed) {
+            let promise = this.getGeometryAsync(service, where);
+            promises.push(promise);
+        }
+
+        return promises;
+    }
+
+    private getGeometryAsync(service, where): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.esriProvider
+                .require(['esri/tasks/QueryTask', 'esri/tasks/support/Query'])
+                .then(([QueryTask, Query]: [__esri.QueryTaskConstructor, __esri.QueryConstructor]) => {
+                    let queryTask = new QueryTask({
+                        url: this.url + service,
+                    });
+
+                    let params = new Query({
+                        returnGeometry: true,
+                        outFields: ['*'],
+                        where: where,
+                    });
+
+                    queryTask.execute(params).then((response) => {
+                        resolve(response);
+                    }, (reason) => {
+                        reject(reason);
+                    });
+                });
+        });
+    }
+
+    public createParameters(objData: any[], query: string[], fields: string[], stringSize: number[]) {
+        let queries = [];
+        for (let item of objData) {
+            let where = '';
+            if (query.length == fields.length && fields.length == stringSize.length) {
+                let cve;
+                for (let i = 0; i < fields.length; i++) {
+                    cve = this.utilService.getStringFromArray(item[fields[i]], stringSize[i]);
+                    where += `${query[i]} IN (${cve}) AND `
+                }
+                where = where.substr(0, where.length - 5);
+            }
+            queries.push(where);
+        }
+        return queries;
+    }
+
+    public parseQuery(columns, fields: string[]) {
+
+        let data = [];
+        let temp;
+        let count = 0;
+        let colsCount = 0
+
+        if (columns.length > 0) {
+            let obj = {};
+            for (let item of columns) {
+
+                for (let field of fields) {
+
+                    if (item[field] != undefined) {
+
+                        if (temp != undefined && temp.field == field && temp.item != item[field]) {
+                            data.push(obj);
+                            obj = {};
+                        }
+
+                        if (obj[field] == undefined) {
+                            obj[field] = [];
+                        }
+
+                        if (!obj[field].includes(item[field])) {
+                            obj[field].push(item[field]);
+                        }
+
+
+                    }
+
+                    if (count == 0) {
+                        temp = {
+                            field: field,
+                            item: item[field],
+                        }
+                    }
+                    count++;
+                }
+
+                count = 0;
+
+                if (columns.length - 1 == colsCount++) {
+                    data.push(obj);
+                }
+            }
+        }
+
+        return data;
     }
 
     private isEmpty(columns, key) {

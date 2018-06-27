@@ -3,11 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DistritoComponent, MunicipioComponent, WindowComponent, EstadoComponent, AnioComponent } from '../../components';
 import { ConsultaService } from '../../services/consulta.service';
 import { EsriExtentService } from '../../services/esri-extent.service';
-import { FormatterService } from '../../services/formatter.service';
 import { GeometryService } from '../../services/geometry.service';
 import { ColorPickerComponent } from '../../components/color-picker/color-picker.component';
-import { ScannerService } from '../../services/scanner.service';
 import { LegendService } from '../../services/legend.service';
+import { ColumnsService } from '../../services/columns.service';
 
 @Component({
     selector: 'app-produccion-cultivo',
@@ -26,54 +25,7 @@ export class ProduccionCultivoComponent implements OnInit {
 
     panCompleteSubscription;
 
-    columnDefs = [
-        {
-            headerName: "Cultivo",
-            field: "cultivo",
-            width: 150,
-        },
-        {
-            headerName: "Variedad",
-            field: "variedad",
-            width: 150,
-        },
-        {
-            headerName: "Sup. Sembrada(Ha)",
-            field: "sembrada",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "Sup. Cosechada(Ha)",
-            field: "cosechada",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "Produción(Ton)",
-            field: "produccion",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "Rendimiento(Ton/Ha)",
-            field: "rendimiento",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "PMR($/Ton)",
-            field: "pmr",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "Valor(Miles de Pesos)",
-            field: "valor",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumberDivideThousands,
-        }
-    ];
+    columnDefs = [];
 
     rowData;
 
@@ -99,7 +51,7 @@ export class ProduccionCultivoComponent implements OnInit {
         private fb: FormBuilder,
         private consulta: ConsultaService,
         private extentService: EsriExtentService,
-        private formatterService: FormatterService,
+        private columns: ColumnsService,
         private geometryService: GeometryService,
         private legendService: LegendService,
     ) { }
@@ -144,7 +96,7 @@ export class ProduccionCultivoComponent implements OnInit {
 
     onChangeDistritoItem(item) {
         if (item !== undefined && item.id != undefined) {
-            this.appMunicipio.fetch(this.form.get('estado').value.id, item.id);
+            this.appMunicipio.fetch(this.form.get('estado').value, item.id);
             this.extentService.fetchExtentDistrito(item.id);
             this.appWindow.handleClickMinimize(null);
         }
@@ -152,7 +104,7 @@ export class ProduccionCultivoComponent implements OnInit {
 
     onChangeMunicipioItem(item) {
         if (item !== undefined && item.id != undefined) {
-            this.extentService.fetchExtentMunicipio(this.form.get('estado').value.id, item.id);
+            this.extentService.fetchExtentMunicipio(this.form.get('estado').value, item.id);
             this.appWindow.handleClickMinimize(null);
         }
     }
@@ -166,7 +118,10 @@ export class ProduccionCultivoComponent implements OnInit {
         let distrito = this.appDistrito.getDistrito();
         let municipio = this.appMunicipio.getMunicipio();
         this.legendService.addLegendConsultaCultivo(datosConsulta, estado, distrito, municipio);
-        this.consulta.getAnuarioByCultivo(datosConsulta).subscribe(response => this.rowData = response);
+        this.consulta.getAnuarioByCultivo(datosConsulta).subscribe(response => {
+            this.columnDefs = this.columns.parseConsultaForProduccionCultivo(datosConsulta)
+            this.rowData = response;
+        });
     }
 
     onSelectionChanged(event) {
@@ -194,14 +149,6 @@ export class ProduccionCultivoComponent implements OnInit {
         event.api.sizeColumnsToFit();
         this.gridColumnApi = event.columnApi;
         this.gridColumnApi.setColumnVisible('variedad', false);
-    }
-
-    onSelectedChanged(event) {
-        if (this.gridColumnApi != null && event === 'detalle') {
-            this.gridColumnApi.setColumnVisible('variedad', true);
-        } else if (this.gridColumnApi != null && event === 'generico') {
-            this.gridColumnApi.setColumnVisible('variedad', false);
-        }
     }
 
     onHandleClose() {

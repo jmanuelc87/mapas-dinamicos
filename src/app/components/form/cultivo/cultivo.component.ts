@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CultivoService } from '../../../services/cultivo.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-cultivo',
@@ -30,7 +31,7 @@ export class CultivoComponent implements OnInit {
     selectedCultivo: EventEmitter<any> = new EventEmitter<any>();
 
     @ViewChild('variedad')
-    private select: ElementRef
+    private ngSelect: NgSelectComponent
 
     private _catalogo: string;
 
@@ -73,10 +74,10 @@ export class CultivoComponent implements OnInit {
         this.fetchCultivo(catalogo);
         if (catalogo == 'detalle') {
             // enable variedades
-            this.renderer.setProperty(this.select.nativeElement, 'disabled', false);
+            this.ngSelect.setDisabledState(false);
         } else {
             // disable variedades
-            this.renderer.setProperty(this.select.nativeElement, 'disabled', true);
+            this.ngSelect.setDisabledState(true);
         }
     }
 

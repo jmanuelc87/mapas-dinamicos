@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { FormatterService } from '../../services/formatter.service';
 import { ConsultaService } from '../../services/consulta.service';
 import { ServiceService } from '../../services/service.service';
 import { FactoryDirective } from '../../directives';
 import { RangosComponent } from '../rangos/rangos.component';
 import { WindowComponent, EstadoComponent, FiltroEstadoComponent } from '../../components';
+import { ColumnsService } from '../../services/columns.service';
+import { PopupService } from '../../services/popup.service';
 
 @Component({
     selector: 'app-produccion-estado',
@@ -31,65 +32,14 @@ export class ProduccionEstadoComponent implements OnInit {
 
     rowData = [];
 
-    columnDefs = [
-        {
-            headerName: "Estado",
-            field: "estado",
-            width: 100,
-        },
-        {
-            headerName: "Distrito",
-            field: "distrito",
-            width: 100,
-        },
-        {
-            headerName: "Municipio",
-            field: "municipio",
-            width: 100,
-        },
-        {
-            headerName: "Sup. Sembrada(Ha)",
-            field: "sembrada",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "Sup. Cosechada(Ha)",
-            field: "cosechada",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "Produción(Ton)",
-            field: "produccion",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "Rendimiento(Ton/Ha)",
-            field: "rendimiento",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "PMR($/Ton)",
-            field: "pmr",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumber,
-        },
-        {
-            headerName: "Valor(Miles de Pesos)",
-            field: "valor",
-            width: 150,
-            valueFormatter: this.formatterService.formatNumberDivideThousands,
-        }
-    ];
+    columnDefs = [];
 
     constructor(
-        private formatterService: FormatterService,
+        private columns: ColumnsService,
         private fb: FormBuilder,
         private consultaService: ConsultaService,
         private constructor: ServiceService,
+        private popupService: PopupService,
     ) { }
 
     ngOnInit() {
@@ -121,6 +71,7 @@ export class ProduccionEstadoComponent implements OnInit {
         this.consultaService
             .getAnuarioByEstado(datosConsulta)
             .subscribe((response: any) => {
+                this.columnDefs = this.columns.parseConsultaForProduccionEstado(datosConsulta);
                 this.rowData = response
             }, err => console.error(err), () => console.log('get consulta completed!'));
     }
@@ -135,19 +86,21 @@ export class ProduccionEstadoComponent implements OnInit {
         }
     }
 
-    onHandleSelectFiltro($event) {
-
+    onHandleCloseRangos() {
+        this.windowComponent.handleClickMinimize(null);
+        this.popupService.addConsultaParameters(this.form.value);
     }
 
     onClickRanges(event) {
         if (this.rowData.length > 0) {
             // show modal rangos
-
             let component = this.constructor.createComponent(RangosComponent, this.appFactory);
             let pos = this.windowComponent.position;
             (component.instance as RangosComponent).location = pos;
             (component.instance as RangosComponent).componentRef = component;
             (component.instance as RangosComponent).columnValues = this.rowData;
+            (component.instance as RangosComponent).filtro = this.form.get('filtro-estado').value;
+            (component.instance as RangosComponent).close.subscribe(() => this.onHandleCloseRangos())
         } else {
             /* mostrar error 'Por favor de realizar una búsqueda' */
             alert('Por favor de realizar una búsqueda');

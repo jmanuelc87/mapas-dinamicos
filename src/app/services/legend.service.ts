@@ -141,11 +141,6 @@ export class LegendService {
 
     public addLegend() {
         this.legendRequest.next(this.legend);
-        this.legend = {
-            title: '',
-            query: '',
-            props: [],
-        };
     }
 
     public removeLegend() {
