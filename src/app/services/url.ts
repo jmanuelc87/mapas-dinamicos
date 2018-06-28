@@ -1,4 +1,4 @@
-let baseUrl = 'http://localhost:8080/md/index.php';
+let baseUrl = 'http://www.cmgs.gob.mx:82/mapas/server.php';
 
 let webServiceUrl = 'http://cmgs.gob.mx/gis/rest/services/Infraestructura/InfraestSsector/MapServer';
 

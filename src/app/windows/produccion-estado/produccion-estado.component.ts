@@ -1,12 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConsultaService } from '../../services/consulta.service';
 import { ServiceService } from '../../services/service.service';
 import { FactoryDirective } from '../../directives';
 import { RangosComponent } from '../rangos/rangos.component';
-import { WindowComponent, EstadoComponent, FiltroEstadoComponent } from '../../components';
+import { WindowComponent, FiltroEstadoComponent, DistritoComponent } from '../../components';
 import { ColumnsService } from '../../services/columns.service';
 import { PopupService } from '../../services/popup.service';
+import { EsriExtentService } from '../../services/esri-extent.service';
 
 @Component({
     selector: 'app-produccion-estado',
@@ -26,6 +27,9 @@ export class ProduccionEstadoComponent implements OnInit {
     @ViewChild(FiltroEstadoComponent)
     appFiltroComponent: FiltroEstadoComponent;
 
+    @ViewChild(DistritoComponent)
+    appDistritoComponent: DistritoComponent;
+
     catalogo: string = 'generico';
 
     form: FormGroup;
@@ -40,6 +44,7 @@ export class ProduccionEstadoComponent implements OnInit {
         private consultaService: ConsultaService,
         private constructor: ServiceService,
         private popupService: PopupService,
+        private extentService: EsriExtentService,
     ) { }
 
     ngOnInit() {
@@ -52,6 +57,7 @@ export class ProduccionEstadoComponent implements OnInit {
             'cultivo': [0, Validators.required],
             'variedad': [0, Validators.required],
             'filtro-estado': ['estado', Validators.required],
+            'distrito': [0, Validators.required],
         });
     }
 
@@ -83,6 +89,17 @@ export class ProduccionEstadoComponent implements OnInit {
         } else {
             this.appFiltroComponent.show = false;
             this.form.get('filtro-estado').setValue('estado');
+        }
+
+        let item = $event;
+
+        if (item != undefined && item.id != undefined) {
+            this.appDistritoComponent.fetch(item.id);
+            if (item.id == 0) {
+                this.extentService.fetchExtentAll();
+            } else {
+                this.extentService.fetchExtentEstado(item.id);
+            }
         }
     }
 
