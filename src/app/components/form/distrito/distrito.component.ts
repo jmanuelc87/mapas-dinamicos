@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Estado } from '../../../models/Estado';
 import { FormGroup } from '@angular/forms';
 import { DistritoService } from '../../../services/distrito.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-distrito',
@@ -28,6 +29,9 @@ export class DistritoComponent implements OnInit {
 
     default = this.distritos[0];
 
+    @ViewChild(NgSelectComponent)
+    ngSelect: NgSelectComponent;
+
     constructor(
         private distritoService: DistritoService
     ) { }
@@ -50,6 +54,11 @@ export class DistritoComponent implements OnInit {
                 distritos.unshift({ id: 0, name: 'Todos' });
                 this.distritos = distritos;
             }, err => console.error(err), () => console.log('get all ddr completed.'));
+    }
+
+    public reset() {
+        let item = this.ngSelect.itemsList.findByLabel('Todos');
+        this.ngSelect.select(item);
     }
 
 }

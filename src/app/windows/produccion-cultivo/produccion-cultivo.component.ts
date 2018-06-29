@@ -25,7 +25,78 @@ export class ProduccionCultivoComponent implements OnInit {
 
     columnDefs = [];
 
+    localeText = {
+
+        // for filter panel
+        page: 'página',
+        more: 'más',
+        to: 'a',
+        of: 'de',
+        next: 'siguiente',
+        last: 'último',
+        first: 'primero',
+        previous: 'anterior',
+        loadingOoo: 'cargando...',
+
+        // for set filter
+        selectAll: 'seleccionar todos',
+        searchOoo: 'buscar...',
+        blanks: 'blancos',
+
+        // for number filter and text filter
+        filterOoo: 'filtro...',
+        applyFilter: 'aplicar filtro...',
+
+        notEqual: 'diferente de',
+        notContains: 'No contiene',
+
+        // for number filter
+        equals: 'igual',
+        lessThan: 'menor que',
+        lessThanOrEqual: 'menor que o igual',
+        greaterThan: 'mayor que',
+        greaterThanOrEqual: 'mayor que o igual',
+        inRange: 'entre',
+
+        // for text filter
+        contains: 'contiene',
+        startsWith: 'empieza con',
+        endsWith: 'termina con',
+
+        // the header of the default group column
+        group: 'grupo',
+
+        // tool panel
+        columns: 'columna',
+        rowGroupColumns: 'laPivot Cols',
+        rowGroupColumnsEmptyMessage: 'arrastra las columnas para agrupar',
+        valueColumns: 'valores de las columnas',
+        pivotMode: 'modo pivote',
+        groups: 'grupos',
+        values: 'valores',
+        pivots: 'pivotes',
+        valueColumnsEmptyMessage: 'arrastra las columnas para agregar',
+        pivotColumnsEmptyMessage: 'arrastra las columnas para pivotear',
+        toolPanelButton: 'panel de herramientas',
+
+        // other
+        noRowsToShow: 'no hay filas',
+
+        // standard menu
+        copy: 'copiar',
+        copyWithHeaders: 'copiar con cabecerar',
+        ctrlC: 'ctrl + C',
+        paste: 'pegar',
+        ctrlV: 'ctrl + V'
+    }
+
     rowData;
+
+    gridApi;
+
+    text;
+
+    filterInstance;
 
     @ViewChild(AnioComponent)
     appAnio: AnioComponent;
@@ -81,8 +152,8 @@ export class ProduccionCultivoComponent implements OnInit {
      */
     onChangeEstadoItem(item) {
         if (item != undefined && item.id != undefined) {
-            console.log('entra');
             this.appDistrito.fetch(item.id);
+            this.appDistrito.reset();
             if (item.id == 0) {
                 this.extentService.fetchExtentAll();
             } else {
@@ -95,6 +166,7 @@ export class ProduccionCultivoComponent implements OnInit {
     onChangeDistritoItem(item) {
         if (item !== undefined && item.id != undefined) {
             this.appMunicipio.fetch(this.form.get('estado').value, item.id);
+            this.appMunicipio.reset();
             this.extentService.fetchExtentDistrito(item.id);
             this.appWindow.handleClickMinimize(null);
         }
@@ -116,9 +188,12 @@ export class ProduccionCultivoComponent implements OnInit {
         let distrito = this.appDistrito.getDistrito();
         let municipio = this.appMunicipio.getMunicipio();
         this.legendService.addLegendConsultaCultivo(datosConsulta, estado, distrito, municipio);
+
         this.consulta.getAnuarioByCultivo(datosConsulta).subscribe(response => {
+            this.legendService.addLegend();
             this.columnDefs = this.columns.parseConsultaForProduccionCultivo(datosConsulta)
             this.rowData = response;
+            this.gridApi.sizeColumnsToFit();
         });
     }
 
@@ -127,6 +202,8 @@ export class ProduccionCultivoComponent implements OnInit {
         let anuario = this.form.value;
         anuario['cultivo'] = parseInt(selectedRow[selectedRow.length - 1].id);
         anuario['variedad'] = selectedRow[selectedRow.length - 1].idvariedad != undefined ? parseInt(selectedRow[selectedRow.length - 1].idvariedad) : 0;
+
+        console.log(selectedRow);
 
         this.consulta.getEstados(anuario).subscribe((response: any) => {
 
@@ -138,13 +215,23 @@ export class ProduccionCultivoComponent implements OnInit {
 
             this.geometryService.cleanMap();
             this.geometryService.getGeometry(obj);
-            this.legendService.addLegend();
             this.appWindow.handleClickMinimize(null);
         });
     }
 
     onGridReady(event) {
         event.api.sizeColumnsToFit();
+        this.gridApi = event.api;
+    }
+
+    onFilterGridChange(newValue) {
+        if (this.text !== newValue) {
+            this.text = newValue;
+            if (this.filterInstance) {
+                console.log('value filtered...');
+                this.filterInstance.onChange(newValue);
+            }
+        }
     }
 
     onHandleClose() {

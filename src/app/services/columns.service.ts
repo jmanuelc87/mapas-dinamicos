@@ -15,31 +15,37 @@ export class ColumnsService {
             headerName: "Cultivo",
             field: "cultivo",
             width: 150,
+            filter: 'agTextColumnFilter',
         },
         {
             headerName: "Variedad",
             field: "variedad",
             width: 150,
+            filter: 'agTextColumnFilter',
         },
         {
             headerName: "Estado",
             field: "estado",
             width: 100,
+            filter: 'agTextColumnFilter',
         },
         {
             headerName: "Distrito",
             field: "distrito",
             width: 100,
+            filter: 'agTextColumnFilter',
         },
         {
             headerName: "Municipio",
             field: "municipio",
             width: 100,
+            filter: 'agTextColumnFilter',
         },
         {
             headerName: "Sup. Sembrada(Ha)",
             field: "sembrada",
             width: 150,
+            filter: 'agNumberColumnFilter',
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -51,6 +57,7 @@ export class ColumnsService {
             headerName: "Sup. Cosechada(Ha)",
             field: "cosechada",
             width: 150,
+            filter: 'agNumberColumnFilter',
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -62,6 +69,7 @@ export class ColumnsService {
             headerName: "Produción(Ton)",
             field: "produccion",
             width: 150,
+            filter: 'agNumberColumnFilter',
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -73,6 +81,7 @@ export class ColumnsService {
             headerName: "Rendimiento(Ton/Ha)",
             field: "rendimiento",
             width: 150,
+            filter: 'agNumberColumnFilter',
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -84,6 +93,7 @@ export class ColumnsService {
             headerName: "PMR($/Ton)",
             field: "pmr",
             width: 150,
+            filter: 'agNumberColumnFilter',
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -95,6 +105,7 @@ export class ColumnsService {
             headerName: "Valor(Miles de Pesos)",
             field: "valor",
             width: 150,
+            filter: 'agNumberColumnFilter',
             valueFormatter: (params) => {
                 let value = (params.value / 1000);
                 return '$ ' + value

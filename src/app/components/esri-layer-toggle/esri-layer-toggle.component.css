@@ -1,8 +1,8 @@
 .toggle {
     background-color: white;
-    border-radius: 25px;
+    border-radius: 20px;
     margin: 5px;
-    padding: 15px;
+    padding: 10px;
 }
 
 .toggle div {
@@ -11,10 +11,6 @@
 
 .toggle input {
     margin-left: 10px;
-}
-
-.toggle label {
-    padding-bottom: 10px;
 }
 
 .hidden {

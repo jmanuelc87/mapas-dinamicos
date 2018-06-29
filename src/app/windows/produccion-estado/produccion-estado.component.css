@@ -1,6 +1,7 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
 .button {
+    margin-top: 13px;
     margin-left: 7px;
 }
 

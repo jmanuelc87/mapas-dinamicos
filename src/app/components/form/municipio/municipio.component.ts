@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Estado } from '../../../models/Estado';
 import { MunicipioService } from '../../../services/municipio.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-municipio',
@@ -25,6 +26,9 @@ export class MunicipioComponent implements OnInit {
 
     @Output()
     selected: EventEmitter<any> = new EventEmitter<any>();
+
+    @ViewChild(NgSelectComponent)
+    ngSelect: NgSelectComponent;
 
     default = this.municipios[0];
 
@@ -51,6 +55,11 @@ export class MunicipioComponent implements OnInit {
                 municipios.unshift({ id: 0, name: "Todos" });
                 this.municipios = municipios;
             }, err => console.error(err), () => console.log('get municipios completed.'));
+    }
+
+    public reset() {
+        let item = this.ngSelect.itemsList.findByLabel('Todos');
+        this.ngSelect.select(item);
     }
 
 }

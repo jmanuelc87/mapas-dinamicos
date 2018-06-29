@@ -197,11 +197,9 @@ export class GeometryService {
                             obj[field] = [];
                         }
 
-                        if (!obj[field].includes(item[field])) {
+                        if (obj[field].indexOf(item[field]) == -1) {
                             obj[field].push(item[field]);
                         }
-
-
                     }
 
                     if (count == 0) {

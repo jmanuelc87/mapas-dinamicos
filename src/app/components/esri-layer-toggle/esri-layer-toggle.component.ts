@@ -17,8 +17,8 @@ export class EsriLayerToggleComponent implements OnInit {
     @ViewChild('root')
     root: ElementRef;
 
-    basemaps: Array<string> = [
-        'topo', 'streets', 'satellite',
+    basemaps: Array<any> = [
+        { name: 'Topográfica', value: 'topo' }, { name: 'Aérea', value: 'streets' }, { name: 'Satelital', value: 'satellite' },
     ]
 
     constructor(
