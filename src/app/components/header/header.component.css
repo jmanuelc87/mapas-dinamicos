@@ -12,6 +12,12 @@
     position: initial;
 }
 
-.app-bar .app-bar-container > .d-menu, .app-bar .app-bar-container > .v-menu {
+.app-bar .app-bar-container>.d-menu,
+.app-bar .app-bar-container>.v-menu {
     margin-left: -110px;
+}
+
+.app-bar-expand-md {
+    background-color: #272829;
+    color: #F6F6F6;
 }

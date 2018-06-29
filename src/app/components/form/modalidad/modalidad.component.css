@@ -1,0 +1,34 @@
+input,
+label,
+select {
+    font-size: 11px;
+}
+
+fieldset {
+    display: block;
+    margin-top: 3px;
+    margin-left: 1px;
+    margin-right: 1px;
+    padding-top: 0.3em;
+    padding-bottom: 0.525em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border: 1px groove grey;
+}
+
+label {
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 0px;
+    vertical-align: 3px;
+}
+
+legend {
+    text-align: center;
+    font-size: 12px;
+}
+
+.element {
+    font-size: 12px;
+}

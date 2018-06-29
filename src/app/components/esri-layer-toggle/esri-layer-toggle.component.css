@@ -13,6 +13,14 @@
     margin-left: 10px;
 }
 
+.toggle label {
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 0px;
+    vertical-align: 3px;
+}
+
 .hidden {
     visibility: hidden;
 }

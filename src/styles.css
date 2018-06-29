@@ -2,51 +2,11 @@
 @import "ag-grid/dist/styles/ag-grid.css";
 @import "ag-grid/dist/styles/ag-theme-balham.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
+
 html,
 body {
-    margin: 0;
-    padding: 0;
     width: 100%;
     height: 100%;
-}
-
-body {
-    padding-top: 52px;
-}
-
-input,
-label,
-select {
-    font-size: 11px;
-}
-
-fieldset {
-    display: block;
-    margin-top: 3px;
-    margin-left: 1px;
-    margin-right: 1px;
-    padding-top: 0.3em;
-    padding-bottom: 0.525em;
-    padding-left: 0.75em;
-    padding-right: 0.75em;
-    border: 1px groove grey;
-}
-
-legend {
-    text-align: center;
-    font-size: 12px;
-}
-
-div {
-    position: initial;
-}
-
-.container,
-.container-fluid,
-section,
-header,
-aside {
-    margin: 0;
 }
 
 .esri-popup__header-title {
