@@ -63,7 +63,7 @@ describe('CultivoComponent', () => {
         expect(html.nativeElement.disabled).toBeFalsy();
     });
 
-    it('should have default option Resumen Cultivos', () => {
+    fit('should have default option Resumen Cultivos', () => {
         let option = de.query(By.css('select[id=cultivos] > option'));
         expect(option).toBeTruthy();
         expect(option.nativeElement.textContent).toContain('Resumen Cultivos');
