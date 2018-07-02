@@ -69,7 +69,7 @@
     margin: 0;
     padding: 0;
     list-style: none inside none;
-    background-color: white;
+    background-color: whitesmoke;
     color: black;
 }
 
@@ -103,6 +103,10 @@
     white-space: nowrap;
     min-width: 10.5rem;
     border: none;
+}
+
+.d-menu li a:hover {
+    background-color: #eee;
 }
 
 .d-menu li a .icon {
