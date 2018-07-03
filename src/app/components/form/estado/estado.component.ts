@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Estado } from '../../../models/Estado';
 import { EstadoService } from '../../../services/estado.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-estado',
@@ -28,6 +29,9 @@ export class EstadoComponent implements OnInit {
 
     default = this.estados[0];
 
+    @ViewChild(NgSelectComponent)
+    ngSelect: NgSelectComponent;
+
     constructor(
         private estadoService: EstadoService,
     ) { }
@@ -37,8 +41,18 @@ export class EstadoComponent implements OnInit {
     }
 
     onChange(event) {
-        this.default = event;
-        this.selected.emit(this.default);
+        if (event != undefined && event.hasOwnProperty('id')) {
+            this.ngSelect.placeholder = '';
+            this.default = event;
+            this.selected.emit(this.default);
+        } else {
+            // set placeholder
+            this.ngSelect.placeholder = 'Seleccione un Estado';
+        }
+    }
+
+    onRemove($event) {
+        console.log($event);
     }
 
     public getEstado() {

@@ -3,8 +3,8 @@
     <div content style="width: 400px;">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-8">
-                    <select #variables name="variable" (click)="onSelectElement($event)">
+                <div class="col-lg-9">
+                    <select #variables style="width: 100%; height: 25px; padding: 2px;" name="variable" (click)="onSelectElement($event)">
                         <option value="sembrada" selected [disabled]="columnValues[0].sembrada == undefined">Superficie Sembrada</option>
                         <option value="cosechada" [disabled]="columnValues[0].cosechada == undefined">Superficie Cosechada</option>
                         <option value="produccion" [disabled]="columnValues[0].produccion == undefined">Producción</option>
@@ -13,20 +13,30 @@
                         <option value="valor" [disabled]="columnValues[0].valor == undefined">Valor de la Producción</option>
                     </select>
                 </div>
-                <div class="col-lg-4">
-                    <input type="number" min="3" max="5" value="0" (click)="onSelecteRange($event)" />
+                <div class="col-lg-3">
+                    <input type="number" style="width: 100%;" min="3" max="5" value="0" (click)="onSelecteRange($event)" />
                 </div>
             </div>
             <div class="margin">
                 <div class="row" *ngFor="let n of countRows">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         Rango {{n.idx}}
                     </div>
                     <div class="col-lg-4">
-                        <input type="text" disabled value="{{n.min | number:'1.2'}}" />
+                        <ng-container *ngIf="selectedVariable != 'valor'; else elseTemplate1">
+                            <input type="text" style="width: 100%; text-align: right;" disabled value="{{n.min | number:'1.2'}}" />
+                        </ng-container>
+                        <ng-template #elseTemplate1>
+                            <input type="text" #valor style="width: 100%; text-align: right;" disabled value="{{(n.min / 1000) | number:'1.2'}}" />
+                        </ng-template>
                     </div>
                     <div class="col-lg-4">
-                        <input type="text" disabled value="{{n.max | number:'1.2'}}" />
+                        <ng-container *ngIf="selectedVariable != 'valor'; else elseTemplate2">
+                            <input type="text" style="width: 100%; text-align: right;" disabled value="{{n.max | number:'1.2'}}" />
+                        </ng-container>
+                        <ng-template #elseTemplate2>
+                            <input type="text" #valor style="width: 100%; text-align: right;" disabled value="{{(n.max / 1000) | number:'1.2'}}" />
+                        </ng-template>
                     </div>
                     <div class="col-lg-1">
                         {{n.per * 100}}%
@@ -35,8 +45,8 @@
             </div>
             <div class="row">
                 <app-color-picker></app-color-picker>
-                <button type="button" class="button primary" (click)="onHandleClick($event)">
-                    <span class="mif-search"></span>
+                <button class="btn btn-primary" (click)="onHandleClick($event)">
+                    Buscar
                 </button>
             </div>
         </div>

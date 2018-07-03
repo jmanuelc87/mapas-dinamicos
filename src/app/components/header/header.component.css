@@ -1,4 +1,5 @@
 .app-bar {
+    margin-top: 52px;
     display: flex;
     width: 100%;
     height: auto;
@@ -71,6 +72,7 @@
     list-style: none inside none;
     background-color: whitesmoke;
     color: black;
+    z-index: 250;
 }
 
 .d-menu.open {
@@ -94,7 +96,7 @@
 }
 
 .d-menu li a {
-    font-size: .875rem;
+    font-size: 12px;
     padding: 0 2rem 0 2.5rem;
     line-height: 45px;
     height: 45px;

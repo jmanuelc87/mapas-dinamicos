@@ -1,15 +1,11 @@
 import {
     Component,
-    ElementRef,
     EventEmitter,
-    HostListener,
+    OnDestroy,
     OnInit,
     Output,
-    Renderer2,
-    ViewChild,
-    OnDestroy
-} from '@angular/core';
-import { visitSiblingRenderNodes } from '@angular/core/src/view/util';
+    Renderer2
+    } from '@angular/core';
 
 @Component({
     selector: 'app-header',
@@ -26,6 +22,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     constructor(
         private renderer: Renderer2
     ) { }
+
+    onClick($event) {
+        console.log($event.target.textContent);
+        this.menuClick.emit($event.target.textContent)
+    }
 
     ngOnInit() {
         this.hideAllMenus();

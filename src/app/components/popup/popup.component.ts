@@ -64,4 +64,17 @@ export class PopupComponent implements OnInit {
         });
     }
 
+
+    hasEstado() {
+        return this.consulta && this.consulta.hasOwnProperty('attributes') && this.consulta.attributes.hasOwnProperty('CVE_ENT');
+    }
+
+    hasDistrito() {
+        return this.consulta && this.consulta.hasOwnProperty('attributes') && this.consulta.attributes.hasOwnProperty('CVE_DDR');
+    }
+
+    hasMunicipio() {
+        return this.consulta && this.consulta.hasOwnProperty('attributes') && this.consulta.attributes.hasOwnProperty('CVE_MUN');
+    }
+
 }

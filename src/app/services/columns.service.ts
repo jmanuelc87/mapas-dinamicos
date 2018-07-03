@@ -26,19 +26,19 @@ export class ColumnsService {
         {
             headerName: "Estado",
             field: "estado",
-            width: 100,
+            width: 150,
             filter: 'agTextColumnFilter',
         },
         {
             headerName: "Distrito",
             field: "distrito",
-            width: 100,
+            width: 150,
             filter: 'agTextColumnFilter',
         },
         {
             headerName: "Municipio",
             field: "municipio",
-            width: 100,
+            width: 150,
             filter: 'agTextColumnFilter',
         },
         {
@@ -46,6 +46,7 @@ export class ColumnsService {
             field: "sembrada",
             width: 150,
             filter: 'agNumberColumnFilter',
+            type: "numericColumn",
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -58,6 +59,7 @@ export class ColumnsService {
             field: "cosechada",
             width: 150,
             filter: 'agNumberColumnFilter',
+            type: "numericColumn",
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -70,6 +72,7 @@ export class ColumnsService {
             field: "produccion",
             width: 150,
             filter: 'agNumberColumnFilter',
+            type: "numericColumn",
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -82,6 +85,7 @@ export class ColumnsService {
             field: "rendimiento",
             width: 150,
             filter: 'agNumberColumnFilter',
+            type: "numericColumn",
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -94,6 +98,7 @@ export class ColumnsService {
             field: "pmr",
             width: 150,
             filter: 'agNumberColumnFilter',
+            type: "numericColumn",
             valueFormatter: (params) => {
                 let value = (params.value * 1);
                 return value
@@ -106,6 +111,7 @@ export class ColumnsService {
             field: "valor",
             width: 150,
             filter: 'agNumberColumnFilter',
+            type: "numericColumn",
             valueFormatter: (params) => {
                 let value = (params.value / 1000);
                 return '$ ' + value

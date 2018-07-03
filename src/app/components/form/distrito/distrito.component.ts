@@ -40,8 +40,14 @@ export class DistritoComponent implements OnInit {
     }
 
     onChange(event) {
-        this.default = event;
-        this.selected.emit(this.default);
+        if (event != undefined && event.hasOwnProperty('id')) {
+            this.ngSelect.placeholder = '';
+            this.default = event;
+            this.selected.emit(this.default);
+        } else {
+            // set placeholder
+            this.ngSelect.placeholder = 'Seleccione un Distrito';
+        }
     }
 
     getDistrito() {

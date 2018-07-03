@@ -18,6 +18,8 @@ export class CultivoComponent implements OnInit {
         { id: 0, variedad: "Resumen Variedades" }
     ];
 
+    show = false;
+
     @Input()
     nameFormCultivo: string;
 
@@ -74,10 +76,10 @@ export class CultivoComponent implements OnInit {
         this.fetchCultivo(catalogo);
         if (catalogo == 'detalle') {
             // enable variedades
-            this.ngSelect.setDisabledState(false);
+            this.show = true;
         } else {
             // disable variedades
-            this.ngSelect.setDisabledState(true);
+            this.show = false;
         }
     }
 

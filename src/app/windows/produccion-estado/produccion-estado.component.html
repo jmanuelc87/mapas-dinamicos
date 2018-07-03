@@ -4,15 +4,15 @@
         <div class="container-fluid">
             <form [formGroup]="form" (ngSubmit)="onSubmitForm($event)">
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <app-ciclo [group]="form" name="ciclo"></app-ciclo>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <app-modalidad [group]="form" name="modalidad"></app-modalidad>
                         <app-catalogo [group]="form" name="catalogo" (selected)="onSelectedChanged($event)"></app-catalogo>
                         <app-anio [group]="form" name="anio"></app-anio>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-6">
                         <div class="row">
                             <div class="col-lg-7">
                                 <app-cultivo [group]="form" nameFormCultivo="cultivo" nameFormVariedad="variedad" [catalogo]="catalogo"></app-cultivo>
@@ -25,11 +25,11 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="button" class="button" (click)="onClickRanges($event)">
-                                    <span class="mif-meter"></span>
+                                <button type="button" class="btn" (click)="onClickRanges($event)" title="Selección de rangos para tematizar el mapa">
+                                    Rangos
                                 </button>
-                                <button type="submit" class="button primary">
-                                    <span class="mif-search"></span>
+                                <button type="submit" class="btn btn-primary">
+                                    Buscar
                                 </button>
                             </div>
                         </div>
@@ -38,8 +38,9 @@
             </form>
             <div class="row">
                 <div class="col-lg-12">
-                    <ag-grid-angular style="width: 100%; height: 260px;" class="ag-theme-balham" [localeText]="localeText" [rowData]="rowData" [columnDefs]="columnDefs"
-                        [enableColResize]="true" [enableSorting]="true" [enableFilter]="true" [pagination]="true" [paginationAutoPageSize]="true"></ag-grid-angular>
+                    <ag-grid-angular style="width: 100%; height: 260px;" class="ag-theme-balham" (gridReady)="onGridReady($event)" [localeText]="localeText"
+                        [rowData]="rowData" [columnDefs]="columnDefs" [enableColResize]="true" [enableSorting]="true" [enableFilter]="true"
+                        [pagination]="true" [paginationAutoPageSize]="true"></ag-grid-angular>
                 </div>
             </div>
         </div>

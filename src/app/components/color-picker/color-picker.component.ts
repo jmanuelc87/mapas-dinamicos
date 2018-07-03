@@ -28,7 +28,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.listener = this.renderer.listen(document, 'click', (ev) => {
-            if (!(ev.target.classList.contains('button') || ev.target.classList.contains('color-picker'))) {
+            if (!(ev.target.classList.contains('btn') || ev.target.classList.contains('color-picker'))) {
                 ev.stopPropagation();
                 this.hide();
                 this.showed = false;

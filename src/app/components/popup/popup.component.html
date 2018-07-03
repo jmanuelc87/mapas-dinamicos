@@ -4,15 +4,15 @@
             Cultivo:
             <b>{{value.cultivo}}</b>
         </div>
-        <div class="popup-item">
+        <div *ngIf="hasEstado()" class="popup-item">
             Estado:
             <b>{{value.estado}}</b>
         </div>
-        <div class="popup-item">
+        <div *ngIf="hasDistrito()" class="popup-item">
             Distrito:
             <b>{{value.distrito}}</b>
         </div>
-        <div class="popup-item">
+        <div *ngIf="hasMunicipio()" class="popup-item">
             Municipio:
             <b>{{value.municipio}}</b>
         </div>

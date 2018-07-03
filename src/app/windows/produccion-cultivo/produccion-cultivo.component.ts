@@ -131,7 +131,7 @@ export class ProduccionCultivoComponent implements OnInit {
             'modalidad': ['1', Validators.required],
             'catalogo': ['generico', Validators.required],
             'anio': ['2016', Validators.required],
-            'estado': [0, Validators.required],
+            'estado': ['', Validators.required],
             'distrito': [0, Validators.required],
             'municipio': [0, Validators.required],
         });
@@ -202,8 +202,6 @@ export class ProduccionCultivoComponent implements OnInit {
         let anuario = this.form.value;
         anuario['cultivo'] = parseInt(selectedRow[selectedRow.length - 1].id);
         anuario['variedad'] = selectedRow[selectedRow.length - 1].idvariedad != undefined ? parseInt(selectedRow[selectedRow.length - 1].idvariedad) : 0;
-
-        console.log(selectedRow);
 
         this.consulta.getEstados(anuario).subscribe((response: any) => {
 

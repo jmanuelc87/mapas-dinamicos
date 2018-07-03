@@ -3,7 +3,7 @@
         <legend>Cultivo</legend>
         <ng-select (change)="onChangeCultivo($event)" [items]="cultivos" bindLabel="nombre" bindValue="id" formControlName="{{nameFormCultivo}}"></ng-select>
     </fieldset>
-    <fieldset>
+    <fieldset *ngIf="show">
         <legend>Variedad</legend>
         <ng-select #variedad (change)="onChangeVariedades($event)" [items]="variedades" bindLabel="variedad" bindValue="id" formControlName="{{nameFormVariedad}}"></ng-select>
     </fieldset>

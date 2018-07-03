@@ -38,6 +38,8 @@ export class ProduccionEstadoComponent implements OnInit {
 
     columnDefs = [];
 
+    gridApi;
+
     localeText = {
 
         // for filter panel
@@ -115,7 +117,7 @@ export class ProduccionEstadoComponent implements OnInit {
             'modalidad': ['1', Validators.required],
             'catalogo': ['generico', Validators.required],
             'anio': ['2016', Validators.required],
-            'estado': [0, Validators.required],
+            'estado': ['', Validators.required],
             'cultivo': [0, Validators.required],
             'variedad': [0, Validators.required],
             'filtro-estado': ['estado', Validators.required],
@@ -141,6 +143,7 @@ export class ProduccionEstadoComponent implements OnInit {
             .subscribe((response: any) => {
                 this.columnDefs = this.columns.parseConsultaForProduccionEstado(datosConsulta);
                 this.rowData = response
+                this.gridApi.sizeColumnsToFit();
             }, err => console.error(err), () => console.log('get consulta completed!'));
     }
 
@@ -163,6 +166,10 @@ export class ProduccionEstadoComponent implements OnInit {
                 this.extentService.fetchExtentEstado(item.id);
             }
         }
+    }
+
+    onGridReady($event) {
+        this.gridApi = $event.api;
     }
 
     onHandleCloseRangos() {

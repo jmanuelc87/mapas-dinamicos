@@ -5,7 +5,7 @@
     padding: 2px;
 }
 
-.button {
+.btn {
     margin-top: 15px;
     margin-bottom: 15px;
     margin-left: 7px;
@@ -17,6 +17,7 @@
 }
 
 ul.color-display {
+    -webkit-padding-start: 0;
     list-style: none;
     margin: 0px;
     width: 300px;
