@@ -41,6 +41,18 @@ export class LegendService {
         this.addProps(datosConsulta);
     }
 
+    addLegendConsultaEstado(datosConsulta, estado, distrito) {
+        this.legend = {
+            title: '',
+            query: '',
+            props: [],
+        };
+
+        this.addTitle('Consulta anuario agrícola por estado');
+        this.addQuery2(datosConsulta, estado, distrito, { municipio: 0, name: '' });
+        this.addProps(datosConsulta);
+    }
+
     addQuery2(datosConsulta, estado, distrito, municipio) {
         if (datosConsulta.estado == 0) {
             this.addQuery('Resumen Nacional');

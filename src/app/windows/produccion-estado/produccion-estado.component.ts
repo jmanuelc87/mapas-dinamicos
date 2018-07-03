@@ -4,10 +4,11 @@ import { ConsultaService } from '../../services/consulta.service';
 import { ServiceService } from '../../services/service.service';
 import { FactoryDirective } from '../../directives';
 import { RangosComponent } from '../rangos/rangos.component';
-import { WindowComponent, FiltroEstadoComponent, DistritoComponent } from '../../components';
+import { WindowComponent, FiltroEstadoComponent, DistritoComponent, EstadoComponent } from '../../components';
 import { ColumnsService } from '../../services/columns.service';
 import { PopupService } from '../../services/popup.service';
 import { EsriExtentService } from '../../services/esri-extent.service';
+import { LegendService } from '../../services/legend.service';
 
 @Component({
     selector: 'app-produccion-estado',
@@ -28,7 +29,10 @@ export class ProduccionEstadoComponent implements OnInit {
     appFiltroComponent: FiltroEstadoComponent;
 
     @ViewChild(DistritoComponent)
-    appDistritoComponent: DistritoComponent;
+    appDistrito: DistritoComponent;
+
+    @ViewChild(EstadoComponent)
+    appEstado: EstadoComponent;
 
     catalogo: string = 'generico';
 
@@ -109,6 +113,7 @@ export class ProduccionEstadoComponent implements OnInit {
         private constructor: ServiceService,
         private popupService: PopupService,
         private extentService: EsriExtentService,
+        private legendService: LegendService,
     ) { }
 
     ngOnInit() {
@@ -127,6 +132,7 @@ export class ProduccionEstadoComponent implements OnInit {
 
     onHandleClose() {
         // Eliminar leyenda del mapa
+        this.legendService.removeLegend();
     }
 
     onSelectedChanged(event) {
@@ -138,9 +144,14 @@ export class ProduccionEstadoComponent implements OnInit {
 
         let datosConsulta = this.form.value;
 
+        let estado = this.appEstado.getEstado();
+        let distrito = this.appDistrito.getDistrito();
+        this.legendService.addLegendConsultaEstado(datosConsulta, estado, distrito);
+
         this.consultaService
             .getAnuarioByEstado(datosConsulta)
             .subscribe((response: any) => {
+                this.legendService.addLegend();
                 this.columnDefs = this.columns.parseConsultaForProduccionEstado(datosConsulta);
                 this.rowData = response
                 this.gridApi.sizeColumnsToFit();
@@ -159,7 +170,7 @@ export class ProduccionEstadoComponent implements OnInit {
         let item = $event;
 
         if (item != undefined && item.id != undefined) {
-            this.appDistritoComponent.fetch(item.id);
+            this.appDistrito.fetch(item.id);
             if (item.id == 0) {
                 this.extentService.fetchExtentAll();
             } else {
