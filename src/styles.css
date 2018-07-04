@@ -9,6 +9,11 @@ body {
     font-size: initial;
     line-height: initial;
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.alert {
+    margin-top: 50px;
 }
 
 fieldset {
