@@ -1,88 +1,16 @@
-import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { AgGridModule } from "ag-grid-angular";
-import {
-    DraggableDirective,
-    FactoryDirective
-} from "./directives/index";
 
-import {
-    AnioComponent,
-    CatalogoComponent,
-    CicloComponent,
-    DashboardComponent,
-    DistritoComponent,
-    EsriMapComponent,
-    EstadoComponent,
-    FiltroEstadoComponent,
-    HeaderComponent,
-    ModalidadComponent,
-    MunicipioComponent,
-    WindowComponent
-} from './components/index';
-
-import { ProduccionCultivoComponent } from './windows/produccion-cultivo/produccion-cultivo.component';
-import { EsriExtentService } from './services/esri-extent.service';
-import { EsriWidgetDirective } from './directives/esri-widget.directive';
-import { EsriLayerToggleComponent } from './components/esri-layer-toggle/esri-layer-toggle.component';
-import { ColorPickerComponent } from './components/color-picker/color-picker.component';
-import { LegendComponent } from './components/legend/legend.component';
-import { InfoComponent } from './components/info/info.component';
-import { PopupComponent } from './components/popup/popup.component';
-import { ProduccionEstadoComponent } from './windows/produccion-estado/produccion-estado.component';
-import { CultivoComponent } from './components/form/cultivo/cultivo.component';
-import { RangosComponent } from './windows/rangos/rangos.component';
+import { AppComponent } from './app.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HeaderComponent,
-        EsriMapComponent,
-        DashboardComponent,
-        ModalidadComponent,
-        CicloComponent,
-        CatalogoComponent,
-        AnioComponent,
-        EstadoComponent,
-        DistritoComponent,
-        MunicipioComponent,
-        FiltroEstadoComponent,
-        WindowComponent,
-        DraggableDirective,
-        FactoryDirective,
-        ProduccionCultivoComponent,
-        EsriWidgetDirective,
-        EsriLayerToggleComponent,
-        ColorPickerComponent,
-        LegendComponent,
-        InfoComponent,
-        PopupComponent,
-        ProduccionEstadoComponent,
-        CultivoComponent,
-        RangosComponent,
-    ],
-    imports: [
-        BrowserModule,
-        NgbModule.forRoot(),
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        HttpClientModule,
-        AgGridModule.withComponents([]),
-    ],
-    providers: [
-        EsriExtentService
-    ],
-    bootstrap: [AppComponent],
-    entryComponents: [
-        ProduccionCultivoComponent,
-        ProduccionEstadoComponent,
-        RangosComponent,
-    ],
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
