@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { YearLoadAction } from "../../actions/year.action";
-import { selectAllYears, AppState } from "../../index";
+import { selectAllYears, AppState } from "../..";
 
 @Injectable()
 export class YearSandbox {
@@ -14,8 +14,8 @@ export class YearSandbox {
         return this.store.select(selectAllYears);
     }
 
-    public searchAllYears(search: string) {
-        return this.store.dispatch(new YearLoadAction(search));
+    public searchAllYears() {
+        this.store.dispatch(new YearLoadAction());
     }
 
 }

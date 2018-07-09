@@ -9,6 +9,7 @@ import { reducers } from './shared';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { YearEffects } from './shared/effects/year.effects';
+import { StateEffects } from './shared/effects/state.effect';
 
 
 
@@ -21,7 +22,7 @@ import { YearEffects } from './shared/effects/year.effects';
         ComponentsModule,
         HttpClientModule,
         StoreModule.forRoot(reducers),
-        EffectsModule.forRoot([YearEffects]),
+        EffectsModule.forRoot([YearEffects, StateEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 50,
             logOnly: environment.production,

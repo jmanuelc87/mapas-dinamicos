@@ -22,7 +22,7 @@ export class YearComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.sandbox.searchAllYears('hello');
+        this.sandbox.searchAllYears();
         this.loadYears();
     }
 
