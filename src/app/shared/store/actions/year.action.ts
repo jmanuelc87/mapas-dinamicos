@@ -7,12 +7,11 @@ export const ActionTypes = {
     LOAD_FAIL: '[Year] Load Fail',
 }
 
-
 export class YearLoadAction implements Action {
     type: string = ActionTypes.LOAD;
 
     constructor(
-        public payload: any
+        public payload?: any
     ) { }
 }
 
@@ -32,4 +31,4 @@ export class YearLoadFailAction implements Action {
     ) { }
 }
 
-export type Actions = YearLoadAction | YearLoadFailAction | YearLoadSuccessAction;
+export type YearActionsUnion = YearLoadAction | YearLoadFailAction | YearLoadSuccessAction;

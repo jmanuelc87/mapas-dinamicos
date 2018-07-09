@@ -15,11 +15,12 @@ const initial_state: State = {
     data: [],
 }
 
-export function reducer(state = initial_state, action: actions.Actions): State {
+export function reducer(state = initial_state, action: actions.YearActionsUnion): State {
     if (!action) return state;
 
     switch (action.type) {
         case actions.ActionTypes.LOAD: {
+            console.log('loading...');
             let prop = {
                 loading: true,
             };
@@ -27,6 +28,7 @@ export function reducer(state = initial_state, action: actions.Actions): State {
         }
 
         case actions.ActionTypes.LOAD_SUCCESS: {
+            console.log('load success!');
             let props = {
                 loaded: true,
                 loading: false,
@@ -34,10 +36,17 @@ export function reducer(state = initial_state, action: actions.Actions): State {
                 data: action.payload,
             };
 
-            return Object.assign({}, state, props);
+            console.log(props);
+
+            let toReturn = Object.assign({}, state, props);
+
+            console.log(toReturn);
+
+            return toReturn;
         }
 
         case actions.ActionTypes.LOAD_FAIL: {
+            console.log('load failed...');
             let props = {
                 loaded: false,
                 loading: false,
@@ -53,3 +62,6 @@ export function reducer(state = initial_state, action: actions.Actions): State {
         }
     }
 }
+
+
+export const getAllYears = (state: State) => state.data;

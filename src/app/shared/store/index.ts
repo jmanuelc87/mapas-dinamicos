@@ -1,11 +1,10 @@
 import * as fromYears from "./reducers/year.reducer";
-import { ActionReducer, compose, combineReducers } from "@ngrx/store";
-
+import { ActionReducerMap } from "@ngrx/store";
 
 export interface State {
     years: fromYears.State;
 }
 
-const reducers = {
+export const reducers: ActionReducerMap<State> = {
     years: fromYears.reducer,
 }
