@@ -10,6 +10,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { YearEffects } from './shared/effects/year.effects';
 import { StateEffects } from './shared/effects/state.effect';
+import { DDREffects } from './shared/effects/ddr.effect';
 
 
 
@@ -22,7 +23,7 @@ import { StateEffects } from './shared/effects/state.effect';
         ComponentsModule,
         HttpClientModule,
         StoreModule.forRoot(reducers),
-        EffectsModule.forRoot([YearEffects, StateEffects]),
+        EffectsModule.forRoot([YearEffects, StateEffects, DDREffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 50,
             logOnly: environment.production,

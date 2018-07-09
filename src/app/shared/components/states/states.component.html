@@ -1,4 +1,4 @@
 <fieldset>
     <legend>Estados</legend>
-    <ng-select [items]="data$ | async" bindLabel="name" bindValue="id"></ng-select>
+    <ng-select placeholder="Selecciona un Estado" (change)="handleChange($event)" [items]="data$ | async" bindLabel="name" bindValue="id"></ng-select>
 </fieldset>

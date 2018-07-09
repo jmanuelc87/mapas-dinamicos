@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { YearComponent } from "./year/year.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { StatesComponent } from './states/states.component';
+import { DdrComponent } from './ddr/ddr.component';
 
 let components = [
     YearComponent,
-    StatesComponent
+    StatesComponent,
+    DdrComponent,
 ];
 
 @NgModule({

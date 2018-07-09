@@ -1,0 +1,4 @@
+<fieldset>
+    <legend>Distrito</legend>
+    <ng-select placeholder="Selecciona un Distrito" (change)="handleChange($event)" [items]="data$ | async" bindLabel="name" bindValue="id"></ng-select>
+</fieldset>
