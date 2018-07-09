@@ -1,13 +1,10 @@
-/* Modules */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { YearComponent } from "./year/year.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 
-/* Components */
-import { YearComponent } from './year/year.component';
-
 let components = [
-    YearComponent
+    YearComponent,
 ];
 
 @NgModule({
@@ -15,7 +12,7 @@ let components = [
         CommonModule,
         NgSelectModule
     ],
-    exports: components,
     declarations: components,
+    exports: components,
 })
 export class ComponentsModule { }

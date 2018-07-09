@@ -1,5 +1,5 @@
-import { Year } from "../../models/year";
-import * as actions from "../actions/year.action";
+import * as actions from '../actions/year.action';
+import { Year } from '../models/year';
 
 export interface YearState {
     loading: boolean;
@@ -8,19 +8,18 @@ export interface YearState {
     data: Year[];
 }
 
-const initial_state: YearState = {
+const INITIAL_STATE: YearState = {
     loading: false,
     loaded: false,
     failed: false,
     data: [],
 }
 
-export function reducer(state = initial_state, action: actions.YearActionsUnion): YearState {
+export function yearReducer(state = INITIAL_STATE, action: actions.YearActionsUnion): YearState {
     if (!action) return state;
 
     switch (action.type) {
         case actions.ActionTypes.LOAD: {
-            console.log('loading...');
             let prop = {
                 loading: true,
             };
@@ -28,25 +27,16 @@ export function reducer(state = initial_state, action: actions.YearActionsUnion)
         }
 
         case actions.ActionTypes.LOAD_SUCCESS: {
-            console.log('load success!');
             let props = {
                 loaded: true,
                 loading: false,
                 failed: false,
                 data: action.payload,
             };
-
-            console.log(props);
-
-            let toReturn = Object.assign({}, state, props);
-
-            console.log(toReturn);
-
-            return toReturn;
+            return Object.assign({}, state, props);
         }
 
         case actions.ActionTypes.LOAD_FAIL: {
-            console.log('load failed...');
             let props = {
                 loaded: false,
                 loading: false,

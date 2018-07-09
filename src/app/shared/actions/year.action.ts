@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { Year } from "../../models/year";
+import { Year } from "../models/year";
 
 export const ActionTypes = {
     LOAD: '[Year] Load',

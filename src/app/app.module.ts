@@ -1,16 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-
-import { environment } from '../environments/environment';
-
 import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { ComponentsModule } from './shared/components/components.module';
-import { reducers } from './shared/store';
-import { YearEffects } from './shared/store/effects/year.effects';
-import { HttpClientModule } from "@angular/common/http";
+import { EffectsModule } from '@ngrx/effects';
+import { environment } from '../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { reducers } from './shared';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+import { YearEffects } from './shared/effects/year.effects';
+
 
 
 @NgModule({
