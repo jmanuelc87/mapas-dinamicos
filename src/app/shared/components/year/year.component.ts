@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { YearSandbox } from './year.sandbox';
 import { Year } from '../../models/year';
+import { Observable } from '../../../../../node_modules/rxjs';
 
 @Component({
     selector: 'app-select-years',
@@ -14,7 +15,7 @@ export class YearComponent implements OnInit {
     @ViewChild(NgSelectComponent)
     private ngSelectComponent: NgSelectComponent;
 
-    private years$: Year[];
+    private years$: Observable<Year[]>;
 
     constructor(
         private sandbox: YearSandbox,
@@ -22,13 +23,11 @@ export class YearComponent implements OnInit {
 
     ngOnInit() {
         this.sandbox.searchAllYears('hello');
-        setTimeout(() => {
-            this.sandbox.getAllYears().subscribe(response => {
-                console.log('loading years...');
-                console.log(response);
-                this.years$ = response
-            });
-        }, 1000);
+        this.loadYears();
+    }
+
+    loadYears() {
+        this.years$ = this.sandbox.getAllYears();
     }
 
 }

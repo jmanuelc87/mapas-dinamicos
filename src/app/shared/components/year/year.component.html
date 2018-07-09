@@ -1,4 +1,10 @@
 <fieldset>
     <legend>Año</legend>
-    <ng-select [items]="years$" bindLabel="name" bindValue="id"></ng-select>
+    <ng-select [items]="years$ | async" bindLabel="anio" bindValue="anio"></ng-select>
 </fieldset>
+
+<br />
+<br />
+<br />
+
+<button (click)="loadYears()">Load Years</button>

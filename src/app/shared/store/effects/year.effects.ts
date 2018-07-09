@@ -1,19 +1,20 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import {
     switchMap, map,
 } from 'rxjs/operators';
-import { Action } from "@ngrx/store";
 import * as YearActions from "../actions/year.action";
 import { Year } from "../../models/year";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()
 export class YearEffects {
 
     constructor(
-        private actions$: Actions
+        private actions$: Actions,
+        private http: HttpClient
     ) { }
 
     @Effect()
@@ -21,21 +22,10 @@ export class YearEffects {
         ofType<YearActions.YearLoadAction>(YearActions.ActionTypes.LOAD),
         map(action => action.payload),
         switchMap(query => {
-
-            console.log('switchMap init', query);
-
-            let years: Year[] = [
-                { year: 2016 },
-                { year: 2015 },
-                { year: 2014 },
-                { year: 2013 }
-            ];
-
-            let toReturn = of(new YearActions.YearLoadSuccessAction(years));
-
-            console.log('in effect(1)', toReturn);
-
-            return toReturn;
+            return this.http.get<Year[]>('http://cmgs.gob.mx:82/mapas/server.php/catalogo/years')
+                .pipe(
+                    map(response => new YearActions.YearLoadSuccessAction(response)),
+            );
         }),
     );
 

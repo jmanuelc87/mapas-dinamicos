@@ -1,10 +1,16 @@
 import * as fromYears from "./reducers/year.reducer";
-import { ActionReducerMap } from "@ngrx/store";
+import { ActionReducerMap, createSelector } from "@ngrx/store";
 
-export interface State {
-    years: fromYears.State;
+export interface AppState {
+    years: fromYears.YearState;
 }
 
-export const reducers: ActionReducerMap<State> = {
+export const reducers: ActionReducerMap<AppState> = {
     years: fromYears.reducer,
 }
+
+
+export const selectYears = (state: AppState) => state.years;
+export const selectAllYears = createSelector(
+    selectYears, fromYears.getAllYears
+)

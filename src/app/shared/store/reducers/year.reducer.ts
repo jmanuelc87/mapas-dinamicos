@@ -1,21 +1,21 @@
 import { Year } from "../../models/year";
 import * as actions from "../actions/year.action";
 
-export interface State {
+export interface YearState {
     loading: boolean;
     loaded: boolean;
     failed: boolean;
     data: Year[];
 }
 
-const initial_state: State = {
+const initial_state: YearState = {
     loading: false,
     loaded: false,
     failed: false,
     data: [],
 }
 
-export function reducer(state = initial_state, action: actions.YearActionsUnion): State {
+export function reducer(state = initial_state, action: actions.YearActionsUnion): YearState {
     if (!action) return state;
 
     switch (action.type) {
@@ -64,4 +64,4 @@ export function reducer(state = initial_state, action: actions.YearActionsUnion)
 }
 
 
-export const getAllYears = (state: State) => state.data;
+export const getAllYears = (state: YearState) => state.data;

@@ -1,6 +1,6 @@
 export class Year {
 
     constructor(
-        public year: number,
+        public anio: number,
     ) { }
 }
