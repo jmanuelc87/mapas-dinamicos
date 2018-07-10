@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { District } from '../../models/ddr';
 import { DistrictSandbox } from './ddr.sandbox';
-import { NgSelectComponent } from '../../../../../node_modules/@ng-select/ng-select';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-select-district',
