@@ -4,11 +4,13 @@ import { YearComponent } from "./year/year.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { StatesComponent } from './states/states.component';
 import { DdrComponent } from './ddr/ddr.component';
+import { MunicipioComponent } from './municipio/municipio.component';
 
 let components = [
     YearComponent,
     StatesComponent,
     DdrComponent,
+    MunicipioComponent,
 ];
 
 @NgModule({

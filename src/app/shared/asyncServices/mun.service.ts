@@ -18,11 +18,12 @@ export class MunicipioService {
         private http: HttpClient,
     ) { }
 
-    public getMunicipiosByIds(idestado: number, idmunicipio: number) {
+    public getMunicipiosByIds(estadoid: number, distritoid: number) {
 
         let params = new HttpParams({
             fromObject: {
-                // TODO: form parameters to make the request
+                estadoid: estadoid.toString(),
+                distritoid: distritoid.toString(),
             }
         });
 

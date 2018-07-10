@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { District } from '../../models/ddr';
 import { DistrictSandbox } from './ddr.sandbox';
@@ -17,6 +17,7 @@ export class DdrComponent implements OnInit {
 
     private data$: Observable<District[]>
 
+    @Output()
     public selected: EventEmitter<District[]> = new EventEmitter();
 
     constructor(
@@ -36,6 +37,15 @@ export class DdrComponent implements OnInit {
         if (item) {
             this.select.select(item);
         }
+    }
+
+    clear() {
+        this.ddrSandbox.cleanDistricts();
+        this.select.clearModel();
+    }
+
+    getSelectedItem() {
+        return this.select.selectedItemId;
     }
 
     handleChange($event) {

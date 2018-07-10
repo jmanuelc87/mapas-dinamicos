@@ -11,6 +11,7 @@ import { StoreModule } from '@ngrx/store';
 import { YearEffects } from './shared/effects/year.effects';
 import { StateEffects } from './shared/effects/state.effect';
 import { DDREffects } from './shared/effects/ddr.effect';
+import { MunEffects } from './shared/effects/mun.effect';
 
 
 
@@ -23,7 +24,7 @@ import { DDREffects } from './shared/effects/ddr.effect';
         ComponentsModule,
         HttpClientModule,
         StoreModule.forRoot(reducers),
-        EffectsModule.forRoot([YearEffects, StateEffects, DDREffects]),
+        EffectsModule.forRoot([YearEffects, StateEffects, DDREffects, MunEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 50,
             logOnly: environment.production,

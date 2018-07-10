@@ -5,6 +5,7 @@ export const ActionTypes = {
     LOAD: '[DDR] Load',
     LOAD_SUCCESS: '[DDR] Load Success',
     LOAD_FAIL: '[DDR] Load Fail',
+    CLEAN: '[DDR] Clean'
 }
 
 export class DDRLoadAction implements Action {
@@ -31,4 +32,12 @@ export class DDRLoadFailAction implements Action {
     ) { }
 }
 
-export type DDRActionsUnion = DDRLoadAction | DDRLoadFailAction | DDRLoadSuccessAction;
+export class DDRCleanAction implements Action {
+    type: string = ActionTypes.CLEAN;
+
+    constructor(
+        public payload?: any
+    ) { }
+}
+
+export type DDRActionsUnion = DDRLoadAction | DDRLoadFailAction | DDRLoadSuccessAction | DDRCleanAction;

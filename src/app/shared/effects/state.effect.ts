@@ -2,7 +2,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-    switchMap, map,
+    switchMap, map, mergeMap,
 } from 'rxjs/operators';
 import { StateService } from '../asyncServices/state.service';
 import { StateLoadSuccessAction, StateLoadAction, ActionTypes } from '../actions/state.action';
@@ -19,8 +19,7 @@ export class StateEffects {
     @Effect()
     getAllStates$: Observable<StateLoadSuccessAction> = this.actions$.pipe(
         ofType<StateLoadAction>(ActionTypes.LOAD),
-        map(action => action.payload),
-        switchMap(query => {
+        mergeMap(action => {
             return this.stateService.getAllStates();
         }),
     );

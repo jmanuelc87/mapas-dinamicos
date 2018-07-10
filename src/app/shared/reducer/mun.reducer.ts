@@ -54,6 +54,16 @@ export function municipioReducer(state = INITIAL_STATE, action: MUNActionsUnion)
             return Object.assign({}, state, props);
         }
 
+        case ActionTypes.CLEAN: {
+            let data = [...mun];
+
+            let props = {
+                data: data,
+            }
+
+            return Object.assign({}, state, props);
+        }
+
         default: {
             return state;
         }

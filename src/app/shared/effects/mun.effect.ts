@@ -2,7 +2,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-    switchMap, map,
+    mergeMap, filter,
 } from 'rxjs/operators';
 import { MunicipioService } from '../asyncServices/mun.service';
 import { MUNLoadSuccessAction, ActionTypes, MUNLoadAction } from '../actions/mun.action';
@@ -18,11 +18,11 @@ export class MunEffects {
     ) { }
 
     @Effect()
-    getAllDDR$: Observable<MUNLoadSuccessAction> = this.actions$.pipe(
+    getAllMUN$: Observable<MUNLoadSuccessAction> = this.actions$.pipe(
         ofType<MUNLoadAction>(ActionTypes.LOAD),
-        map(action => action.payload),
-        switchMap(query => {
-            return this.service.getMunicipiosByIds(query.cve_est, query.id);
+        mergeMap(action => {
+            let query = action.payload;
+            return this.service.getMunicipiosByIds(query.estadoid, query.distritoid);
         }),
     );
 }

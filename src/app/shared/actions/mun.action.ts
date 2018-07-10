@@ -5,6 +5,7 @@ export const ActionTypes = {
     LOAD: '[MUN] Load',
     LOAD_SUCCESS: '[MUN] Load Success',
     LOAD_FAIL: '[MUN] Load Fail',
+    CLEAN: '[MUN] Clean',
 }
 
 export class MUNLoadAction implements Action {
@@ -31,4 +32,12 @@ export class MUNLoadFailAction implements Action {
     ) { }
 }
 
-export type MUNActionsUnion = MUNLoadAction | MUNLoadFailAction | MUNLoadSuccessAction;
+export class MUNClean implements Action {
+    type: string = ActionTypes.CLEAN;
+
+    constructor(
+        public payload?: any
+    ) { }
+}
+
+export type MUNActionsUnion = MUNLoadAction | MUNLoadFailAction | MUNLoadSuccessAction | MUNClean;

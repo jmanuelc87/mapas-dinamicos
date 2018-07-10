@@ -2,7 +2,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-    switchMap, map,
+    switchMap, map, mergeMap,
 } from 'rxjs/operators';
 import { DistrictService } from '../asyncServices/ddr.service';
 import { DDRLoadSuccessAction, DDRLoadAction, ActionTypes } from '../actions/ddr.action';
@@ -19,8 +19,8 @@ export class DDREffects {
     @Effect()
     getAllDDR$: Observable<DDRLoadSuccessAction> = this.actions$.pipe(
         ofType<DDRLoadAction>(ActionTypes.LOAD),
-        map(action => action.payload),
-        switchMap(query => {
+        mergeMap(action => {
+            let query = action.payload;
             return this.ddrService.getDistrictsByState(query);
         }),
     );

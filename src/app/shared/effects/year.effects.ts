@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { YearService } from '../asyncServices/year.service';
 import {
-    switchMap, map,
+    switchMap, map, mergeMap,
 } from 'rxjs/operators';
 
 
@@ -20,8 +20,7 @@ export class YearEffects {
     @Effect()
     getAllYears$: Observable<YearLoadSuccessAction> = this.actions$.pipe(
         ofType<YearLoadAction>(ActionTypes.LOAD),
-        map(action => action.payload),
-        switchMap(query => {
+        mergeMap(action => {
             return this.yearService.getAllYears();
         }),
     );

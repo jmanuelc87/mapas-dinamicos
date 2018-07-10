@@ -54,6 +54,16 @@ export function districtReducer(state = INITIAL_STATE, action: DDRActionsUnion):
             return Object.assign({}, state, props);
         }
 
+        case ActionTypes.CLEAN: {
+            let data = [...ddr];
+
+            let props = {
+                data: data
+            }
+
+            return Object.assign({}, state, props);
+        }
+
         default: {
             return state;
         }

@@ -3,7 +3,7 @@ import { Store } from "@ngrx/store";
 import { AppState, selectAllDistricts } from "../..";
 import { Observable } from "rxjs";
 import { District } from "../../models/ddr";
-import { DDRLoadAction } from "../../actions/ddr.action";
+import { DDRLoadAction, DDRCleanAction } from "../../actions/ddr.action";
 
 @Injectable()
 export class DistrictSandbox {
@@ -18,5 +18,9 @@ export class DistrictSandbox {
 
     public searchDistrictsByState(id: number) {
         this.store.dispatch(new DDRLoadAction(id));
+    }
+
+    public cleanDistricts() {
+        this.store.dispatch(new DDRCleanAction());
     }
 }
