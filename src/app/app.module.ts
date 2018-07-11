@@ -12,12 +12,16 @@ import { YearEffects } from './shared/effects/year.effects';
 import { StateEffects } from './shared/effects/state.effect';
 import { DDREffects } from './shared/effects/ddr.effect';
 import { MunEffects } from './shared/effects/mun.effect';
+import { WindowComponent } from './window/window.component';
+import { DraggableDirective } from './directives/draggable.directive';
 
 
 
 @NgModule({
     declarations: [
         AppComponent,
+        WindowComponent,
+        DraggableDirective,
     ],
     imports: [
         BrowserModule,

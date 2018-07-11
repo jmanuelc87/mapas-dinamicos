@@ -1,0 +1,15 @@
+<div setDraggable class="window modal">
+    <div class="window-caption">
+        <span class="title">
+            <ng-content select="[title]"></ng-content>
+        </span>
+        <div class="buttons">
+            <span class="btn-min" (click)="handleClickMinimize()"></span>
+            <span class="btn-max" (click)="handleClickMaximize()"></span>
+            <span class="btn-close" (click)="handleClickClose()"></span>
+        </div>
+    </div>
+    <div class="window-content p-2">
+        <ng-content select="[content]"></ng-content>
+    </div>
+</div>
