@@ -14,6 +14,9 @@ import { DDREffects } from './shared/effects/ddr.effect';
 import { MunEffects } from './shared/effects/mun.effect';
 import { WindowComponent } from './window/window.component';
 import { DraggableDirective } from './directives/draggable.directive';
+import { ProductionByCropComponent } from './production-by-crop/production-by-crop.component';
+import { ProductionFactory } from './util/production-factory';
+import { ViewDirective } from './util/view.directive';
 
 
 
@@ -22,6 +25,8 @@ import { DraggableDirective } from './directives/draggable.directive';
         AppComponent,
         WindowComponent,
         DraggableDirective,
+        ViewDirective,
+        ProductionByCropComponent,
     ],
     imports: [
         BrowserModule,
@@ -34,7 +39,8 @@ import { DraggableDirective } from './directives/draggable.directive';
             logOnly: environment.production,
         }),
     ],
-    providers: [],
+    providers: [ProductionFactory],
+    entryComponents: [ProductionByCropComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

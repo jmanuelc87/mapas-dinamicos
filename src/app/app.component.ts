@@ -1,9 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { DdrComponent } from './shared/components/ddr/ddr.component';
 import { StatesComponent } from './shared/components/states/states.component';
 import { MunicipioComponent } from './shared/components/municipio/municipio.component';
 import { State } from './shared/models/states';
 import { DistrictSandbox } from './shared/components/ddr/ddr.sandbox';
+import { ProductionFactory } from './util/production-factory';
+import { ProductionByCropComponent } from './production-by-crop/production-by-crop.component';
+import { ViewDirective } from './util/view.directive';
 
 @Component({
     selector: 'body',
@@ -21,7 +24,12 @@ export class AppComponent {
     @ViewChild(MunicipioComponent)
     selectMunicipio: MunicipioComponent;
 
-    constructor() { }
+    @ViewChild('container', { read: ViewContainerRef })
+    container: ViewContainerRef;
+
+    constructor(
+        private factory: ProductionFactory,
+    ) { }
 
     handleSelect($event) {
         if ($event) {
@@ -43,6 +51,10 @@ export class AppComponent {
         } else {
             this.selectMunicipio.clear();
         }
+    }
+
+    handleClick() {
+        let component = this.factory.addComponent(this.container, ProductionByCropComponent);
     }
 
 }

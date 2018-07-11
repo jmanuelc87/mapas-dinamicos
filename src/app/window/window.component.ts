@@ -1,4 +1,5 @@
 import { Component, OnInit, Renderer2, EventEmitter, Output } from '@angular/core';
+import { v4 as uuid } from "uuid";
 
 @Component({
     selector: 'app-window',
@@ -16,12 +17,14 @@ export class WindowComponent implements OnInit {
     @Output()
     public maximized: EventEmitter<any> = new EventEmitter();
 
+    private id: any;
+
     constructor(
         private renderer: Renderer2,
     ) { }
 
     ngOnInit() {
-
+        this.id = uuid();
     }
 
     handleClickMinimize() {
@@ -36,4 +39,7 @@ export class WindowComponent implements OnInit {
         this.closed.emit();
     }
 
+    getId() {
+        return this.id;
+    }
 }
