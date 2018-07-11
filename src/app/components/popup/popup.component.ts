@@ -55,7 +55,7 @@ export class PopupComponent implements OnInit {
             let diffy = this.el.nativeElement.offsetTop - point.y;
             let diffx = this.el.nativeElement.offsetLeft - point.x;
 
-            this.renderer.setStyle(this.el.nativeElement, 'top', `${top - diffy - 200}px`);
+            this.renderer.setStyle(this.el.nativeElement, 'top', `${top - diffy - 100}px`);
             this.renderer.setStyle(this.el.nativeElement, 'left', `${left - diffx}px`);
         });
 
