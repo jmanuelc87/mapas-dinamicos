@@ -1,0 +1,18 @@
+.table {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.table td,
+.table th {
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.der {
+    text-align: right;
+}
+
+.izq {
+    text-align: left;
+}

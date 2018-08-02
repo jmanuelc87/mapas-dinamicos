@@ -3,6 +3,7 @@ import { FactoryDirective } from './directives/factory.directive';
 import { ProduccionCultivoComponent } from './windows/produccion-cultivo/produccion-cultivo.component';
 import { ServiceService } from './services/service.service';
 import { ProduccionEstadoComponent } from './windows/produccion-estado/produccion-estado.component';
+import { Columna } from './components/form/grid/columna';
 
 @Component({
     selector: 'app-root',
@@ -10,6 +11,58 @@ import { ProduccionEstadoComponent } from './windows/produccion-estado/produccio
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+    private cols: Columna[] = [
+        { cabecera: "uno", campo: "", index: 1, align: 'der' },
+        { cabecera: "dos", campo: "", index: 2, align: 'der' },
+        { cabecera: "tres", campo: "", index: 3, align: 'der' },
+    ]
+
+    private data: any[][] = [
+        ["1", "15", "17"],
+        ["2", "14", "16"],
+        ["3", "13", "15"],
+        ["6", "12", "14"],
+        ["7", "11", "13"],
+        ["8", "10", "12"],
+        ["9", "9", "11"],
+        ["1", "15", "17"],
+        ["2", "14", "16"],
+        ["3", "13", "15"],
+        ["6", "12", "14"],
+        ["7", "11", "13"],
+        ["8", "10", "12"],
+        ["9", "9", "11"],
+        ["1", "15", "17"],
+        ["2", "14", "16"],
+        ["3", "13", "15"],
+        ["6", "12", "14"],
+        ["7", "11", "13"],
+        ["8", "10", "12"],
+        ["9", "9", "11"],
+        ["1", "15", "17"],
+        ["2", "14", "16"],
+        ["3", "13", "15"],
+        ["6", "12", "14"],
+        ["7", "11", "13"],
+        ["8", "10", "12"],
+        ["9", "9", "11"],
+        ["1", "15", "17"],
+        ["2", "14", "16"],
+        ["3", "13", "15"],
+        ["6", "12", "14"],
+        ["7", "11", "13"],
+        ["8", "10", "12"],
+        ["9", "9", "11"],
+        ["1", "15", "17"],
+        ["2", "14", "16"],
+        ["3", "13", "15"],
+        ["6", "12", "14"],
+        ["7", "11", "13"],
+        ["8", "10", "12"],
+        ["9", "9", "11"],
+    ]
+
 
     @ViewChild(FactoryDirective)
     appFactory: FactoryDirective;

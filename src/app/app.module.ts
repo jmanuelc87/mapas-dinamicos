@@ -9,7 +9,7 @@ import { AgGridModule } from "ag-grid-angular";
 import {
     DraggableDirective,
     FactoryDirective
-} from "./directives/index";
+} from "./directives";
 
 import {
     AnioComponent,
@@ -24,7 +24,7 @@ import {
     ModalidadComponent,
     MunicipioComponent,
     WindowComponent
-} from './components/index';
+} from './components';
 
 import { ProduccionCultivoComponent } from './windows/produccion-cultivo/produccion-cultivo.component';
 import { EsriExtentService } from './services/esri-extent.service';
@@ -37,6 +37,7 @@ import { PopupComponent } from './components/popup/popup.component';
 import { ProduccionEstadoComponent } from './windows/produccion-estado/produccion-estado.component';
 import { CultivoComponent } from './components/form/cultivo/cultivo.component';
 import { RangosComponent } from './windows/rangos/rangos.component';
+import { GridComponent } from './components/form/grid/grid.component';
 
 @NgModule({
     declarations: [
@@ -65,6 +66,7 @@ import { RangosComponent } from './windows/rangos/rangos.component';
         ProduccionEstadoComponent,
         CultivoComponent,
         RangosComponent,
+        GridComponent,
     ],
     imports: [
         BrowserModule,
