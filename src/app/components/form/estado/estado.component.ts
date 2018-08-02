@@ -12,7 +12,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 export class EstadoComponent implements OnInit {
 
     estados: Estado[] = [
-        { id: 0, name: "Resumen Nacional" }
+        { cve_ent: 0, nombre: "Resumen nacional" }
     ];
 
     @Input()
@@ -47,7 +47,7 @@ export class EstadoComponent implements OnInit {
             this.selected.emit(this.default);
         } else {
             // set placeholder
-            this.ngSelect.placeholder = 'Seleccione un Estado';
+            this.ngSelect.placeholder = 'Seleccione un estado';
         }
     }
 

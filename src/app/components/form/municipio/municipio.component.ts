@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Estado } from '../../../models/Estado';
 import { MunicipioService } from '../../../services/municipio.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { Municipio } from '../../../models/municipio';
 
 @Component({
     selector: 'app-municipio',
@@ -11,8 +12,8 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 })
 export class MunicipioComponent implements OnInit {
 
-    municipios: Estado[] = [
-        { id: 0, name: "Todos" }
+    municipios: Municipio[] = [
+        { cve_mun: 0, cve_ent: 0, nombre: "Todos" }
     ];
 
     @Input()
@@ -57,8 +58,8 @@ export class MunicipioComponent implements OnInit {
     public fetch(estadoid: number, distritoid: number) {
         this.municipioService
             .getMunicipioByEstadoAndDistrito(estadoid, distritoid)
-            .subscribe((municipios: Estado[]) => {
-                municipios.unshift({ id: 0, name: "Todos" });
+            .subscribe((municipios: Municipio[]) => {
+                municipios.unshift({ cve_mun: 0, cve_ent: 0, nombre: "Todos" });
                 this.municipios = municipios;
             }, err => console.error(err), () => console.log('get municipios completed.'));
     }

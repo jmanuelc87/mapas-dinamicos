@@ -29,6 +29,8 @@ export class EsriMapComponent implements OnInit {
 
     private cleanRequestSubscription: any;
 
+    private drawLimitsSubscription: any;
+
     @ViewChild('mapViewNode')
     private mapViewEl: ElementRef;
 
@@ -54,6 +56,11 @@ export class EsriMapComponent implements OnInit {
 
         this.cleanRequestSubscription = this.geometryService.clean.subscribe(value => {
             this.mapService.cleanMap();
+        });
+
+        this.drawLimitsSubscription = this.geometryService.drawLimitsOn.subscribe(value => {
+            console.log(value.features);
+            this.mapService.showLimitsMap(value.features);
         });
 
         this.loadMap();

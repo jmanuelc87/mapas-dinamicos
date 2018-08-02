@@ -11,8 +11,6 @@ export class EsriMapService {
 
     private mapview: __esri.MapView;
 
-    private popup: __esri.Popup;
-
     public query;
 
     public mapLoaded: EventEmitter<void> = new EventEmitter()
@@ -24,6 +22,8 @@ export class EsriMapService {
     private changeBasemap: (basemap) => void;
 
     private showRegionsMap: (regions, color) => void;
+
+    public showLimitsMap: (regions) => void;
 
     private showPopup: (container) => void;
 
@@ -104,6 +104,29 @@ export class EsriMapService {
                     }
 
                     this.mapview.graphics.addMany(regions);
+                }
+
+                this.showLimitsMap = (region) => {
+                    let item = region[0];
+
+                    //let item = Object.assign({}, region[0]);
+
+                    console.log(region);
+
+                    let symbol = {
+                        type: 'simple-line',
+                        color: 'red',
+                        style: 'solid',
+                        outline: {
+                            color: 'black',
+                            width: '1px',
+                            style: 'solid'
+                        }
+                    };
+
+                    item.symbol = symbol;
+
+                    this.mapview.graphics.add(item);
                 }
 
                 this.mapview.when(() => {

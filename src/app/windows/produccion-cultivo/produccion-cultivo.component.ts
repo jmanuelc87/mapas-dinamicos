@@ -158,6 +158,12 @@ export class ProduccionCultivoComponent implements OnInit {
                 this.extentService.fetchExtentAll();
             } else {
                 this.extentService.fetchExtentEstado(item.id);
+                // dibujar las líneas límites del estado seleccionado
+                this.geometryService.getGeometryForState(item.id)
+                    .then(response => {
+                        this.geometryService.drawLimitsOn.next(response);
+                    })
+                    .catch(err => console.log(err));
             }
             this.appWindow.handleClickMinimize(null);
         }

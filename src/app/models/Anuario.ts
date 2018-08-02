@@ -1,13 +1,15 @@
+import { Anio } from "./Anio";
+import { Estado } from "./Estado";
+import { Distrito } from "./distrito";
+import { Municipio } from "./municipio";
 
 export class Anuario {
 
-    constructor(
-        anio?: number,
-        catalogo?: number,
-        ciclo?: number,
-        distrito?: number,
-        estado?: number,
-        modalidad?: number,
-        municipio?: number
-    ) { }
+    private anio: Anio;
+
+    private estado: Estado;
+
+    private distrito: Distrito;
+
+    private municipio: Municipio;
 }

@@ -10,6 +10,8 @@ import { Subject } from 'rxjs';
 })
 export class GeometryService {
 
+    public drawLimitsOn = new Subject<any>();
+
     public drawOn = new Subject<any>();
 
     public clean = new Subject<any>();
@@ -220,6 +222,33 @@ export class GeometryService {
         }
 
         return data;
+    }
+
+    public getGeometryForState(cve) {
+        return new Promise((resolve, reject) => {
+            this.esriProvider
+                .require(['esri/tasks/QueryTask', 'esri/tasks/support/Query'])
+                .then(([QueryTask, Query]: [__esri.QueryTaskConstructor, __esri.QueryConstructor]) => {
+                    let queryTask = new QueryTask({
+                        url: this.url + '/6',
+                    });
+
+                    let where = `CVE_ENT =  + '${this.utilService.getCVEString(cve, 2)}'`;
+
+                    let params = new Query({
+                        returnGeometry: true,
+                        outFields: ['*'],
+                        where: where,
+                    });
+
+                    queryTask.execute(params).then((response) => {
+                        console.log(response);
+                        resolve(response);
+                    }, (reason) => {
+                        reject(reason);
+                    });
+                });
+        });
     }
 
     private isEmpty(columns, key) {

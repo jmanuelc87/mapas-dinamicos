@@ -4,6 +4,7 @@ import { Estado } from '../models/Estado';
 import * as basepath from "./url";
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Municipio } from '../models/municipio';
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +26,6 @@ export class MunicipioService {
             }
         });
 
-        return this.http.get<Estado[]>(this.url, { params: params });
+        return this.http.get<Municipio[]>(this.url, { params: params });
     }
 }

@@ -1,8 +1,7 @@
+import { RegionGeografica } from "./region-geografica";
 
 
-export class Estado {
-    constructor(
-        public id: number,
-        public name: string,
-    ) { }
+export class Estado extends RegionGeografica {
+
+    public cve_ent: number;
 }

@@ -3,6 +3,7 @@ import { Estado } from '../../../models/Estado';
 import { FormGroup } from '@angular/forms';
 import { DistritoService } from '../../../services/distrito.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { Distrito } from '../../../models/distrito';
 
 @Component({
     selector: 'app-distrito',
@@ -11,8 +12,8 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 })
 export class DistritoComponent implements OnInit {
 
-    distritos: Estado[] = [
-        { id: 0, name: 'Todos' }
+    distritos: Distrito[] = [
+        { cve_ddr: 0, nombre: 'Todos' }
     ];
 
     @Input()
@@ -56,8 +57,8 @@ export class DistritoComponent implements OnInit {
 
     public fetch(estadoid) {
         this.distritoService.getDistritoByEstado(estadoid)
-            .subscribe((distritos: Estado[]) => {
-                distritos.unshift({ id: 0, name: 'Todos' });
+            .subscribe((distritos: Distrito[]) => {
+                distritos.unshift({ cve_ddr: 0, nombre: 'Todos' });
                 this.distritos = distritos;
             }, err => console.error(err), () => console.log('get all ddr completed.'));
     }

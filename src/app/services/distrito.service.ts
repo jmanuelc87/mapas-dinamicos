@@ -3,6 +3,7 @@ import { Estado } from '../models/Estado';
 
 import * as basepath from "./url";
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Distrito } from '../models/distrito';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +24,7 @@ export class DistritoService {
             }
         });
 
-        return this.http.get<Estado[]>(this.url, { params: params });
+        return this.http.get<Distrito[]>(this.url, { params: params });
     }
 
 }
