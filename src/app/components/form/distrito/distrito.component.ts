@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
-import { Estado } from '../../../models/Estado';
 import { FormGroup } from '@angular/forms';
 import { DistritoService } from '../../../services/distrito.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
@@ -64,7 +63,10 @@ export class DistritoComponent implements OnInit {
     }
 
     public reset() {
-        let item = this.ngSelect.itemsList.findByLabel('Todos');
+        this.distritos = [
+            { cve_ddr: 0, nombre: 'Todos' }
+        ];
+        let item = this.ngSelect.itemsList.findByLabel("Todos");
         this.ngSelect.select(item);
     }
 

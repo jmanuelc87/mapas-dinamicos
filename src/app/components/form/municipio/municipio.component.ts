@@ -65,7 +65,10 @@ export class MunicipioComponent implements OnInit {
     }
 
     public reset() {
-        let item = this.ngSelect.itemsList.findByLabel('Todos');
+        this.municipios = [
+            { cve_mun: 0, cve_ent: 0, nombre: "Todos" }
+        ];
+        let item = this.ngSelect.itemsList.findItem({ cve_mun: 0, cve_ent: 0, nombre: "Todos" });
         this.ngSelect.select(item);
     }
 

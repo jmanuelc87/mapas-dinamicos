@@ -2,4 +2,11 @@
 <ng-template appFactory></ng-template>
 <app-dashboard></app-dashboard>-->
 
-<app-grid [columnas]="cols" [filas]="data"></app-grid>
+<!--<app-grid [columnas]="cols" [filas]="data"></app-grid>-->
+
+
+<app-distrito [group]="formGroup" name="distrito"></app-distrito>
+
+
+<button (click)="onClick2($event)">Fetch</button>
+<button (click)="reset($event)">Clean</button>
