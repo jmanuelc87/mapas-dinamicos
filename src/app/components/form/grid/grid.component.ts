@@ -48,15 +48,7 @@ export class GridComponent implements OnInit {
             this.pages.push(i + 1);
         }
 
-        for (let i = 0; i < v[0].length; i++) {
-            this.totals[i] = 0;
-        }
-
-        for (let i = 0; i < v.length; i++) {
-            for (let j = 0; j < v[i].length; j++) {
-                this.totals[j] += +v[i][j];
-            }
-        }
+        this.setTotals(this._filas);
     }
 
     public next($event) {
@@ -70,6 +62,27 @@ export class GridComponent implements OnInit {
         if (this.start > 0) {
             this.start = this.start - this.step;
             this.rendererData(this.start, this.start + this.step);
+        }
+    }
+
+
+    private setTotals(v: any[][]) {
+        for (let i = 0; i < v[0].length; i++) {
+            this.totals[i] = 0;
+        }
+
+        for (let i = 0; i < v.length; i++) {
+            for (let j = 0; j < v[i].length; j++) {
+                this.totals[j] += +v[i][j];
+            }
+        }
+
+        this.totals[0] = "Total";
+
+        for (let i = 0; i < v.length; i++) {
+            if (this.totals[i] == NaN) {
+                this.totals[i] = "";
+            }
         }
     }
 
@@ -87,9 +100,9 @@ export class GridComponent implements OnInit {
     }
 
     public showPage(page: number) {
-        let start = (page - 1) * this.step;
-        let end = start + this.step;
-        this.rendererData(start, end);
+        this.start = (page - 1) * this.step;
+        let end = this.start + this.step;
+        this.rendererData(this.start, end);
     }
 
     public filterData(columna: Columna) {

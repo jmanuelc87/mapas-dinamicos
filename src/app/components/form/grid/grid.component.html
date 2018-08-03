@@ -12,19 +12,18 @@
                 {{row[col.index - 1]}}
             </td>
         </tr>
-
         <tr>
             <td *ngFor="let item of totals" class="der">
                 {{item}}
             </td>
         </tr>
-
     </tbody>
 </table>
+
 <div class="counter">
-    <div (click)="previous($event)">previous</div>
-    <div *ngFor="let page of pages" (click)="showPage(page)">
+    <div (click)="previous($event)" class="previous">previous</div>
+    <div *ngFor="let page of pages" (click)="showPage(page)" class="numbers">
         {{page}}
     </div>
-    <div (click)="next($event)">next</div>
+    <div (click)="next($event)" class="next">next</div>
 </div>
