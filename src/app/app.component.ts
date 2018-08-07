@@ -15,12 +15,8 @@ import { DistritoComponent } from './components';
 export class AppComponent {
 
     formGroup = this.fb.group({
-        "distrito": [0, Validators.required]
+        "ciclo": [0, Validators.required]
     })
-
-
-    @ViewChild(DistritoComponent)
-    distritosCombo: DistritoComponent;
 
     /*
     private cols: Columna[] = [
@@ -55,14 +51,6 @@ export class AppComponent {
         private constructor: ServiceService,
         private fb: FormBuilder,
     ) { }
-
-    onClick2($event) {
-        this.distritosCombo.fetch(20);
-    }
-
-    reset($event) {
-        this.distritosCombo.reset();
-    }
 
     onClick(selected: string) {
         let option = selected.trim();

@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Renderer2, OnDestroy } from '@angular/core';
-import { ScannerService } from '../../services/scanner.service';
+import { Color } from '../../models/color';
 
 @Component({
     selector: 'app-color-picker',
@@ -8,7 +8,7 @@ import { ScannerService } from '../../services/scanner.service';
 })
 export class ColorPickerComponent implements OnInit, OnDestroy {
 
-    defaultColor = [0, 176, 80];
+    defaultColor: Color = new Color([0, 176, 80]);
 
     background_color = '#00B050';
 
@@ -19,11 +19,10 @@ export class ColorPickerComponent implements OnInit, OnDestroy {
     listener;
 
     @Output()
-    colorSelect: EventEmitter<any> = new EventEmitter();
+    colorSelect: EventEmitter<Color> = new EventEmitter();
 
     constructor(
         private renderer: Renderer2,
-        private scanner: ScannerService,
     ) { }
 
     ngOnInit() {
@@ -43,15 +42,15 @@ export class ColorPickerComponent implements OnInit, OnDestroy {
     }
 
     onColorSelect(event) {
-        this.defaultColor = this.background_color = event.target.style.backgroundColor;
-        let RGBColor = this.convertColorStringToArray(this.defaultColor);
-        this.colorSelect.emit(RGBColor);
-        this.defaultColor = RGBColor;
+        this.background_color = event.target.style.backgroundColor;
+        let color = new Color(this.defaultColor);
+        this.colorSelect.emit(color);
+        this.defaultColor = color;
         this.showed = false;
         this.hide();
     }
 
-    getSelectedColor() {
+    getSelectedColor(): Color {
         return this.defaultColor;
     }
 
@@ -61,15 +60,6 @@ export class ColorPickerComponent implements OnInit, OnDestroy {
 
     hide() {
         return this.visibility = false;
-    }
-
-    convertColorStringToArray(color) {
-        this.scanner.addContent(color);
-        let r = this.scanner.parseNext();
-        let g = this.scanner.parseNext();
-        let b = this.scanner.parseNext();
-
-        return [r, g, b];
     }
 
     onHandleClick() {

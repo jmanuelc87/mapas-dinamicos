@@ -1,7 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    Renderer2,
+    ViewChild
+} from '@angular/core';
+import { Cultivo } from '../../../models/cultivo';
 import { CultivoService } from '../../../services/cultivo.service';
+import { FormGroup } from '@angular/forms';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { Variedad } from '../../../models/variedad';
 
 @Component({
     selector: 'app-cultivo',
@@ -10,12 +20,12 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 })
 export class CultivoComponent implements OnInit {
 
-    cultivos = [
+    cultivos: Cultivo[] = [
         { id: 0, nombre: "Resumen Cultivos" }
     ];
 
-    variedades = [
-        { id: 0, variedad: "Resumen Variedades" }
+    variedades: Variedad[] = [
+        { id: 0, nombre: "Resumen Variedades" }
     ];
 
     show = false;
@@ -99,4 +109,13 @@ export class CultivoComponent implements OnInit {
                 this.variedades = data;
             }, err => console.error(err), () => console.log('get all variedades completed'));
     }
+
+    public resetVariedades() {
+        this.variedades = [
+            { id: 0, nombre: "Resumen Variedades" }
+        ];
+        let item = this.ngSelect.itemsList.findByLabel("Resumen Variedades");
+        this.ngSelect.select(item);
+    }
+
 }

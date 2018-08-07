@@ -2,22 +2,24 @@
     <fieldset>
         <legend>Modalidad</legend>
         <div class="form-check">
-            <input formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="riego-{{id}}" value="1" checked/>
+            <input (click)="onChange($event)" formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="riego-{{id}}"
+                value="1*Riego" checked/>
             <label class="form-check-label" for="riego-{{id}}">
                 Riego
             </label>
         </div>
 
         <div class="form-check">
-            <input formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="temporal-{{id}}" value="2" />
+            <input (click)="onChange($event)" formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="temporal-{{id}}"
+                value="2*Temporal" />
             <label class="form-check-label" for="temporal-{{id}}">
                 Temporal
             </label>
         </div>
 
         <div class="form-check">
-            <input formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="riego-temporal-{{id}}" value="3"
-            />
+            <input (click)="onChange($event)" formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="riego-temporal-{{id}}"
+                value="3*Riego + Temporal" />
             <label class="form-check-label" for="riego-temporal-{{id}}">
                 Riego + Temporal
             </label>

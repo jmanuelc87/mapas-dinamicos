@@ -1,29 +1,45 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { v4 as uuid } from "uuid";
 import { FormGroup } from '@angular/forms';
+import { Ciclo } from '../../../models/ciclo';
 
 
 
 @Component({
-  selector: 'app-ciclo',
-  templateUrl: './ciclo.component.html',
-  styleUrls: ['./ciclo.component.css']
+    selector: 'app-ciclo',
+    templateUrl: './ciclo.component.html',
+    styleUrls: ['./ciclo.component.css']
 })
 export class CicloComponent implements OnInit {
 
-  @Input()
-  id;
+    @Input()
+    id;
 
-  @Input()
-  group: FormGroup;
+    @Input()
+    group: FormGroup;
 
-  @Input()
-  name: string;
+    @Input()
+    name: string;
 
-  constructor() { }
 
-  ngOnInit() {
-    this.id = uuid();
-  }
+    @Output()
+    change: EventEmitter<Ciclo> = new EventEmitter();
+
+    constructor() { }
+
+    ngOnInit() {
+        this.id = uuid();
+    }
+
+
+    onChange($event) {
+        let ciclo = new Ciclo();
+        let value: string[] = $event.target.value.split('*');
+
+        ciclo.Id = +value[0];
+        ciclo.Nombre = value[1];
+
+        this.change.emit(ciclo);
+    }
 
 }
