@@ -1,12 +1,30 @@
+.horizontal-scroller {
+    overflow-x: scroll;
+}
+
 .table {
     width: 100%;
+    min-height: 250px;
     border: 1px solid black;
+}
+
+.table {
+    font-size: 10px;
 }
 
 .table td,
 .table th {
     border-right: 1px solid black;
     border-bottom: 1px solid black;
+}
+
+.table td {
+    padding: 2px 2px 2px 2px;
+}
+
+.table th {
+    padding: 4px 4px 4px 4px;
+    cursor: pointer;
 }
 
 .der {
@@ -20,6 +38,7 @@
 .counter .numbers,
 .counter .previous,
 .counter .next {
+    font-size: 11px;
     display: inline-block;
     margin: 5px 5px 5px 0;
     padding: 5px;

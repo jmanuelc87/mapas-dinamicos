@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormatterService } from './formatter.service';
+import { Columna } from '../components/form/grid/columna';
 
 @Injectable({
     providedIn: 'root'
@@ -10,131 +11,89 @@ export class ColumnsService {
         private formatterService: FormatterService,
     ) { }
 
-    defaultColumns = [
+    defaultColumns: Columna[] = [
         {
-            headerName: "Cultivo",
-            field: "cultivo",
-            width: 150,
-            filter: 'agTextColumnFilter',
+            index: -1,
+            cabecera: "Cultivo",
+            campo: "cultivo",
+            align: "izq",
         },
         {
-            headerName: "Variedad",
-            field: "variedad",
-            width: 150,
-            filter: 'agTextColumnFilter',
+            index: -2,
+            cabecera: "Variedad",
+            campo: "variedad",
+            align: "izq",
         },
         {
-            headerName: "Estado",
-            field: "estado",
-            width: 150,
-            filter: 'agTextColumnFilter',
+            index: -3,
+            cabecera: "Estado",
+            campo: "estado",
+            align: "izq",
         },
         {
-            headerName: "Distrito",
-            field: "distrito",
-            width: 150,
-            filter: 'agTextColumnFilter',
+            index: -4,
+            cabecera: "Distrito",
+            campo: "distrito",
+            align: "izq"
         },
         {
-            headerName: "Municipio",
-            field: "municipio",
-            width: 150,
-            filter: 'agTextColumnFilter',
+            index: -5,
+            cabecera: "Municipio",
+            campo: "municipio",
+            align: "der"
         },
         {
-            headerName: "Sup. Sembrada(Ha)",
-            field: "sembrada",
-            width: 150,
-            filter: 'agNumberColumnFilter',
-            type: "numericColumn",
-            valueFormatter: (params) => {
-                let value = (params.value * 1);
-                return value
-                    .toFixed(2)
-                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-            },
+            index: -6,
+            cabecera: "Sup. Sembrada(Ha)",
+            campo: "sembrada",
+            align: "der"
         },
         {
-            headerName: "Sup. Cosechada(Ha)",
-            field: "cosechada",
-            width: 150,
-            filter: 'agNumberColumnFilter',
-            type: "numericColumn",
-            valueFormatter: (params) => {
-                let value = (params.value * 1);
-                return value
-                    .toFixed(2)
-                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-            },
+            index: -7,
+            cabecera: "Sup. Cosechada(Ha)",
+            campo: "cosechada",
+            align: "der",
         },
         {
-            headerName: "Produción(Ton)",
-            field: "produccion",
-            width: 150,
-            filter: 'agNumberColumnFilter',
-            type: "numericColumn",
-            valueFormatter: (params) => {
-                let value = (params.value * 1);
-                return value
-                    .toFixed(2)
-                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-            },
+            index: -8,
+            cabecera: "Produción(Ton)",
+            campo: "produccion",
+            align: "der",
         },
         {
-            headerName: "Rendimiento(Ton/Ha)",
-            field: "rendimiento",
-            width: 150,
-            filter: 'agNumberColumnFilter',
-            type: "numericColumn",
-            valueFormatter: (params) => {
-                let value = (params.value * 1);
-                return value
-                    .toFixed(2)
-                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-            },
+            index: -9,
+            cabecera: "Rendimiento(Ton/Ha)",
+            campo: "rendimiento",
+            align: "der",
         },
         {
-            headerName: "PMR($/Ton)",
-            field: "pmr",
-            width: 150,
-            filter: 'agNumberColumnFilter',
-            type: "numericColumn",
-            valueFormatter: (params) => {
-                let value = (params.value * 1);
-                return value
-                    .toFixed(2)
-                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-            },
+            index: -10,
+            cabecera: "PMR($/Ton)",
+            campo: "pmr",
+            align: "der",
         },
         {
-            headerName: "Valor(Miles de Pesos)",
-            field: "valor",
-            width: 150,
-            filter: 'agNumberColumnFilter',
-            type: "numericColumn",
-            valueFormatter: (params) => {
-                let value = (params.value / 1000);
-                return '$ ' + value
-                    .toFixed(2)
-                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-            }
+            index: -11,
+            cabecera: "Valor(Miles de Pesos)",
+            campo: "valor",
+            align: "der",
         }
     ];
 
     parseConsultaForProduccionCultivo(consulta) {
         let columns = [];
         for (let item of this.defaultColumns) {
-            if (consulta['catalogo'] == 'detalle' && item.field == 'variedad') {
+            if (consulta['catalogo'] == 'detalle' && item.campo == 'variedad') {
                 columns.push(item);
                 continue;
             }
 
-            if (consulta['catalogo'] == 'generico' && item.field == 'variedad') {
+            if (consulta['catalogo'] == 'generico' && item.campo == 'variedad') {
                 // do nothing
                 continue;
             }
 
-            if (item.field == 'estado' || item.field == 'distrito' || item.field == 'municipio') {
+            if (item.campo == 'estado' || item.campo == 'distrito' || item.campo == 'municipio') {
                 // do nothing
                 continue;
             }
@@ -150,23 +109,23 @@ export class ColumnsService {
 
         for (let item of this.defaultColumns) {
 
-            if (item.field == 'cultivo' || item.field == 'variedad') {
+            if (item.campo == 'cultivo' || item.campo == 'variedad') {
                 continue;
             }
 
-            if (consulta['filtro-estado'] == 'estado' && (item.field == 'distrito' || item.field == 'municipio')) {
+            if (consulta['filtro-estado'] == 'estado' && (item.campo == 'distrito' || item.campo == 'municipio')) {
                 continue;
             }
 
-            if (consulta['filtro-estado'] == 'distrito' && item.field == 'municipio') {
+            if (consulta['filtro-estado'] == 'distrito' && item.campo == 'municipio') {
                 continue;
             }
 
-            if (consulta['filtro-estado'] == 'municipio' && item.field == 'distrito') {
+            if (consulta['filtro-estado'] == 'municipio' && item.campo == 'distrito') {
                 continue;
             }
 
-            if (consulta['cultivo'] == 0 && (item.field == 'produccion' || item.field == 'rendimiento' || item.field == 'pmr')) {
+            if (consulta['cultivo'] == 0 && (item.campo == 'produccion' || item.campo == 'rendimiento' || item.campo == 'pmr')) {
                 continue;
             }
 

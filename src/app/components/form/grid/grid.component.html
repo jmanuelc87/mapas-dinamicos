@@ -1,24 +1,36 @@
-<table class="table" cellspacing="0">
-    <thead>
-        <tr>
-            <th *ngFor="let columna of columnas" (click)="filterData(columna)">
-                {{columna.cabecera}}
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let row of _renderer">
-            <td *ngFor="let col of columnas" [ngClass]="col.align">
-                {{row[col.index - 1]}}
-            </td>
-        </tr>
-        <tr>
-            <td *ngFor="let item of totals" class="der">
-                {{item}}
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="horizontal-scroller">
+    <table class="table" cellspacing="0">
+        <thead>
+            <tr>
+                <th *ngFor="let columna of columnas" (click)="filterData(columna)">
+                    {{columna.cabecera}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of _renderer">
+                <td *ngFor="let col of columnas" [ngClass]="col.align">
+                    <ng-container *ngIf="col.align == 'izq'">
+                        {{row[col.campo]}}
+                    </ng-container>
+                    <ng-container *ngIf="col.align == 'der'">
+                        {{row[col.campo] | number:'.2'}}
+                    </ng-container>
+                </td>
+            </tr>
+            <tr>
+                <td *ngFor="let item of totals" class="der">
+                    <b *ngIf="!item">
+                        Totales
+                    </b>
+                    <b *ngIf="item">
+                        {{item | number:'.2'}}
+                    </b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <div class="counter">
     <div (click)="previous($event)" class="previous">previous</div>

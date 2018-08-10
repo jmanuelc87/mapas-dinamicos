@@ -18,7 +18,8 @@ export class AppComponent {
         "ciclo": [0, Validators.required]
     })
 
-    /*
+
+
     private cols: Columna[] = [
         { cabecera: "uno", campo: "", index: 1, align: 'der' },
         { cabecera: "dos", campo: "", index: 2, align: 'der' },
@@ -41,7 +42,7 @@ export class AppComponent {
         ["tres", "13", "15"],
         ["seis", "12", "14"],
         ["siete", "11", "13"],
-    ]*/
+    ]
 
 
     @ViewChild(FactoryDirective)

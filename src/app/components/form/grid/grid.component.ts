@@ -35,74 +35,77 @@ export class GridComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        this.rendererData(this.start, this.start + this.step);
+        this._renderer = this.rendererData(this.start, this.start + this.step);
     }
 
     @Input()
     public set filas(v: any[][]) {
-        this._filas = v;
-        this.numrows = v.length;
+        if (!v || v.length == 0) {
+            this._filas = [];
+            this.numrows = 0;
+            this.pages = [];
+        } else {
+            this._filas = v;
+            this.numrows = v.length;
+            this.pages = [];
 
-        this.totalPages = Math.ceil(this.numrows / this.step);
-        for (let i = 0; i < this.totalPages; i++) {
-            this.pages.push(i + 1);
+            this.totalPages = Math.ceil(this.numrows / this.step);
+            for (let i = 0; i < this.totalPages; i++) {
+                this.pages.push(i + 1);
+            }
+
+            this.setTotals(this._filas);
+            this._renderer = this.rendererData(0, this.step);
         }
-
-        this.setTotals(this._filas);
     }
 
     public next($event) {
         if (this.start + this.step < this.numrows) {
             this.start = this.start + this.step;
-            this.rendererData(this.start, this.start + this.step);
+            this._renderer = this.rendererData(this.start, this.start + this.step);
         }
     }
 
     public previous($event) {
         if (this.start > 0) {
             this.start = this.start - this.step;
-            this.rendererData(this.start, this.start + this.step);
+            this._renderer = this.rendererData(this.start, this.start + this.step);
         }
     }
 
-
     private setTotals(v: any[][]) {
-        for (let i = 0; i < v[0].length; i++) {
+        for (let i = 0; i < Object.keys(this.columnas).length; i++) {
             this.totals[i] = 0;
         }
 
         for (let i = 0; i < v.length; i++) {
-            for (let j = 0; j < v[i].length; j++) {
-                this.totals[j] += +v[i][j];
-            }
-        }
 
-        this.totals[0] = "Total";
-
-        for (let i = 0; i < v.length; i++) {
-            if (this.totals[i] == NaN) {
-                this.totals[i] = "";
+            for (let j = 0; j < Object.keys(this.columnas).length; j++) {
+                let col = this.columnas[j];
+                this.totals[j] += (+v[i][col.campo]);
             }
         }
     }
 
     private rendererData(start, end) {
-        this._renderer = [];
+        let toRenderer = [];
         for (let i = start, m = 0; i < end; i++ , m++) {
             let row = this._filas[i];
             if (row != undefined) {
-                this._renderer[m] = [];
-                for (let j = 0; j < row.length; j++) {
-                    this._renderer[m].push(row[j])
+                toRenderer[m] = [];
+                for (let col of this.columnas) {
+                    toRenderer[m][col.campo] = row[col.campo];
                 }
             }
         }
+
+        return toRenderer;
     }
 
     public showPage(page: number) {
         this.start = (page - 1) * this.step;
         let end = this.start + this.step;
-        this.rendererData(this.start, end);
+        this._renderer = this.rendererData(this.start, end);
     }
 
     public filterData(columna: Columna) {
@@ -111,13 +114,13 @@ export class GridComponent implements OnInit {
             this._filas = this.orderDataByColumnAsc(this._filas, columna);
             let start = (this.actualpage - 1) * this.step;
             let end = start + this.step;
-            this.rendererData(start, end);
+            this._renderer = this.rendererData(start, end);
             this.filter = "DESC";
         } else { // order data desc
             this._filas = this.orderDataByColumnDesc(this._filas, columna);
             let start = (this.actualpage - 1) * this.step;
             let end = start + this.step;
-            this.rendererData(start, end);
+            this._renderer = this.rendererData(start, end);
             this.filter = "ASC";
         }
     }
@@ -136,7 +139,7 @@ export class GridComponent implements OnInit {
             for (let i = h; i < a.length; i++) {
                 var k = a[i];
                 let j;
-                for (j = i; j >= h && k[columna.index - 1] < a[j - h][columna.index - 1]; j -= h)
+                for (j = i; j >= h && k[columna.campo] < a[j - h][columna.campo]; j -= h)
                     a[j] = a[j - h];
                 a[j] = k;
             }
@@ -158,7 +161,7 @@ export class GridComponent implements OnInit {
             for (let i = h; i < a.length; i++) {
                 var k = a[i];
                 let j;
-                for (j = i; j >= h && k[columna.index - 1] > a[j - h][columna.index - 1]; j -= h)
+                for (j = i; j >= h && k[columna.campo] > a[j - h][columna.campo]; j -= h)
                     a[j] = a[j - h];
                 a[j] = k;
             }

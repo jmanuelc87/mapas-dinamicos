@@ -9,7 +9,7 @@ body {
     font-size: initial;
     line-height: initial;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .alert {
@@ -256,7 +256,7 @@ legend {
 .ng-select .ng-select-container {
     background-color: #fff;
     border: 1px solid #ccc;
-    min-height: 36px;
+    min-height: 26px;
     align-items: center
 }
 
@@ -274,7 +274,7 @@ legend {
 }
 
 .ng-select.ng-select-single .ng-select-container {
-    height: 36px
+    height: 26px
 }
 
 .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
