@@ -1,5 +1,6 @@
 @import 'https://js.arcgis.com/4.6/esri/css/main.css';
 
 .esri-view {
-    height: 85%;
+    padding-top: 52px;
+    height: 100%;
 }

@@ -1,5 +1,9 @@
+.static-top {
+    position: fixed;
+    top: 0;
+}
+
 .app-bar {
-    margin-top: 52px;
     display: flex;
     width: 100%;
     height: auto;
