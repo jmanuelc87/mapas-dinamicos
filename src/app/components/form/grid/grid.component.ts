@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, Renderer2, QueryList, ElementRef, ViewChildren } from '@angular/core';
 import { Columna } from './columna';
 
 @Component({
@@ -16,13 +16,16 @@ export class GridComponent implements OnInit {
 
     public totalPages: number;
 
+    @Output()
+    public rowClick: EventEmitter<any> = new EventEmitter();
+
     private pages: number[] = [];
 
     private _filas: any[][];
 
     private _renderer: any[][] = [];
 
-    private totals: any[] = [];
+    private totals = {};
 
     private start: number = 0;
 
@@ -32,7 +35,12 @@ export class GridComponent implements OnInit {
 
     private filter: string = "ASC";
 
-    constructor() { }
+    @ViewChildren("tr")
+    private tr: QueryList<ElementRef>
+
+    constructor(
+        private renderer: Renderer2
+    ) { }
 
     ngOnInit() {
         this._renderer = this.rendererData(this.start, this.start + this.step);
@@ -74,15 +82,17 @@ export class GridComponent implements OnInit {
     }
 
     private setTotals(v: any[][]) {
-        for (let i = 0; i < Object.keys(this.columnas).length; i++) {
-            this.totals[i] = 0;
+
+        for (let i = 0; i < this.columnas.length; i++) {
+            let col = this.columnas[i];
+            this.totals[col.campo] = 0;
         }
 
         for (let i = 0; i < v.length; i++) {
 
-            for (let j = 0; j < Object.keys(this.columnas).length; j++) {
+            for (let j = 0; j < this.columnas.length; j++) {
                 let col = this.columnas[j];
-                this.totals[j] += (+v[i][col.campo]);
+                this.totals[col.campo] += (+v[i][col.campo]);
             }
         }
     }
@@ -92,7 +102,7 @@ export class GridComponent implements OnInit {
         for (let i = start, m = 0; i < end; i++ , m++) {
             let row = this._filas[i];
             if (row != undefined) {
-                toRenderer[m] = [];
+                toRenderer[m] = {};
                 for (let col of this.columnas) {
                     toRenderer[m][col.campo] = row[col.campo];
                 }
@@ -168,4 +178,18 @@ export class GridComponent implements OnInit {
         }
         return a;
     }
+
+    public onHandleClickRow(row, $event) {
+        this.removeRowClass();
+        let parent = this.renderer.parentNode($event.target);
+        this.renderer.addClass(parent, "selected");
+        this.rowClick.emit(row);
+    }
+
+    public removeRowClass() {
+        for (let row of this.tr.toArray()) {
+            this.renderer.removeClass(row.nativeElement, "selected");
+        }
+    }
+
 }

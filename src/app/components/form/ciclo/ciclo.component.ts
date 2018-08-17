@@ -33,13 +33,7 @@ export class CicloComponent implements OnInit {
 
 
     onChange($event) {
-        let ciclo = new Ciclo();
-        let value: string[] = $event.target.value.split('*');
-
-        ciclo.Id = +value[0];
-        ciclo.Nombre = value[1];
-
-        this.change.emit(ciclo);
+        this.change.emit(new Ciclo());
     }
 
 }

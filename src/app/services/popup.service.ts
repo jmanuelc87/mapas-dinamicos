@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import * as basepath from "./url";
-import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 
 @Injectable({
@@ -11,7 +10,7 @@ import { jsonpCallbackContext } from '@angular/common/http/src/module';
 })
 export class PopupService {
 
-    private url = basepath.default.baseUrl + '/cierre';
+    private url = 'http://localhost:8080/md/server.php' + '/cierre';
 
     public queryConsultaSubject: Subject<any> = new Subject();
 

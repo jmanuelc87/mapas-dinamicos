@@ -3,7 +3,7 @@
         <legend>Modalidad</legend>
         <div class="form-check">
             <input (click)="onChange($event)" formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="riego-{{id}}"
-                value="1*Riego" checked/>
+                value="1" checked/>
             <label class="form-check-label" for="riego-{{id}}">
                 Riego
             </label>
@@ -11,7 +11,7 @@
 
         <div class="form-check">
             <input (click)="onChange($event)" formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="temporal-{{id}}"
-                value="2*Temporal" />
+                value="2" />
             <label class="form-check-label" for="temporal-{{id}}">
                 Temporal
             </label>
@@ -19,7 +19,7 @@
 
         <div class="form-check">
             <input (click)="onChange($event)" formControlName="{{name}}" class="form-check-input" type="radio" name="modalidad" id="riego-temporal-{{id}}"
-                value="3*Riego + Temporal" />
+                value="3" />
             <label class="form-check-label" for="riego-temporal-{{id}}">
                 Riego + Temporal
             </label>

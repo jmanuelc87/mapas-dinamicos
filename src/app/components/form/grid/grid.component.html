@@ -2,31 +2,37 @@
     <table class="table" cellspacing="0">
         <thead>
             <tr>
-                <th *ngFor="let columna of columnas" (click)="filterData(columna)">
-                    {{columna.cabecera}}
-                </th>
+                <ng-container *ngFor="let col of columnas">
+                    <th *ngIf="col.show == true" (click)="filterData(columna)">
+                        {{col.cabecera}}
+                    </th>
+                </ng-container>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let row of _renderer">
-                <td *ngFor="let col of columnas" [ngClass]="col.align">
-                    <ng-container *ngIf="col.align == 'izq'">
-                        {{row[col.campo]}}
-                    </ng-container>
-                    <ng-container *ngIf="col.align == 'der'">
-                        {{row[col.campo] | number:'.2'}}
-                    </ng-container>
-                </td>
+            <tr #tr *ngFor="let row of _renderer" (click)="onHandleClickRow(row, $event)">
+                <ng-container *ngFor="let col of columnas">
+                    <td *ngIf="col.show == true" [ngClass]="col.align">
+                        <ng-container *ngIf="col.align == 'izq'">
+                            {{row[col.campo]}}
+                        </ng-container>
+                        <ng-container *ngIf="col.align == 'der'">
+                            {{row[col.campo] | number:'.2'}}
+                        </ng-container>
+                    </td>
+                </ng-container>
             </tr>
             <tr>
-                <td *ngFor="let item of totals" class="der">
-                    <b *ngIf="!item">
-                        Totales
-                    </b>
-                    <b *ngIf="item">
-                        {{item | number:'.2'}}
-                    </b>
-                </td>
+                <ng-container *ngFor="let col of columnas">
+                    <td *ngIf="col.show == true" class="der">
+                        <ng-container *ngIf="col.isRowTotals == true">
+                            Totales
+                        </ng-container>
+                        <ng-container *ngIf="col.isRowTotals == false">
+                            {{totals[col.campo] | number:'.2'}}
+                        </ng-container>
+                    </td>
+                </ng-container>
             </tr>
         </tbody>
     </table>

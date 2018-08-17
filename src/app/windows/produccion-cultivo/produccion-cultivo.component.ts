@@ -66,7 +66,7 @@ export class ProduccionCultivoComponent implements OnInit {
             'modalidad': ['1', Validators.required],
             'catalogo': ['generico', Validators.required],
             'anio': ['2016', Validators.required],
-            'estado': ['', Validators.required],
+            'estado': [0, Validators.required],
             'distrito': [0, Validators.required],
             'municipio': [0, Validators.required],
         });
@@ -132,23 +132,21 @@ export class ProduccionCultivoComponent implements OnInit {
 
         this.consulta.getAnuarioByCultivo(datosConsulta).subscribe(response => {
             this.legendService.addLegend();
-            this.columnDefs = this.columns.parseConsultaForProduccionCultivo(datosConsulta)
+            this.columnDefs = this.columns.parseConsultaForProduccionCultivo(datosConsulta);
             this.rowData = response;
         });
     }
 
-    onSelectionChanged(event) {
-        let selectedRow = event.api.getSelectedRows();
+    onSelectionChanged(row) {
         let anuario = this.form.value;
-        anuario['cultivo'] = parseInt(selectedRow[selectedRow.length - 1].id);
-        anuario['variedad'] = selectedRow[selectedRow.length - 1].idvariedad != undefined ? parseInt(selectedRow[selectedRow.length - 1].idvariedad) : 0;
+        anuario['cultivo'] = parseInt(row.id);
+        anuario['variedad'] = row.idvariedad != undefined ? parseInt(row.idvariedad) : 0;
 
         this.consulta.getEstados(anuario).subscribe((response: any) => {
-
             let obj = {
                 query: anuario,
                 regions: response,
-                color: this.colorPicker.getSelectedColor(),
+                color: this.colorPicker.getSelectedColor().toHex(),
             }
 
             this.geometryService.cleanMap();

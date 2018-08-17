@@ -29,13 +29,7 @@ export class ModalidadComponent implements OnInit {
     }
 
     onChange($event) {
-        let value: string[] = $event.target.value.split("*");
-
-        let moda = new Modalidad();
-        moda.Id = +value[0];
-        moda.Nombre = value[1];
-
-        this.change.emit(moda);
+        this.change.emit(new Modalidad());
     }
 
 }

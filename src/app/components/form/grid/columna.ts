@@ -7,4 +7,8 @@ export class Columna {
     public campo: string;
 
     public align: string = 'der';
+
+    public show: boolean = true;
+
+    public isRowTotals?: boolean = false;
 }

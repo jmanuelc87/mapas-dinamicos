@@ -18,6 +18,20 @@
     border-bottom: 1px solid black;
 }
 
+.table tbody tr:hover {
+    background-color: lightgreen;
+    cursor: pointer;
+}
+
+.table tbody tr.selected {
+    background-color: green;
+}
+
+.table tbody tr:hover:last-child {
+    background-color: inherit;
+    cursor: pointer;
+}
+
 .table td {
     padding: 2px 2px 2px 2px;
 }

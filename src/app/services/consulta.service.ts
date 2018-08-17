@@ -29,7 +29,7 @@ export class ConsultaService {
      * @returns ver la defincion en las pruebas
      */
     getAnuarioByCultivo(consulta) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this.http.post(this.url + '/consultas/prod-cultivo', JSON.stringify(consulta), {
             headers: headers
@@ -44,7 +44,7 @@ export class ConsultaService {
      * @returns ver la defincion de en las pruebas
      */
     getEstados(consulta) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this.http.post(this.url + '/consultas/estados', JSON.stringify(consulta), {
             headers: headers,
@@ -68,7 +68,7 @@ export class ConsultaService {
      * @returns ver la defincion en las pruebas
      */
     getAnuarioByEstado(consulta) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this.http.post(this.url + '/consultas/prod-estado', JSON.stringify(consulta), {
             headers: headers,

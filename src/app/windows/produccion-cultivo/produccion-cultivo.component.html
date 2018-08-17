@@ -29,7 +29,7 @@
             </div>
             <div *ngIf="showTable" class="row">
                 <div class="col-lg-12">
-                    <app-grid [columnas]="columnDefs" [filas]="rowData"></app-grid>
+                    <app-grid [columnas]="columnDefs" [filas]="rowData" (rowClick)="onSelectionChanged($event)"></app-grid>
                 </div>
             </div>
         </div>

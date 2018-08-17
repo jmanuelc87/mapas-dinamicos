@@ -16,34 +16,7 @@ export class AppComponent {
 
     formGroup = this.fb.group({
         "ciclo": [0, Validators.required]
-    })
-
-
-
-    private cols: Columna[] = [
-        { cabecera: "uno", campo: "", index: 1, align: 'der' },
-        { cabecera: "dos", campo: "", index: 2, align: 'der' },
-        { cabecera: "tres", campo: "", index: 3, align: 'der' },
-    ]
-
-    private data: any[][] = [
-        ["uno", "15", "17"],
-        ["dos", "14", "16"],
-        ["tres", "13", "15"],
-        ["seis", "12", "14"],
-        ["siete", "11", "13"],
-        ["uno", "15", "17"],
-        ["dos", "14", "16"],
-        ["tres", "13", "15"],
-        ["seis", "12", "14"],
-        ["siete", "11", "13"],
-        ["uno", "15", "17"],
-        ["dos", "14", "16"],
-        ["tres", "13", "15"],
-        ["seis", "12", "14"],
-        ["siete", "11", "13"],
-    ]
-
+    });
 
     @ViewChild(FactoryDirective)
     appFactory: FactoryDirective;

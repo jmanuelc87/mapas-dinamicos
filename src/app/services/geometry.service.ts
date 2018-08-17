@@ -253,7 +253,7 @@ export class GeometryService {
 
     private isEmpty(columns, key) {
         for (let item of columns) {
-            if (item[key] == undefined || item[key] == null || item[key] == '' || item[key] == '0') {
+            if (item[key] == undefined || item[key] == null || item[key] == '' || item[key] == '0' || item[key] == -1) {
                 return true;
             }
         }

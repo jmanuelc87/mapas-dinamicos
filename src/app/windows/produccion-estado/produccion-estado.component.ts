@@ -42,70 +42,6 @@ export class ProduccionEstadoComponent implements OnInit {
 
     columnDefs = [];
 
-    gridApi;
-
-    localeText = {
-
-        // for filter panel
-        page: 'página',
-        more: 'más',
-        to: 'a',
-        of: 'de',
-        next: 'siguiente',
-        last: 'último',
-        first: 'primero',
-        previous: 'anterior',
-        loadingOoo: 'cargando...',
-
-        // for set filter
-        selectAll: 'seleccionar todos',
-        searchOoo: 'buscar...',
-        blanks: 'blancos',
-
-        // for number filter and text filter
-        filterOoo: 'filtro...',
-        applyFilter: 'aplicar filtro...',
-
-        notEqual: 'diferente de',
-        notContains: 'No contiene',
-
-        // for number filter
-        equals: 'igual',
-        lessThan: 'menor que',
-        greaterThan: 'mayor que',
-
-        // for text filter
-        contains: 'contiene',
-        startsWith: 'empieza con',
-        endsWith: 'termina con',
-
-        // the header of the default group column
-        group: 'grupo',
-
-        // tool panel
-        columns: 'columna',
-        rowGroupColumns: 'laPivot Cols',
-        rowGroupColumnsEmptyMessage: 'arrastra las columnas para agrupar',
-        valueColumns: 'valores de las columnas',
-        pivotMode: 'modo pivote',
-        groups: 'grupos',
-        values: 'valores',
-        pivots: 'pivotes',
-        valueColumnsEmptyMessage: 'arrastra las columnas para agregar',
-        pivotColumnsEmptyMessage: 'arrastra las columnas para pivotear',
-        toolPanelButton: 'panel de herramientas',
-
-        // other
-        noRowsToShow: 'no hay filas',
-
-        // standard menu
-        copy: 'copiar',
-        copyWithHeaders: 'copiar con cabecerar',
-        ctrlC: 'ctrl + C',
-        paste: 'pegar',
-        ctrlV: 'ctrl + V'
-    }
-
     constructor(
         private columns: ColumnsService,
         private fb: FormBuilder,
@@ -154,7 +90,6 @@ export class ProduccionEstadoComponent implements OnInit {
                 this.legendService.addLegend();
                 this.columnDefs = this.columns.parseConsultaForProduccionEstado(datosConsulta);
                 this.rowData = response
-                this.gridApi.sizeColumnsToFit();
             }, err => console.error(err), () => console.log('get consulta completed!'));
     }
 
@@ -177,10 +112,6 @@ export class ProduccionEstadoComponent implements OnInit {
                 this.extentService.fetchExtentEstado(item.id);
             }
         }
-    }
-
-    onGridReady($event) {
-        this.gridApi = $event.api;
     }
 
     onHandleCloseRangos() {
