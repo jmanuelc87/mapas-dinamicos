@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import gob.siap.mapas.repository.ProduccionRepository;
 import gob.siap.mapas.repository.RegionRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -63,7 +61,6 @@ public class AnuarioController {
             DTOUtil<ProduccionEstado> util = new DTOUtil<>();
             Iterable<ProduccionEstado> estado = repo1.getProduccionByEstado(a.getAnio(), a.getCiclo(), a.getModalidad(), a.getCultivo(), a.getVariedad(), a.getEstado(), a.getDistrito(), a.getCatalogo());
             returnValue = util.convert(estado);
-            //log.info(returnValue.toString());
         } else if ("distrito".equals(a.getFiltro())) {
             DTOUtil<ProduccionDistrito> util = new DTOUtil<>();
             Iterable<ProduccionDistrito> distrito = repo2.getProduccionByDistrito(a.getAnio(), a.getCiclo(), a.getModalidad(), a.getCultivo(), a.getVariedad(), a.getEstado(), a.getDistrito(), a.getCatalogo());
