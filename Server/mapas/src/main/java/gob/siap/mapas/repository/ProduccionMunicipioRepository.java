@@ -1,13 +1,10 @@
 package gob.siap.mapas.repository;
 
-import gob.siap.mapas.models.ProduccionCultivo;
-import gob.siap.mapas.models.ProduccionDistrito;
-import gob.siap.mapas.models.ProduccionDistritoMunicipio;
-import gob.siap.mapas.models.ProduccionEstado;
-import gob.siap.mapas.models.ProduccionMunicipio;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import gob.siap.mapas.models.ProduccionMunicipio;
 
 /**
  *
