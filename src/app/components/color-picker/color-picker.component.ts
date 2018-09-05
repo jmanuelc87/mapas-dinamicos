@@ -10,7 +10,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy {
 
     defaultColor: Color = new Color([0, 176, 80]);
 
-    background_color = '#00B050';
+    background_color = this.defaultColor.toHex();
 
     visibility = false;
 
@@ -26,6 +26,11 @@ export class ColorPickerComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
+
+        this.defaultColor = new Color([0, 176, 80]);
+        this.background_color = this.defaultColor.toHex();
+
+
         this.listener = this.renderer.listen(document, 'click', (ev) => {
             if (!(ev.target.classList.contains('btn') || ev.target.classList.contains('color-picker'))) {
                 ev.stopPropagation();
@@ -42,10 +47,13 @@ export class ColorPickerComponent implements OnInit, OnDestroy {
     }
 
     onColorSelect(event) {
+        console.log("color seleccionado")
         this.background_color = event.target.style.backgroundColor;
-        let color = new Color(this.defaultColor);
-        this.colorSelect.emit(color);
-        this.defaultColor = color;
+
+        let color = new Color(this.background_color).toArray();
+
+        this.colorSelect.emit(new Color(color));
+        this.defaultColor = new Color(color);
         this.showed = false;
         this.hide();
     }

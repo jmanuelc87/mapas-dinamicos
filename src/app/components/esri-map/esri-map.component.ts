@@ -18,7 +18,7 @@ export class EsriMapComponent implements OnInit {
         xmin: -1.3181079254E7,
         ymin: 1635334.4664000012,
         xmax: -9652558.1611,
-        ymax: 3858021.4844999984,
+        ymax: 3558021.4844999984,
         spatialReference: {
             wkid: 102100
         }

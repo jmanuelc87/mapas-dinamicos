@@ -2,32 +2,32 @@
     <fieldset>
         <legend>Filtro</legend>
         <div *ngIf="!show" class="form-check">
-            <input (click)="onHandleClick($event)" [formControlName]="name" class="form-check-input" type="radio" name="filtro-estado"
-                id="estado-{{id}}" value="estado" />
+            <input (click)="onHandleClick($event)" [formControlName]="name" class="form-check-input" type="radio" name="filtro" id="estado-{{id}}"
+                value="estado" />
             <label class="form-check-label" for="estado-{{id}}">
                 Por Estado
             </label>
         </div>
 
         <div class="form-check">
-            <input (click)="onHandleClick($event)" [formControlName]="name" class="form-check-input" type="radio" name="filtro-estado"
-                id="distrito-{{id}}" value="distrito" />
+            <input (click)="onHandleClick($event)" [formControlName]="name" class="form-check-input" type="radio" name="filtro" id="distrito-{{id}}"
+                value="distrito" />
             <label class="form-check-label" for="distrito-{{id}}">
                 Por Distrito
             </label>
         </div>
 
         <div class="form-check">
-            <input (click)="onHandleClick($event)" [formControlName]="name" class="form-check-input" type="radio" name="filtro-estado"
-                id="municipio-{{id}}" value="municipio" />
+            <input (click)="onHandleClick($event)" [formControlName]="name" class="form-check-input" type="radio" name="filtro" id="municipio-{{id}}"
+                value="municipio" />
             <label class="form-check-label" for="municipio-{{id}}">
                 Por Municipio
             </label>
         </div>
 
         <div *ngIf="!show" class="form-check">
-            <input (click)="onHandleClick($event)" [formControlName]="name" class="form-check-input" type="radio" name="filtro-estado"
-                id="ddr-mun-{{id}}" value="ddr-mun" />
+            <input (click)="onHandleClick($event)" [formControlName]="name" class="form-check-input" type="radio" name="filtro" id="ddr-mun-{{id}}"
+                value="ddr-mun" />
             <label class="form-check-label" for="ddr-mun-{{id}}">
                 Por Distrito - Municipio
             </label>

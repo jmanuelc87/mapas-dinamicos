@@ -22,12 +22,6 @@ public class ProduccionEstado extends DTOBuilder {
 
     private double cosechada;
 
-    private double produccion;
-
-    private double rendimiento;
-
-    private double pmr;
-
     private double valor;
 
     public int getId() {
@@ -70,41 +64,12 @@ public class ProduccionEstado extends DTOBuilder {
         this.cosechada = cosechada;
     }
 
-    public double getProduccion() {
-        return produccion;
-    }
-
-    public void setProduccion(double produccion) {
-        this.produccion = produccion;
-    }
-
-    public double getRendimiento() {
-        return rendimiento;
-    }
-
-    public void setRendimiento(double rendimiento) {
-        this.rendimiento = rendimiento;
-    }
-
-    public double getPmr() {
-        return pmr;
-    }
-
-    public void setPmr(double pmr) {
-        this.pmr = pmr;
-    }
-
     public double getValor() {
         return valor;
     }
 
     public void setValor(double valor) {
         this.valor = valor;
-    }
-
-    @Override
-    public String toString() {
-        return "ProduccionEstado{" + "idestado=" + idestado + ", estado=" + estado + ", sembrada=" + sembrada + ", cosechada=" + cosechada + ", produccion=" + produccion + ", rendimiento=" + rendimiento + ", pmr=" + pmr + ", valor=" + valor + '}';
     }
 
 }

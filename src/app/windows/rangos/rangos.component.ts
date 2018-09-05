@@ -46,6 +46,7 @@ export class RangosComponent implements OnInit {
 
     ngOnInit(): void {
         this.selectedVariable = this.selectVariablesComponent.nativeElement.value;
+        this.createBins(3, 'sembrada');
     }
 
     @Input()
@@ -157,9 +158,8 @@ export class RangosComponent implements OnInit {
     onHandleClick($event) {
         if (this.countRows.length != 0 && this.bins.length != 0) {
             let color = this.colorPicker.getSelectedColor();
-            let palette = this.getColorPalette(this.bins, color);
+            let palette = this.getColorPalette(this.bins, color.value);
             let classBreaks = this.createClassBreaks(this.columnValues, this.countRows, palette);
-
 
             this.mapService.cleanMap();
             this.geometryService.getGeometryWithColumnsAsync(this.columnValues, this.filtro).map((promise) => {

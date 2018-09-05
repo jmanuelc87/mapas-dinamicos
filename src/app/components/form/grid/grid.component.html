@@ -26,10 +26,14 @@
                 <ng-container *ngFor="let col of columnas">
                     <td *ngIf="col.show == true" class="der">
                         <ng-container *ngIf="col.isRowTotals == true">
-                            Totales
+                            <b>
+                                Totales
+                            </b>
                         </ng-container>
                         <ng-container *ngIf="col.isRowTotals == false">
-                            {{totals[col.campo] | number:'.2'}}
+                            <b>
+                                {{totals[col.campo] | number:'.2'}}
+                            </b>
                         </ng-container>
                     </td>
                 </ng-container>

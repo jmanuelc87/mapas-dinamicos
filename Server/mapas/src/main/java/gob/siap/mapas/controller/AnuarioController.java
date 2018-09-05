@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import gob.siap.mapas.repository.ProduccionRepository;
 import gob.siap.mapas.repository.RegionRepository;
+import java.util.logging.Level;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -49,14 +52,19 @@ public class AnuarioController {
     @Autowired
     private RegionRepository repo5;
 
+    @CrossOrigin(methods = {RequestMethod.POST, RequestMethod.GET}, origins = {"*"})
     @PostMapping(path = "prod-cultivo")
     public Iterable<ProduccionCultivo> getProduccionCultivo(@RequestBody AnuarioAgricola a) {
         return repo.getProduccionByCultivo(a.getAnio(), a.getCiclo(), a.getModalidad(), a.getEstado(), a.getDistrito(), a.getMunicipio(), a.getCatalogo());
     }
 
+    @CrossOrigin(methods = {RequestMethod.POST, RequestMethod.GET}, origins = {"*"})
     @PostMapping(path = "prod-estado")
     public Iterable getProduccion(@RequestBody AnuarioAgricola a) {
         Iterable returnValue = null;
+
+        log.log(Level.ALL, a.toString());
+
         if ("estado".equals(a.getFiltro())) {
             DTOUtil<ProduccionEstado> util = new DTOUtil<>();
             Iterable<ProduccionEstado> estado = repo1.getProduccionByEstado(a.getAnio(), a.getCiclo(), a.getModalidad(), a.getCultivo(), a.getVariedad(), a.getEstado(), a.getDistrito(), a.getCatalogo());
@@ -78,6 +86,7 @@ public class AnuarioController {
         return returnValue;
     }
 
+    @CrossOrigin(methods = {RequestMethod.POST, RequestMethod.GET}, origins = {"*"})
     @PostMapping(path = "estados")
     public Iterable getRegiones(@RequestBody AnuarioAgricola a) {
         Iterable<Region> iter = repo5.getEstadoByParams(a.getAnio(), a.getCiclo(), a.getModalidad(), a.getCultivo(), a.getVariedad(), a.getEstado(), a.getDistrito(), a.getMunicipio(), a.getCatalogo());

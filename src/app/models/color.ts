@@ -6,11 +6,14 @@ export class Color {
 
     public hex: string;
 
+    private i: number;
+
     constructor(value: any) {
         this.value = value;
     }
 
     public toArray() {
+        this.i = 0;
         let r = this.parseNext();
         let g = this.parseNext();
         let b = this.parseNext();
@@ -27,39 +30,38 @@ export class Color {
     private parseNext() {
         let concat = '';
         let state = "continue";
-        for (let i = 0; i < this.value.length; i++) {
-            while (state == "continue") {
-                let element = this.value[i]
+        while (state == "continue") {
+            let element = this.value[this.i++];
 
-                switch (element) {
-                    case null:
-                        state = "end";
-                        break;
+            switch (element) {
+                case null:
+                    state = "end";
+                    break;
 
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        concat += element;
-                        state = "continue";
-                        break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    concat += element;
+                    state = "continue";
+                    break;
 
-                    case ',':
-                        state = 'end';
-                        break;
+                case ',':
+                    state = 'end';
+                    break;
 
-                    case ')':
-                        state = 'end';
-                        break;
-                }
+                case ')':
+                    state = 'end';
+                    break;
             }
         }
+
 
         return parseInt(concat);
     }

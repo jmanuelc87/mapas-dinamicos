@@ -42,6 +42,8 @@ export class ProduccionEstadoComponent implements OnInit {
 
     columnDefs = [];
 
+    showTable: boolean = false;
+
     constructor(
         private columns: ColumnsService,
         private fb: FormBuilder,
@@ -61,7 +63,7 @@ export class ProduccionEstadoComponent implements OnInit {
             'estado': ['', Validators.required],
             'cultivo': [0, Validators.required],
             'variedad': [0, Validators.required],
-            'filtro-estado': ['estado', Validators.required],
+            'filtro': ['estado', Validators.required],
             'distrito': [0, Validators.required],
         });
     }
@@ -90,16 +92,17 @@ export class ProduccionEstadoComponent implements OnInit {
                 this.legendService.addLegend();
                 this.columnDefs = this.columns.parseConsultaForProduccionEstado(datosConsulta);
                 this.rowData = response
+                this.showTable = true;
             }, err => console.error(err), () => console.log('get consulta completed!'));
     }
 
     onHandleSelectedEstado($event) {
         if ($event.id != 0) {
             this.appFiltroComponent.show = true;
-            this.form.get('filtro-estado').setValue('distrito');
+            this.form.get('filtro').setValue('distrito');
         } else {
             this.appFiltroComponent.show = false;
-            this.form.get('filtro-estado').setValue('estado');
+            this.form.get('filtro').setValue('estado');
         }
 
         let item = $event;
@@ -127,8 +130,8 @@ export class ProduccionEstadoComponent implements OnInit {
             (component.instance as RangosComponent).location = pos;
             (component.instance as RangosComponent).componentRef = component;
             (component.instance as RangosComponent).columnValues = this.rowData;
-            (component.instance as RangosComponent).filtro = this.form.get('filtro-estado').value;
-            (component.instance as RangosComponent).close.subscribe(() => this.onHandleCloseRangos())
+            (component.instance as RangosComponent).filtro = this.form.get('filtro').value;
+            (component.instance as RangosComponent).close.subscribe(() => this.onHandleCloseRangos());
         } else {
             /* mostrar error 'Por favor de realizar una búsqueda' */
             alert('Por favor de realizar una búsqueda');

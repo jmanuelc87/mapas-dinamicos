@@ -166,4 +166,9 @@ public class AnuarioAgricola extends Anuario {
         this.valor = valor;
     }
 
+    @Override
+    public String toString() {
+        return "AnuarioAgricola{" + "anio=" + anio + ", estado=" + estado + ", distrito=" + distrito + ", municipio=" + municipio + ", ciclo=" + ciclo + ", modalidad=" + modalidad + ", cultivo=" + cultivo + ", variedad=" + variedad + ", catalogo=" + catalogo + ", filtro=" + filtro + ", sembrada=" + sembrada + ", cosechada=" + cosechada + ", produccion=" + produccion + ", rendimiento=" + rendimiento + ", pmr=" + pmr + ", valor=" + valor + '}';
+    }
+
 }
