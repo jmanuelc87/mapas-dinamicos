@@ -29,6 +29,8 @@ export class EsriMapService {
 
     private showRanges: (regions, classBreaks) => void;
 
+    public changeZoom: (qty: number) => void;
+
     constructor(
         private esriProvider: EsriProviderService,
     ) { }
@@ -56,6 +58,10 @@ export class EsriMapService {
                     map: this.map,
                     container: el.nativeElement
                 });
+
+                this.changeZoom = (qty: number) => {
+                    this.mapview.zoom += qty;
+                }
 
                 this.moveToExtent = (extent) => {
                     this.mapview.extent = new EsriExtent(extent);

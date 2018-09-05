@@ -38,6 +38,10 @@ import { ProduccionEstadoComponent } from './windows/produccion-estado/produccio
 import { CultivoComponent } from './components/form/cultivo/cultivo.component';
 import { RangosComponent } from './windows/rangos/rangos.component';
 import { GridComponent } from './components/form/grid/grid.component';
+import { CleanToolComponent } from './components/clean-tool/clean-tool.component';
+import { HomeToolComponent } from './components/home-tool/home-tool.component';
+import { ZoomPlusComponentComponent } from './components/zoom-plus-component/zoom-plus-component.component';
+import { ZoomMinusComponent } from './components/zoom-minus/zoom-minus.component';
 
 @NgModule({
     declarations: [
@@ -67,6 +71,10 @@ import { GridComponent } from './components/form/grid/grid.component';
         CultivoComponent,
         RangosComponent,
         GridComponent,
+        CleanToolComponent,
+        HomeToolComponent,
+        ZoomPlusComponentComponent,
+        ZoomMinusComponent,
     ],
     imports: [
         BrowserModule,

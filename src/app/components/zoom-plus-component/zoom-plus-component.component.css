@@ -1,0 +1,10 @@
+.toggle {
+    background-color: white;
+    border-radius: 20px;
+    margin: 5px;
+    padding: 10px;
+}
+
+.hidden {
+    visibility: hidden;
+}
