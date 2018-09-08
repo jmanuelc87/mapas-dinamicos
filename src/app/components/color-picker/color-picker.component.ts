@@ -47,10 +47,10 @@ export class ColorPickerComponent implements OnInit, OnDestroy {
     }
 
     onColorSelect(event) {
-        console.log("color seleccionado")
+        console.log('color seleccionado')
         this.background_color = event.target.style.backgroundColor;
 
-        let color = new Color(this.background_color).toArray();
+        const color = new Color(this.background_color).toArray();
 
         this.colorSelect.emit(new Color(color));
         this.defaultColor = new Color(color);

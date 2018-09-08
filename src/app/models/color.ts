@@ -14,9 +14,9 @@ export class Color {
 
     public toArray() {
         this.i = 0;
-        let r = this.parseNext();
-        let g = this.parseNext();
-        let b = this.parseNext();
+        const r = this.parseNext();
+        const g = this.parseNext();
+        const b = this.parseNext();
 
         return [r, g, b];
     }
@@ -29,13 +29,13 @@ export class Color {
 
     private parseNext() {
         let concat = '';
-        let state = "continue";
-        while (state == "continue") {
-            let element = this.value[this.i++];
+        let state = 'continue';
+        while (state === 'continue') {
+            const element = this.value[this.i++];
 
             switch (element) {
                 case null:
-                    state = "end";
+                    state = 'end';
                     break;
 
                 case '0':
@@ -49,7 +49,7 @@ export class Color {
                 case '8':
                 case '9':
                     concat += element;
-                    state = "continue";
+                    state = 'continue';
                     break;
 
                 case ',':
@@ -63,7 +63,7 @@ export class Color {
         }
 
 
-        return parseInt(concat);
+        return parseInt(concat, 10);
     }
 
 }

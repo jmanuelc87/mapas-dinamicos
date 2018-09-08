@@ -1,7 +1,7 @@
-import { Anio } from "./Anio";
-import { Estado } from "./Estado";
-import { Distrito } from "./distrito";
-import { Municipio } from "./municipio";
+import { Anio } from './Anio';
+import { Estado } from './Estado';
+import { Distrito } from './distrito';
+import { Municipio } from './municipio';
 
 export class Anuario {
 

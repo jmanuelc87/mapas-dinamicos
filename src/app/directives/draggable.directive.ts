@@ -1,15 +1,15 @@
-import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2, AfterViewInit } from '@angular/core';
 import { NUMBER_FORMAT_REGEXP } from '@angular/common/src/i18n/format_number';
 
 @Directive({
     selector: '[appDraggable]'
 })
-export class DraggableDirective {
+export class DraggableDirective implements AfterViewInit {
 
-    pos1: number = 0;
-    pos2: number = 0;
-    pos3: number = 0;
-    pos4: number = 0;
+    pos1 = 0;
+    pos2 = 0;
+    pos3 = 0;
+    pos4 = 0;
     removeMouseDownListener;
     removeMouseDownListener2;
     removeMouseMoveListener;
@@ -21,7 +21,7 @@ export class DraggableDirective {
     ) { }
 
     ngAfterViewInit() {
-        let target = this.el.nativeElement.querySelector('div.window-caption');
+        const target = this.el.nativeElement.querySelector('div.window-caption');
         this.removeMouseDownListener = this.renderer.listen(target, 'mousedown', (e) => this.windowStart(e));
         this.removeMouseDownListener2 = this.renderer.listen(target, 'mousedown', (e) => { e.stopPropagation(); });
     }
@@ -42,8 +42,8 @@ export class DraggableDirective {
         this.pos3 = e2.clientX;
         this.pos4 = e2.clientY;
 
-        let top = this.el.nativeElement.offsetTop - this.pos2;
-        let left = this.el.nativeElement.offsetLeft - this.pos1;
+        const top = this.el.nativeElement.offsetTop - this.pos2;
+        const left = this.el.nativeElement.offsetLeft - this.pos1;
 
         if (top < 0 || top >= screen.height) {
             return;
